@@ -1,0 +1,63 @@
+@startuml
+class Backgammon{}
+
+class Board{}
+
+class OffBoard{}
+
+class Track{}
+
+class Point{}
+
+class Piece{}
+
+enum Color{
+  RED
+  BLACK
+}
+
+class Goal{}
+
+class Bar{}
+
+class MatchPlay{}
+
+class Turn{}
+
+class Player{}
+
+class Dice{}
+
+class DoblingCube{}
+
+class Match{}
+
+class Gammon{}
+
+class BackGammon{}
+
+class Score{}
+
+Player --> Score
+Score ..> MatchPlay
+MatchPlay --> Goal
+Match -up-|> Score
+Gammon -up-|> Score
+BackGammon -up-|> Score
+Backgammon *--> MatchPlay
+Backgammon *--> Board
+Backgammon *--> Turn
+Backgammon *--> DoblingCube
+Turn *--> "2" Player
+Backgammon *--> "2" Player
+Board *--> "2" Track
+Track *--> "12" Point
+Player *--> Color
+Piece *--> Color
+Piece ..> Point
+Piece ..> OffBoard
+Piece ..> Bar
+Player *--> "15..0" Piece
+Player *--> "2" Dice
+Player o--> Goal
+@enduml
