@@ -2,13 +2,18 @@
 
 ## Rules
 
-[Wikipedia English](https://en.wikipedia.org/wiki/Backgammon#Rules)
-[Video in Spanish](https://www.youtube.com/watch?v=hKSdLUqNeCs)
+* [Wikipedia English](https://en.wikipedia.org/wiki/Backgammon#Rules)
+* [Rules in video (Spanish)](https://www.youtube.com/watch?v=Bx9TYzBzHSM)
 
 
 ## Domain model
 
 ![Domain model](domain_model/domain_model.png)
+
+
+## Initial state
+
+![Initial state](initial_state/initial_state.png)
 
 
 ## Console GUI

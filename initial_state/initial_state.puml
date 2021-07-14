@@ -1,0 +1,72 @@
+@startuml
+
+object ":Backgammon" as Backgammon
+
+object ":Board" as Board
+
+object ":Point" as Point1 {
+    number = 1
+}
+
+object ":Point" as Point6 {
+    number = 6
+}
+
+object ":Point" as Point8 {
+    number = 8
+}
+
+object ":Point" as Point12 {
+    number = 12
+}
+
+object ":Point" as Point13 {
+    number = 13
+}
+
+object ":Point" as Point17 {
+    number = 17
+}
+
+object ":Point" as Point19 {
+    number = 19
+}
+
+object ":Point" as Point24 {
+    number = 24
+}
+
+object ":Piece" as PieceBlack
+object ":Piece" as PieceRed
+
+object ":Color" as ColorBlack {
+    BLACK
+}
+
+object ":Color" as ColorRed {
+    RED
+}
+
+Backgammon *--> Board
+Board *--> Point1
+Board *--> Point6
+Board *--> Point8
+Board *--> Point12
+Board *--> Point13
+Board *--> Point17
+Board *--> Point19
+Board *--> Point24
+
+Point1 *--> "2" PieceRed
+Point6 *--> "5" PieceBlack
+Point8 *--> "3" PieceBlack
+Point12 *--> "5" PieceRed
+Point13 *--> "5" PieceBlack
+Point17 *--> "3" PieceRed
+Point19 *--> "5" PieceRed
+Point24 *--> "2" PieceBlack
+
+PieceBlack *--> ColorBlack
+PieceRed *--> ColorRed
+
+@enduml
