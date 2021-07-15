@@ -5,9 +5,8 @@ class Board{}
 
 class OffBoard{}
 
-class Track{}
 
-class Point{}
+class Point {}
 
 class Piece{}
 
@@ -38,6 +37,13 @@ class BackGammon{}
 
 class Score{}
 
+class Action {}
+class RollDice {}
+class MovePiece {}
+class Beat {}
+class BeatAccept {}
+class BeatReject {}
+
 Player --> Score
 Score ..> MatchPlay
 MatchPlay --> Goal
@@ -50,8 +56,7 @@ Backgammon *--> Turn
 Backgammon *--> DoblingCube
 Turn *--> "2" Player
 Backgammon *--> "2" Player
-Board *--> "2" Track
-Track *--> "12" Point
+Board *--> "4x6" Point
 Player *--> Color
 Piece *--> Color
 Piece ..> Point
@@ -60,4 +65,11 @@ Piece ..> Bar
 Player *--> "15..0" Piece
 Player *--> "2" Dice
 Player o--> Goal
+Player ..> Action
+
+Action <|-- RollDice
+Action <|-- MovePiece
+Action <|-- Beat
+Action <|-- BeatAccept
+Action <|-- BeatReject
 @enduml
