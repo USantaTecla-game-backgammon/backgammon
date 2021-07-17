@@ -36,8 +36,14 @@ object ":Point" as Point24 {
     number = 24
 }
 
-object ":Piece" as PieceBlack
-object ":Piece" as PieceRed
+object ":Piece" as PieceB1
+object ":Piece" as PieceB2
+object ":Piece" as PieceB3
+object ":Piece" as PieceB4
+object ":Piece" as PieceR1
+object ":Piece" as PieceR2
+object ":Piece" as PieceR3
+object ":Piece" as PieceR4
 
 object ":Color" as ColorBlack {
     BLACK
@@ -57,16 +63,23 @@ Board *--> Point17
 Board *--> Point19
 Board *--> Point24
 
-Point1 *--> "2" PieceRed
-Point6 *--> "5" PieceBlack
-Point8 *--> "3" PieceBlack
-Point12 *--> "5" PieceRed
-Point13 *--> "5" PieceBlack
-Point17 *--> "3" PieceRed
-Point19 *--> "5" PieceRed
-Point24 *--> "2" PieceBlack
+Point1 *--> "2" PieceR1
+Point12 *--> "5" PieceR2
+Point17 *--> "3" PieceR3
+Point19 *--> "5" PieceR4
 
-PieceBlack *--> ColorBlack
-PieceRed *--> ColorRed
+Point6 *--> "5" PieceB1
+Point8 *--> "3" PieceB2
+Point13 *--> "5" PieceB3
+Point24 *--> "2" PieceB4
+
+PieceB1 *--> ColorBlack
+PieceB2 *--> ColorBlack
+PieceB3 *--> ColorBlack
+PieceB4 *--> ColorBlack
+PieceR1 *--> ColorRed
+PieceR2 *--> ColorRed
+PieceR3 *--> ColorRed
+PieceR4 *--> ColorRed
 
 @enduml
