@@ -126,7 +126,7 @@ Select point: 8
 Select choice: 4
 
 
-BALCK Turn:
+BLACK Turn:
 1) Roll dice
 2) Double bet
 Select your choice: 1
@@ -183,3 +183,13 @@ Select point: 24
 
 ```
 
+## Context
+
+![Context](context/context.png)
+
+## Use Cases
+
+![Context](use_cases/use_cases.png)
+
+### RollDice
+![Context](use_cases/roll_dice.png)
