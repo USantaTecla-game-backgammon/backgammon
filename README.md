@@ -29,11 +29,11 @@ Each player should choose a color. Press Enter for starting.
 
 - Starting game -
 
-RED Dice: 5
 BLACK Dice: 5
+RED Dice: 5
 Repeating first roll.
-RED Dice: 4
-BLACK Dice: 1
+BLACK Dice: 4
+RED Dice: 1
 
 |-----------------------------------------------------|
 | 13  14  15  16  17  18 |   | 19  20  21  22  23  24 |
