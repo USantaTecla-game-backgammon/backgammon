@@ -44,6 +44,9 @@ class Bet {}
 class BetAccept {}
 class BetReject {}
 
+class Sense{}
+note top: invert point number
+
 Player --> Score
 Score ..> MatchPlay
 MatchPlay --> Goal
@@ -53,16 +56,24 @@ BackGammon -up-|> Score
 Backgammon *--> MatchPlay
 Backgammon *--> Board
 Backgammon *--> Turn
-Backgammon *--> DoblingCube
+Player o--> DoblingCube
 Turn *--> "2" Player
 Backgammon *--> "2" Player
 Board *--> "4x6" Point
+Board *--> Bar
+Board *--> OffBoard
 Player *--> Color
 Piece *--> Color
-Piece ..> Point
-Piece ..> OffBoard
-Piece ..> Bar
-Player *--> "15..0" Piece
+Point --> Point
+
+Board *--> Sense
+Sense *--> Color
+Point ..> Sense
+
+OffBoard o--> "0..29" Piece
+Bar o--> "0..15" Piece
+Point o--> "0..15" Piece
+
 Player *--> "2" Dice
 Player o--> Goal
 Player ..> Action
