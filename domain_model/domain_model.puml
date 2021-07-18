@@ -40,9 +40,9 @@ class Score{}
 class Action {}
 class RollDice {}
 class MovePiece {}
-class Beat {}
-class BeatAccept {}
-class BeatReject {}
+class Bet {}
+class BetAccept {}
+class BetReject {}
 
 Player --> Score
 Score ..> MatchPlay
@@ -69,7 +69,7 @@ Player ..> Action
 
 Action <|-- RollDice
 Action <|-- MovePiece
-Action <|-- Beat
-Action <|-- BeatAccept
-Action <|-- BeatReject
+Action <|-- Bet
+Action <|-- BetAccept
+Action <|-- BetReject
 @enduml
