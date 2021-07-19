@@ -1,0 +1,11 @@
+@startuml configureMatchPlay
+state INITIAL
+state IN_GAME
+state if_error <<choice>>
+
+[*] --> INITIAL
+INITIAL --> if_error: ConfigureMatchPlay
+if_error --> IN_GAME
+if_error --> INITIAL: [is_error]
+IN_GAME --> [*]
+@enduml

@@ -2,18 +2,18 @@
 
 ## Rules
 
-* [Wikipedia English](https://en.wikipedia.org/wiki/Backgammon#Rules)
-* [Rules in video (Spanish)](https://www.youtube.com/watch?v=Bx9TYzBzHSM)
+* [Wikipedia English](docs/https://en.wikipedia.org/wiki/Backgammon#Rules)
+* [Rules in video (Spanish)](docs/https://www.youtube.com/watch?v=Bx9TYzBzHSM)
 
 
 ## Domain model
 
-![Domain model](domain_model/domain_model.png)
+![Domain model](docs/domain_model/domain_model.png)
 
 
 ## Initial state
 
-![Initial state](initial_state/initial_state.png)
+![Initial state](docs/initial_state/initial_state.png)
 
 
 ## Console GUI
@@ -183,3 +183,41 @@ Select point: 24
 
 ```
 
+## Context
+
+![Context](docs/context/context.png)
+
+## Use Cases
+
+![Context](docs/use_cases/use_cases.png)
+
+### RollDice
+![Context](docs/use_cases/roll_dice.png)
+
+### ConfigureMatchPlay
+![Context](docs/use_cases/configure_matchplay.png)
+
+### MovePiece
+General Rules:
+- Each player must move the maximum number of possible movements according to the dices.
+- In the particular case of have only one piece able to move, only by the value of 
+  the dices but not with the sum of both dices, the player must choose the biggest dice.
+- The pieces must leave the board using the exact number needed for it. A higher number 
+  than necessary can only be used to draw a piece when there is no other left in any of the 
+  previous squares.
+
+Spanish Translate:
+- En cada turno es obligatorio realizar el máximo número de movimientos posibles en 
+  función de los valores de los dados.
+- En particular, en caso de disponer de una sola ficha que puede moverse por el valor 
+  de ambos dados, pero no la suma de ambos, deberá escogerse el mayor de los dos 
+  valores.
+- Las piezas deben salir del tablero utilizando el número exacto necesitado para ello. 
+  Solo podrá utilizarse un número más alto del preciso para sacar una pieza cuando no 
+  quede ninguna otra en ninguna de las casillas anteriores.
+  
+![Context](docs/use_cases/move_piece.png)
+
+## Analysis (MVP-PV)
+
+![Context](docs/analysis/analysis.png)

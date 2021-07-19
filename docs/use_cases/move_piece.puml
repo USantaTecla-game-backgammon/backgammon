@@ -1,0 +1,24 @@
+@startuml contexto
+state ROLLING_DICE
+state MOVING_RED
+state MOVING_BLACK
+state END_GAME
+state if_red_and_black <<choice>>
+state if_end_turn_red <<choice>>
+state if_end_turn_black <<choice>>
+
+[*] --> ROLLING_DICE
+ROLLING_DICE --> if_red_and_black
+if_red_and_black --> MOVING_RED: (red_and_black and red > black) OR (is_both_dices_red)
+if_red_and_black --> MOVING_BLACK
+MOVING_RED --> if_end_turn_red: MovePiece
+MOVING_BLACK --> if_end_turn_black: MovePiece
+if_end_turn_red --> MOVING_RED: [if_not_end_turn and not is_end_game]
+if_end_turn_black --> MOVING_BLACK: [if_not_end_turn and not is_end_game]
+if_end_turn_red --> IN_GAME
+if_end_turn_black --> IN_GAME
+if_end_turn_red --> END_GAME: [is_end_game]
+if_end_turn_black --> END_GAME: [is_end_game]
+END_GAME --> [*]
+IN_GAME --> [*]
+@enduml

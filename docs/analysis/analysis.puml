@@ -1,0 +1,34 @@
+@startuml
+title MVP-PV
+
+package Models {
+    class Board
+    class Player
+}
+
+package Controllers {
+    class ConfigureMatchPlay
+    class RollDice
+    class MovePiece
+    class Bet
+}
+
+package Views {
+    class ConfigurationMatchPlayView
+    class BoardView
+    class DiceView
+    class EndGameView
+    class MenuView
+}
+
+package Types {
+    enum Color {
+        RED
+        BLACK
+    }
+    enum Point {
+        1..24
+    }
+}
+
+@enduml
