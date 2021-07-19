@@ -126,7 +126,7 @@ Select point: 8
 Select choice: 4
 
 
-BALCK Turn:
+BLACK Turn:
 1) Roll dice
 2) Double bet
 Select your choice: 1
@@ -221,3 +221,4 @@ Spanish Translate:
 ## Analysis (MVP-PV)
 
 ![Context](docs/analysis/analysis.png)
+

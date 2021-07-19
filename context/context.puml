@@ -1,0 +1,24 @@
+@startuml contexto
+state INITIAL
+state IN_GAME
+state ROLLING_DICE
+state END_GAME
+state EXIT
+state if_end_game <<choice>>
+state if_is_goal <<choice>>
+state if_bet_rejected <<choice>>
+
+[*] --> INITIAL
+INITIAL --> IN_GAME: ConfigureMatchPlay
+ROLLING_DICE --> if_end_game: MovePiece
+IN_GAME --> ROLLING_DICE: RollDice
+IN_GAME --> if_bet_rejected: Bet
+if_bet_rejected --> IN_GAME
+if_bet_rejected --> END_GAME: [isBetRejected]
+if_end_game --> END_GAME: [isEndGame]
+if_end_game --> IN_GAME
+END_GAME --> if_is_goal
+if_is_goal --> INITIAL
+if_is_goal --> EXIT: [isGoal]
+EXIT --> [*]
+@enduml
