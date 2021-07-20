@@ -3,7 +3,18 @@ title MVP-PV
 
 package Models {
     class Board
-    class Player
+    class DoublingCube
+    class Player{
+        roll_dice()
+    }
+    class Dice{
+        [1..6]
+        roll()
+    }
+    class Turn{
+        current_player: Player = None
+        get_next_player(default=None): Player
+    }
 }
 
 package Controllers {
@@ -19,6 +30,7 @@ package Views {
     class DiceView
     class EndGameView
     class MenuView
+    class BetView
 }
 
 package Types {
