@@ -1,0 +1,15 @@
+strictness: high
+test-warnings: true
+doc-warnings: false
+
+ignore-paths:
+  - .git
+  - docs
+  - env
+
+pep8:
+  options:
+    max-line-length: 100
+
+mccabe:
+  run: true

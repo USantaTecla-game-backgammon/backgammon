@@ -1,0 +1,2 @@
+class EndgameView:
+    pass
