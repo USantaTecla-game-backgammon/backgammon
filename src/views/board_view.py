@@ -1,0 +1,2 @@
+class BoardView:
+    pass

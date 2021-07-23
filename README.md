@@ -180,7 +180,6 @@ Select point: 24
 | 12  11  10   9   8   7 |   |  6   5   4   3   2   1 |
 |-----------------------------------------------------|
 
-
 ```
 
 ## Context
@@ -200,25 +199,89 @@ Select point: 24
 ### MovePiece
 General Rules:
 - Each player must move the maximum number of possible movements according to the dices.
-- In the particular case of have only one piece able to move, only by the value of 
+- In the particular case of have only one piece able to move, only by the value of
   the dices but not with the sum of both dices, the player must choose the biggest dice.
-- The pieces must leave the board using the exact number needed for it. A higher number 
-  than necessary can only be used to draw a piece when there is no other left in any of the 
+- The pieces must leave the board using the exact number needed for it. A higher number
+  than necessary can only be used to draw a piece when there is no other left in any of the
   previous squares.
 
 Spanish Translate:
-- En cada turno es obligatorio realizar el máximo número de movimientos posibles en 
+- En cada turno es obligatorio realizar el máximo número de movimientos posibles en
   función de los valores de los dados.
-- En particular, en caso de disponer de una sola ficha que puede moverse por el valor 
-  de ambos dados, pero no la suma de ambos, deberá escogerse el mayor de los dos 
+- En particular, en caso de disponer de una sola ficha que puede moverse por el valor
+  de ambos dados, pero no la suma de ambos, deberá escogerse el mayor de los dos
   valores.
-- Las piezas deben salir del tablero utilizando el número exacto necesitado para ello. 
-  Solo podrá utilizarse un número más alto del preciso para sacar una pieza cuando no 
+- Las piezas deben salir del tablero utilizando el número exacto necesitado para ello.
+  Solo podrá utilizarse un número más alto del preciso para sacar una pieza cuando no
   quede ninguna otra en ninguna de las casillas anteriores.
-  
+
 ![Context](docs/use_cases/move_piece.png)
 
 ## Analysis (MVP-PV)
 
 ![Context](docs/analysis/analysis.png)
 
+
+## Execute application
+
+NOTE: you need python 3.9
+
+```
+python3 main.py
+```
+
+## Development
+
+Create python virtual environment with python 3.9:
+
+```
+python3 -m venv env
+```
+
+Activate virtual environment:
+
+```
+source env/bin/activate
+```
+
+Install development dependencies:
+
+```
+pip install -r requirements-dev.txt
+```
+
+### Check lint
+
+```
+make lint
+```
+
+or
+
+```
+prospector
+```
+
+### Check hint typing
+
+```
+make mypy
+```
+
+or
+
+```
+mypy src
+```
+
+### Run tests
+
+```
+make test
+```
+
+or
+
+```
+python -m unittest
+```
