@@ -2,8 +2,8 @@
 
 ## Rules
 
-* [Wikipedia English](docs/https://en.wikipedia.org/wiki/Backgammon#Rules)
-* [Rules in video (Spanish)](docs/https://www.youtube.com/watch?v=Bx9TYzBzHSM)
+* [Wikipedia English](https://en.wikipedia.org/wiki/Backgammon#Rules)
+* [Rules in video (Spanish)](https://www.youtube.com/watch?v=Bx9TYzBzHSM)
 
 
 ## Domain model
