@@ -2,16 +2,55 @@
 title MVP-PV
 
 package Models {
-    class Board
-    class DoublingCube
-    class Player{
-        roll_dice()
+    class Game {
+        board: Board
+        black_player: Player
+        red_player: Player
+        turn: Optional[Player]
+        goal: int
+
+        is_end() -> bool
     }
-    class Dice{
-        [1..6]
-        roll()
+
+    class Board {
+        points: list[Point]
+        off_board: list[Piece]
+        bar: list[Piece]
+
+        is_all_piece_last_square(color: Color) -> bool
+        is_pieces_in_bar(color: Color) -> bool
+        is_all_pieces_off_board(color: Color) -> bool
+        is_any_piece_off_board(color: Color) -> bool
+        is_any_piece_at_home(color: Color) -> bool
+        move_piece(position: Position, position: Position, color: Color)
+        reset()
     }
-    class Turn{
+
+    class DoublingCube {
+        value: int  # 2^1 .. 2^6
+    }
+
+    class Player {
+        last_roll: list[Dice]
+        last_moves: list[Move]
+        score: int
+        doubling_cube: bool = False
+
+        roll(times: int)
+        can_bet() -> bool
+        bet()
+        accept_bet()
+        reject_bet()
+        is_winner()
+        earn_score(score: int)
+    }
+
+    class Dice {
+        value: int  # between 1..6
+        __init__()  # constructor
+    }
+
+    class Turn {
         current_player: Player = None
         get_next_player(default=None): Player
     }
@@ -25,12 +64,41 @@ package Controllers {
 }
 
 package Views {
-    class ConfigurationMatchPlayView
-    class BoardView
-    class DiceView
-    class EndGameView
-    class MenuView
-    class BetView
+    class EndGameView {
+        show()
+    }
+
+    class MenuView {
+        show()
+        read()
+    }
+
+    class ConfigurationMatchPlayView {
+        show()
+        read()  # read input
+    }
+
+    class BoardView {
+        show(color: Color)
+    }
+
+    class DiceView {
+        show()
+    }
+
+    class BetView {
+        show()
+        read()
+    }
+
+    class PlayerView {
+        show()
+    }
+
+    MenuView --> BoardView
+    MenuView --> PlayerView
+    MenuView --> DiceView
+    MenuView --> BetView
 }
 
 package Types {
@@ -38,6 +106,7 @@ package Types {
         RED
         BLACK
     }
+
     enum Point {
         1..24
     }
