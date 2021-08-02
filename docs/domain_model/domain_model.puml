@@ -1,7 +1,12 @@
 @startuml
 class Backgammon{}
 
+class Goal {}
+class Match {}
+class Game {}
+
 class Board{}
+class Position {}
 
 class OffBoard{}
 
@@ -16,10 +21,8 @@ enum Color{
 }
 
 class Goal{}
-
 class Bar{}
 
-class MatchPlay{}
 
 class Turn{}
 
@@ -29,13 +32,13 @@ class Dice{}
 
 class DoblingCube{}
 
-class Match{}
+class Simple {}
 
 class Gammon{}
 
 class BackGammon{}
 
-class Score{}
+class EndGame{}
 
 class Action {}
 class RollDice {}
@@ -44,35 +47,32 @@ class Bet {}
 class BetAccept {}
 class BetReject {}
 
-class Sense{}
-note top: invert point number
+Backgammon *--> Match
+Match *--> Goal
 
-Player --> Score
-Score ..> MatchPlay
-MatchPlay --> Goal
-Match -up-|> Score
-Gammon -up-|> Score
-BackGammon -up-|> Score
-Backgammon *--> MatchPlay
-Backgammon *--> Board
-Backgammon *--> Turn
+'Match --> Configurator
+Match *--> "1..n" Game
+Match *--> Turn
+
+Player *--> Score
+Game --> EndGame
+EndGame <|-- Simple
+EndGame <|-- Gammon
+EndGame <|-- BackGammon
+
+Game *--> Board
 Player o--> DoblingCube
 Turn *--> "2" Player
-Backgammon *--> "2" Player
-Board *--> "4x6" Point
-Board *--> Bar
-Board *--> OffBoard
+
+Board *--> "4x6 + 1 + 1" Position
+Position o--> Piece
+Position <|-- Point
+Position <|-- Bar
+Position <|-- OffBoard
+
 Player *--> Color
 Piece *--> Color
 Point --> Point
-
-Board *--> Sense
-Sense *--> Color
-Point ..> Sense
-
-OffBoard o--> "0..29" Piece
-Bar o--> "0..15" Piece
-Point o--> "0..15" Piece
 
 Player *--> "2" Dice
 Player o--> Goal
@@ -83,4 +83,5 @@ Action <|-- MovePiece
 Action <|-- Bet
 Action <|-- BetAccept
 Action <|-- BetReject
+Action <|-- Resign
 @enduml

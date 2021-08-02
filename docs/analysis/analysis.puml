@@ -2,26 +2,27 @@
 title MVP-PV
 
 package Models {
+    class Match {
+        games: list[Game]
+        goal: Goal
+        turn: Turn
+
+    }
     class Game {
         board: Board
-        black_player: Player
-        red_player: Player
-        turn: Optional[Player]
-        goal: int
 
-        is_end() -> bool
+        is_endgame() -> bool
+        type_endgame() -> EndGame
     }
 
     class Board {
-        points: list[Point]
-        off_board: list[Piece]
-        bar: list[Piece]
+        positions: list[Position]
 
         is_all_piece_last_square(color: Color) -> bool
-        is_pieces_in_bar(color: Color) -> bool
+        is_any_pieces_in_bar(color: Color) -> bool
         is_all_pieces_off_board(color: Color) -> bool
         is_any_piece_off_board(color: Color) -> bool
-        is_any_piece_at_home(color: Color) -> bool
+        is_any_piece_at_first_square(color: Color) -> bool
         move_piece(position: Position, position: Position, color: Color)
         reset()
     }
@@ -57,10 +58,22 @@ package Models {
 }
 
 package Controllers {
-    class ConfigureMatchPlay
+    class ConfigureMatch {
+        configure()
+    }
+    class PlayMatch {
+        initialize_game()
+    }
+    class PlayGame {
+        select_menu()
+    }
     class RollDice
     class MovePiece
     class Bet
+
+    PlayGame --> RollDice
+    PlayGame --> MovePiece
+    PlayGame --> Bet
 }
 
 package Views {
