@@ -21,11 +21,11 @@
 ```
 ### BACKGAMMON ###
 
-MatchPlay points? (10): bad
-MatchPlay points? (10): 10
+Each player should choose a color.
 
-Each player should choose a color. Press Enter for starting.
-
+Define your goal? (1-64): bad
+Define your goal? (1-64): 65
+Define your goal? (1-64): 10
 
 - Starting game -
 
@@ -48,7 +48,6 @@ RED Dice: 1
 BLACK turn:
 1) Move 4
 2) Move 1
-3) End turn
 Select your choice: bad
 Select your choice: 1
 Select Point: bad
@@ -66,7 +65,6 @@ Select Point: 24
 
 BLACK turn:
 1) Move 1
-2) End turn
 Select your choice: 1
 Select Point: 20
 Illegal move.
@@ -105,7 +103,6 @@ Dice: 3
 2) Move 3
 3) Move 3
 4) Move 3
-5) End turn
 Select choice: 1
 Select point: 8
 
@@ -119,11 +116,8 @@ Select point: 8
 | 13  14  15  16  17  18 |   | 19  20  21  22  23  24 |
 |-----------------------------------------------------|
 
-1) Move 3
-2) Move 3
-3) Move 3
-4) End turn
-Select choice: 4
+...
+...
 
 
 BLACK Turn:
@@ -147,7 +141,6 @@ Dice: 3
 
 1) Move 4
 2) Move 3
-3) End turn
 Select choice: 2
 Select point: 24
 Illegal move.
@@ -166,7 +159,6 @@ Select point: BAR
 
 
 1) Move 4
-2) End turn
 Select choice: 1
 Select point: 24
 

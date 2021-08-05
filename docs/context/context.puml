@@ -9,7 +9,7 @@ state if_is_goal <<choice>>
 state if_bet_rejected <<choice>>
 
 [*] --> INITIAL
-INITIAL --> IN_GAME: ConfigureMatchPlay
+INITIAL --> IN_GAME: ConfigureGoal
 ROLLING_DICE --> if_end_game: MovePiece
 IN_GAME --> ROLLING_DICE: RollDice
 IN_GAME --> if_bet_rejected: Bet

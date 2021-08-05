@@ -1,15 +1,17 @@
 @startuml
 title MVP-PV
+scale 2000 width
 
 package Models {
     class Match {
         games: list[Game]
-        goal: Goal
+        goal: int
         turn: Turn
 
     }
     class Game {
         board: Board
+        turn: Turn
 
         is_endgame() -> bool
         type_endgame() -> EndGame
@@ -52,43 +54,50 @@ package Models {
     }
 
     class Turn {
-        current_player: Player = None
-        get_next_player(default=None): Player
+        __init__(list[Player])  # sort Player list
+        current_player: Player
+        players: list[Player]
+
+        next()
     }
+
 }
 
 package Controllers {
-    class ConfigureMatch {
+    class MatchController {
         configure()
-    }
-    class PlayMatch {
         initialize_game()
+        is_goal()
+        resume()
     }
-    class PlayGame {
-        select_menu()
+    class GameController {
+        play()
+        is_endgame()
     }
-    class RollDice
-    class MovePiece
-    class Bet
+    class RollDiceController
+    class MovePieceController
+    class BetController
 
-    PlayGame --> RollDice
-    PlayGame --> MovePiece
-    PlayGame --> Bet
+    GameController --> RollDiceController
+    GameController --> MovePieceController
+    GameController --> BetController
 }
 
 package Views {
-    class EndGameView {
-        show()
+    class Console {
+        show(msg: str)
+        read_str(msg: str = "") -> str
+        read_int(msg: str = "") -> int
+        read_bool(msg: str = "") -> bool
     }
-
-    class MenuView {
-        show()
-        read()
-    }
-
-    class ConfigurationMatchPlayView {
+    class MatchView {
         show()
         read()  # read input
+    }
+
+    class GameView {
+        show()
+        read()
     }
 
     class BoardView {
@@ -104,14 +113,14 @@ package Views {
         read()
     }
 
-    class PlayerView {
+    class MovePieceView {
         show()
     }
 
-    MenuView --> BoardView
-    MenuView --> PlayerView
-    MenuView --> DiceView
-    MenuView --> BetView
+    GameView --> BoardView
+    GameView --> DiceView
+    GameView --> BetView
+    GameView --> MovePieceView
 }
 
 package Types {
@@ -122,6 +131,12 @@ package Types {
 
     enum Point {
         1..24
+    }
+
+    enum Endgame {
+        SIMPLE
+        GAMMON
+        BACKGAMMON
     }
 }
 

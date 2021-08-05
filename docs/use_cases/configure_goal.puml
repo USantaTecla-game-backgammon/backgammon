@@ -1,10 +1,10 @@
-@startuml configureMatchPlay
+@startuml configureGoal
 state INITIAL
 state IN_GAME
 state if_error <<choice>>
 
 [*] --> INITIAL
-INITIAL --> if_error: ConfigureMatchPlay
+INITIAL --> if_error: ConfigureGoal
 if_error --> IN_GAME
 if_error --> INITIAL: [is_error]
 IN_GAME --> [*]
