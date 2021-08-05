@@ -1,2 +1,3 @@
 class DiceView:
-    pass
+    def show(self) -> None:
+        pass

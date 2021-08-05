@@ -1,22 +1,23 @@
-from src.controllers.configure_controller import ConfigureController
-from src.controllers.play_controller import PlayController
-from src.controllers.resume_controller import ResumeController
-from src.models.game import Game
-from src.views.factory_view import FactoryView
+from src.controllers import MatchController, GameController
+from src.models import Match
+from src.views import GameView, MatchView
 
 
 class Backgammon:
     def __init__(self) -> None:
-        self.game = Game()
-        self.factory_view = FactoryView()
+        self.match = Match()
 
-        self.configure_controller = ConfigureController(self.game, self.factory_view)
-        self.play_controller = PlayController(self.game, self.factory_view)
-        self.resume_controller = ResumeController(self.game, self.factory_view)
+        self.match_view = MatchView()
+        self.game_view = GameView()
+
+        self.match_controller = MatchController(self.match, self.match_view)
+        self.game_controller = GameController(self.match, self.game_view)
 
     def play(self) -> None:
-        while 1:
-            self.configure_controller.configure()
-            self.play_controller.play()
-            if not self.resume_controller.resume():
-                break
+        self.match_controller.configure()
+        while not self.match_controller.is_goal():
+            self.match_controller.initialize_game()
+            self.game_controller.play()
+
+        if self.match_controller.resume():
+            self.play()

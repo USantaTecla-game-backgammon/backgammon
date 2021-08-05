@@ -11,5 +11,13 @@ pep8:
   options:
     max-line-length: 100
 
+pylint:
+  disable:
+    - unsubscriptable-object
+
+pyflakes:
+  disable:
+    - F401
+
 mccabe:
   run: true
