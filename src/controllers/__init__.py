@@ -1,0 +1,5 @@
+from src.controllers.bet_controller import BetController
+from src.controllers.game_controller import GameController
+from src.controllers.match_controller import MatchController
+from src.controllers.move_piece_controller import MovePieceController
+from src.controllers.roll_dice_controller import RollDiceController

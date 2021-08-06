@@ -1,0 +1,2 @@
+class BetController:
+    pass

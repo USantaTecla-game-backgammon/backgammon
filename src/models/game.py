@@ -1,25 +1,31 @@
-from typing import Optional
-
-from src.models.player import Player
-from src.types.color import Color
+from src.models.board import Board
+from src.types import Color, Endgame
 
 
 class Game:
     def __init__(self) -> None:
-        self.red_player = Player(Color.RED)
-        self.black_player = Player(Color.BLACK)
+        self.board: Board = Board()
 
-        self.__turn: Optional[Player] = None  # pylint: disable=unsubscriptable-object
+    def is_endgame(self) -> bool:
+        return (
+            self.board.is_all_pieces_off_board(Color.BLACK) or
+            self.board.is_all_pieces_off_board(Color.RED)
+        )
 
-    @property
-    def turn(self) -> Optional[Player]:  # pylint: disable=unsubscriptable-object
-        return self.__turn
+    def type_endgame(self) -> Endgame:
+        assert self.is_endgame()
 
-    def first_roll(self) -> None:
-        self.red_player.roll(1)
-        self.black_player.roll(1)
+        looser_color: Color = Color.RED
+        if self.board.is_all_pieces_off_board(Color.RED):
+            looser_color = Color.BLACK
 
-    def roll(self) -> None:
-        assert self.__turn is not None
+        if self.board.is_any_piece_off_board(looser_color):
+            return Endgame.SIMPLE
 
-        self.__turn.roll()
+        if (
+            not self.board.is_any_piece_at_first_square(looser_color) and
+            not self.board.is_any_piece_in_bar(looser_color)
+        ):
+            return Endgame.GAMMON
+
+        return Endgame.BACKGAMMON

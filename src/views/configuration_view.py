@@ -1,2 +1,0 @@
-class ConfigurationView:
-    pass
