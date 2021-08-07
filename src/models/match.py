@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.models import Game
+from src.models.game import Game
 from src.models.dice import Dice
 from src.models.turn import Turn
 from src.models.player import Player
@@ -14,11 +14,11 @@ class Match:
         self.turn: Turn = Turn(players=[Player(Color.BLACK), Player(Color.RED)])
 
     @property
-    def current_player(self) -> Player:
+    def current_player(self) -> Optional[Player]:
         return self.turn.current_player
 
-    def change_turn(self, color: Optional[Color] = None):
-        self.turn.next(color)
+    def change_turn(self, color: Optional[Color] = None) -> None:
+        self.turn.change(color)
 
     def is_goal(self) -> bool:
         return any([player.score >= self.goal for player in self.turn.players])

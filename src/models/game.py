@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.models.board import Board
 from src.models.turn import Turn
 from src.models.player import Player
@@ -11,11 +13,11 @@ class Game:
         self.state: GameState = GameState.IN_GAME
 
     @property
-    def current_player(self) -> Player:
+    def current_player(self) -> Optional[Player]:
         return self.turn.current_player
 
     def change_turn(self) -> None:
-        self.turn.next()
+        self.turn.change()
 
     def is_endgame(self) -> bool:
         return (

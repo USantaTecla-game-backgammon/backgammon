@@ -9,5 +9,5 @@ class Turn:
         self.players = players
         self.current_player: Optional[Player] = None
 
-    def next(self, color: Optional[Color] = None) -> None:
+    def change(self, color: Optional[Color] = None) -> None:
         raise NotImplementedError

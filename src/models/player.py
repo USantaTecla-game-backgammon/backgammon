@@ -7,5 +7,6 @@ class Player:
         self.color = color
         self.score: int = 0
 
-    def roll(self, amount: int = 2) -> list[Dice]:
+    @classmethod
+    def roll(cls, amount: int = 2) -> list[Dice]:
         return [Dice() for _ in range(amount)]
