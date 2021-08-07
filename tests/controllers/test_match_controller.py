@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from src.controllers import MatchController
 from src.models import Match
@@ -10,11 +10,16 @@ class MatchControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.match = Match()
-        self.match_controller = MatchController(self.match, MatchView)
+        self.match_controller = MatchController(self.match, MatchView())
 
     @patch.object(MatchView, 'show')
     @patch.object(MatchView, 'read_goal')
-    def test_match_controller_configure(self, mock_read, mock_show):
+    def test_match_controller_configure(
+        self,
+        mock_read: MagicMock,
+        mock_show: MagicMock,
+    ) -> None:
+
         goal = 2
         mock_read.return_value = goal
 
@@ -23,11 +28,11 @@ class MatchControllerTest(unittest.TestCase):
         mock_read.assert_called_once()
         self.assertEqual(self.match.goal, goal)
 
-    def test_match_controller_initialize_game_without_goal_defined(self):
+    def test_match_controller_initialize_game_without_goal_defined(self) -> None:
         with self.assertRaises(AssertionError):
             self.match_controller.initialize_game()
 
-    def test_match_controller_initialize_game(self):
+    def test_match_controller_initialize_game(self) -> None:
         self.assertEqual(len(self.match.games), 0)
 
         self.match.goal = 2
@@ -36,14 +41,14 @@ class MatchControllerTest(unittest.TestCase):
         self.assertEqual(len(self.match.games), 1)
 
     @patch.object(Match, 'is_goal')
-    def test_match_controller_is_goal(self, mock):
+    def test_match_controller_is_goal(self, mock: MagicMock) -> None:
         self.match_controller.is_goal()
         mock.assert_called_once()
 
-    def test_match_controller_resume_yes(self):
+    def test_match_controller_resume_yes(self) -> None:
         with patch.object(console, 'read_bool', return_value=True):
             self.assertTrue(self.match_controller.resume())
 
-    def test_match_controller_resume_no(self):
+    def test_match_controller_resume_no(self) -> None:
         with patch.object(console, 'read_bool', return_value=False):
             self.assertFalse(self.match_controller.resume())
