@@ -14,4 +14,4 @@ class MovePieceCommand(Command):
         self.move_piece_controller.move()
 
     def is_active(self) -> bool:
-        return self.game.state in [GameState.MOVING_RED, GameState.MOVING_BLACK]
+        return self.game.state == GameState.MOVING_PIECE

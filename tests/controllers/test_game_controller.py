@@ -9,6 +9,7 @@ from src.models.commands import (
     RollDiceCommand,
 )
 from src.views import GameView
+from src.views.menu_view import MenuView
 from src.types.game_state import GameState
 
 
@@ -49,26 +50,37 @@ class GameControllerTest(unittest.TestCase):
             self.assertEqual([cmd.title for cmd in active_commands], expected_commands)
             self.assertEqual(len(active_commands), len(expected_commands))
 
-    def test_active_commands_with_choosing_player(self) -> None:
-        self.check_active_commands_depend_on_game_state(
-            game_state=GameState.CHOOSING_PLAYER,
-            expected_commands=[RollDiceCommand.title],
-        )
-
     def test_active_commands_with_in_game(self) -> None:
         self.check_active_commands_depend_on_game_state(
             game_state=GameState.IN_GAME,
             expected_commands=[BetCommand.title, RollDiceCommand.title],
         )
 
-    def test_active_commands_with_moving_red(self) -> None:
+    def test_active_commands_with_moving_piece(self) -> None:
         self.check_active_commands_depend_on_game_state(
-            game_state=GameState.MOVING_RED,
+            game_state=GameState.MOVING_PIECE,
             expected_commands=[MovePieceCommand.title],
         )
 
-    def test_active_commands_with_moving_black(self) -> None:
+    def test_active_commands_with_betting(self) -> None:
         self.check_active_commands_depend_on_game_state(
-            game_state=GameState.MOVING_BLACK,
-            expected_commands=[MovePieceCommand.title],
+            game_state=GameState.BETTING,
+            expected_commands=[BetCommand.title],
         )
+
+    def test_active_commands_with_end_game(self) -> None:
+        self.check_active_commands_depend_on_game_state(
+            game_state=GameState.END_GAME,
+            expected_commands=[],
+        )
+
+    @patch.object(Game, 'is_endgame', side_effect=[False, True])
+    @patch.object(MenuView, '__call__')
+    def test_game_controller_play_when_not_is_endgame(
+        self,
+        mock_view: MagicMock,
+        mock_game: MagicMock,
+    ) -> None:
+        self.game_controller.play()
+        self.assertEqual(mock_game.call_count, 2)
+        self.assertEqual(mock_view.call_count, 1)

@@ -14,4 +14,4 @@ class RollDiceCommand(Command):
         self.roll_dice_controller.roll()
 
     def is_active(self) -> bool:
-        return self.game.state in [GameState.CHOOSING_PLAYER, GameState.IN_GAME]
+        return self.game.state == GameState.IN_GAME

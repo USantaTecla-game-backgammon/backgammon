@@ -15,4 +15,4 @@ class BetCommand(Command):
         self.bet_controller.answer()
 
     def is_active(self) -> bool:
-        return self.game.state == GameState.IN_GAME
+        return self.game.state in [GameState.IN_GAME, GameState.BETTING]

@@ -1,6 +1,8 @@
 from typing import Final
 
 from src.views import console
+from src.models.dice import Dice
+from src.types.color import Color
 
 
 class MatchView:
@@ -11,11 +13,16 @@ class MatchView:
     RESUME: Final = 'Do you want to resume a match?'
 
     @classmethod
-    def show(cls) -> None:
+    def show_title(cls) -> None:
         console.show(
             f'{cls.TITLE}\n\n'
             f'{cls.CHOOSE_COLOR}\n\n'
         )
+
+    @classmethod
+    def show_dices(cls, dices: dict[Color, Dice]) -> None:
+        for color, dice in dices.items():
+            console.show(f'Player {color}: {dice}\n')
 
     @classmethod
     def read_goal(cls) -> int:
