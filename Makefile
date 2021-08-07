@@ -4,7 +4,7 @@ lint:
 	prospector
 
 mypy:
-	mypy src
+	mypy src tests
 
 test:
 	python -m unittest
