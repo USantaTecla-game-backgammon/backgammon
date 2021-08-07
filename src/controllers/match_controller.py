@@ -1,4 +1,4 @@
-from src.models import Match
+from src.models import Game, Match
 from src.views import MatchView
 
 
@@ -8,13 +8,15 @@ class MatchController:
         self.view = view
 
     def configure(self) -> None:
-        pass
+        self.view.show()
+        self.match.goal = self.view.read_goal()
 
     def initialize_game(self) -> None:
-        pass
+        assert self.match.goal > 0
+        self.match.games.append(Game())
 
     def is_goal(self) -> bool:
         return self.match.is_goal()
 
     def resume(self) -> bool:
-        raise NotImplementedError
+        return self.view.read_resume()

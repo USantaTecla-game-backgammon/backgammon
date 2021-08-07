@@ -32,3 +32,7 @@ def read_int_range(valids: List[int], msg: str = '') -> int:
         print(ALLOWED_VALUES, valids)
         return read_int_range(valids, msg)
     return user_int
+
+
+def read_bool(msg: str = '') -> bool:
+    raise NotImplementedError
