@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from src.controllers import GameController
-from src.models import Game, Match
+from src.models import Game, Match, Player, Turn
 from src.models.commands import (
     BetCommand,
     MovePieceCommand,
@@ -10,13 +10,14 @@ from src.models.commands import (
 )
 from src.views import GameView
 from src.views.menu_view import MenuView
-from src.types.game_state import GameState
+from src.types import Color, GameState
 
 
 class GameControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.game = Game()
+        turn = Turn((Player(Color.BLACK), Player(Color.RED)))
+        self.game = Game(turn)
         self.match = Match()
         self.match.games.append(self.game)
         self.game_controller = GameController(self.match, GameView())
