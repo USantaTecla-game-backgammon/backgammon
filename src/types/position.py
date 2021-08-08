@@ -26,8 +26,8 @@ class Position(enum.Enum):
     TWENTY_TWO = (22, 3)
     TWENTY_THREE = (23, 2)
     TWENTY_FOUR = (24, 1)
-    BAR = (0,0)
-    OFF_BOARD = (100,100)
+    BAR = (0, 0)
+    OFF_BOARD = (100, 100)
 
     def __init__(self, color_black: int, color_red: int) -> None:
         self.color_black: int = color_black

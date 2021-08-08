@@ -18,10 +18,10 @@ class BoardView:
 
     def show(self, color: Color) -> None:
         self.color = color
-        if self.color == Color.RED:
-            console.FontColors = console.FontColors.RED
+        if color == Color.RED:
+            self.font_color = console.FontColors.RED
         else:
-            console.FontColors = console.FontColors.BLACK
+            self.font_color = console.FontColors.BLACK
 
         self.__print_wrapper()
         self.__print_top()
