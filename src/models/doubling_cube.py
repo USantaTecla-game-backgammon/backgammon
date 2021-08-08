@@ -9,7 +9,7 @@ class DoublingCube:
         if self.value == 64 and self._doubled:
             raise AssertionError()
         self._doubled = True
-        for k, v in enumerate(self._values):
-            if v == self.value:
-                self.value = self._values[k + 1]
-                return None
+        for key, val in enumerate(self._values):
+            if val == self.value:
+                self.value = self._values[key + 1]
+                return

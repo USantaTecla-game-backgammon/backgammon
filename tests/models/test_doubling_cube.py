@@ -14,7 +14,7 @@ class DoublingCubeTestCase(unittest.TestCase):
         self.assertEqual(self.doubling_cube.value, 2)
 
     def test_when_double_7_times_rise_exception(self) -> None:
-        for i in range(6):
+        for _ in range(6):
             self.doubling_cube.double()
 
         with self.assertRaises(AssertionError):
