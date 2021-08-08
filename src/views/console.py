@@ -3,6 +3,8 @@ from typing import List
 
 ONLY_NUMBERS_ARE_ALLOWED: str = 'Only numbers are allowed'
 ALLOWED_VALUES: str = 'allowed values: '
+YES_VALUES = 'YySs'
+NO_VALUES = 'Nn'
 
 
 class FontColors(str, enum.Enum):
@@ -51,4 +53,11 @@ def read_int_range(valids: List[int], msg: str = '') -> int:
 
 
 def read_bool(msg: str = '') -> bool:
-    raise NotImplementedError
+    user_input: str = input(msg + ': ')
+    if user_input in YES_VALUES:
+        return True
+
+    if user_input in NO_VALUES:
+        return False
+
+    return read_bool(msg)

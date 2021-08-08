@@ -32,3 +32,8 @@ class Match:
 
     def is_first_game(self) -> bool:
         return not bool(self.games)
+
+    def reset(self) -> None:
+        self.games = []
+        self.goal = 0
+        self.turn = Turn(players=(Player(Color.BLACK), Player(Color.RED)))

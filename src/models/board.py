@@ -7,6 +7,22 @@ from src.types.position import Position
 class Board:
 
     NUM_PICES_PER_COLOR: Final = 15
+    FIRST_SQUARE: list[Position] = [
+        Position.ONE,
+        Position.TWO,
+        Position.THREE,
+        Position.FOUR,
+        Position.FIVE,
+        Position.SIX,
+    ]
+    LAST_SQUARE: list[Position] = [
+        Position.NINETEEN,
+        Position.TWENTY,
+        Position.TWENTY_ONE,
+        Position.TWENTY_TWO,
+        Position.TWENTY_THREE,
+        Position.TWENTY_FOUR,
+    ]
 
     def __init__(self) -> None:
         self.positions: Dict[int, Dict[str, int]] = {}
@@ -19,15 +35,27 @@ class Board:
         return self.position_of_color(Position.OFF_BOARD, color) == 0
 
     def is_any_piece_at_first_square(self, color: Color) -> bool:
-        raise NotImplementedError
+        for position in self.FIRST_SQUARE:
+            if self.position_of_color(position, color) > 0:
+                return True
+        return False
 
     def is_any_piece_in_bar(self, color: Color) -> bool:
         return self.position_of_color(Position.BAR, color) > 0
 
     def is_all_pieces_last_square(self, color: Color) -> bool:
-        raise NotImplementedError
+        for position in self.LAST_SQUARE:
+            if self.position_of_color(position, color) > 0:
+                return True
+        return False
 
-    def move_pice(self, position_from: Position, position_to: Position, color: Color) -> None:
+    def move_piece_int(self, position_from: int, position_to: int, color: Color) -> None:
+        pos_from = position_from if color == Color.BLACK else abs(position_from - 25)
+        pos_to = position_to if color == Color.BLACK else abs(position_to - 25)
+        self.positions[pos_from][color.name] -= 1
+        self.positions[pos_to][color.name] += 1
+
+    def move_piece(self, position_from: Position, position_to: Position, color: Color) -> None:
         pos_from_absolute = self.position_of_color(position_from, color)
         pos_to_absolute = self.position_of_color(position_to, color)
         self.positions[pos_from_absolute][color.name] -= 1

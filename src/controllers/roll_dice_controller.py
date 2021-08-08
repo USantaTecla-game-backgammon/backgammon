@@ -9,4 +9,4 @@ class RollDiceController:
         self.game = game
 
     def roll(self) -> None:
-        raise NotImplementedError
+        self.game.roll_current_player()

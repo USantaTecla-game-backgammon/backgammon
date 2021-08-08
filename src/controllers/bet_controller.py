@@ -21,4 +21,5 @@ class BetController:
             self.game.state = GameState.IN_GAME
         else:
             self.view.show_reject()
+            self.game.turn.reject_bet()
             self.game.state = GameState.END_GAME

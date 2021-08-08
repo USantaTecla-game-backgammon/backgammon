@@ -9,6 +9,5 @@ class MovePieceController:
         self.game = game
 
     def move(self, amount: int) -> None:
-        # TODO: move piece
-        print(f'MOVE {amount}')
-        self.game.possible_moves.remove(amount)
+        position = self.view.read_position()
+        self.game.move_piece(amount, position)

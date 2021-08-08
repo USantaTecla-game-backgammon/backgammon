@@ -1,6 +1,7 @@
 from typing import Optional
 
 from src.models.player import Player
+from src.models.dice import Dice
 from src.types.color import Color
 from src.models.doubling_cube import doubling_cube
 
@@ -27,10 +28,14 @@ class Turn:
         else:
             raise AssertionError
 
+    def can_bet_current_player(self) -> bool:
+        return self.opponent_player.doubling_cube is None
+
     def accept_bet(self) -> None:
         doubling_cube.double()
         self.current_player.doubling_cube = doubling_cube
         self.opponent_player.doubling_cube = None
+        self.change()
 
     def reject_bet(self) -> None:
         self.opponent_player.is_winner = True
@@ -47,3 +52,6 @@ class Turn:
             self.current_player.is_winner = True
         else:
             self.opponent_player.is_winner = True
+
+    def roll_current_player(self) -> list[Dice]:
+        return self.current_player.roll()

@@ -32,6 +32,10 @@ class Game:
 
         self.possible_moves = possibles
 
+    def roll_current_player(self) -> None:
+        self.last_roll = self.turn.roll_current_player()
+        self.state = GameState.MOVING_PIECE
+
     def change_turn(self) -> None:
         self.turn.change()
         self.state = GameState.IN_GAME
@@ -71,3 +75,8 @@ class Game:
         self.turn.give_score_to_winner(
             self.type_endgame().value * doubling_cube.value
         )
+
+    def move_piece(self, amount: int, position: int) -> None:
+        position_to = position - amount
+        self.board.move_piece_int(position, position_to, self.current_player.color)
+        self.possible_moves.remove(amount)
