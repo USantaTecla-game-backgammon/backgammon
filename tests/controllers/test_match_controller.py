@@ -2,7 +2,8 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from src.controllers import MatchController
-from src.models import Match
+from src.models import Dice, Match, Turn
+from src.types import Color
 from src.views import MatchView, console
 
 
@@ -12,7 +13,7 @@ class MatchControllerTest(unittest.TestCase):
         self.match = Match()
         self.match_controller = MatchController(self.match, MatchView())
 
-    @patch.object(MatchView, 'show')
+    @patch.object(MatchView, 'show_title')
     @patch.object(MatchView, 'read_goal')
     def test_match_controller_configure(
         self,
@@ -39,6 +40,37 @@ class MatchControllerTest(unittest.TestCase):
         self.match_controller.initialize_game()
 
         self.assertEqual(len(self.match.games), 1)
+
+    @patch.object(Turn, 'change')
+    @patch.object(MatchView, 'show_dices')
+    @patch.object(Match, 'first_roll')
+    def test_match_controller_first_roll_one_tie_and_black_win(
+        self,
+        mock_roll: MagicMock,
+        mock_show: MagicMock,
+        mock_turn: MagicMock,
+    ) -> None:
+        mock_roll.side_effect = [
+            {Color.BLACK: Dice(4), Color.RED: Dice(4)},
+            {Color.BLACK: Dice(5), Color.RED: Dice(3)},
+        ]
+        self.match_controller.first_roll()
+        mock_turn.assert_called_once_with(Color.BLACK)
+        self.assertEqual(mock_show.call_count, 2)
+
+    @patch.object(Turn, 'change')
+    @patch.object(MatchView, 'show_dices')
+    @patch.object(Match, 'first_roll')
+    def test_match_controller_first_roll_red_win(
+        self,
+        mock_roll: MagicMock,
+        mock_show: MagicMock,
+        mock_turn: MagicMock,
+    ) -> None:
+        mock_roll.return_value = {Color.BLACK: Dice(1), Color.RED: Dice(6)}
+        self.match_controller.first_roll()
+        mock_turn.assert_called_once_with(Color.RED)
+        self.assertEqual(mock_show.call_count, 1)
 
     @patch.object(Match, 'is_goal')
     def test_match_controller_is_goal(self, mock: MagicMock) -> None:

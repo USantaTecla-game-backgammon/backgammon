@@ -1,10 +1,23 @@
+from typing import Optional
+
 from src.models.board import Board
-from src.types import Color, Endgame
+from src.models.turn import Turn
+from src.models.player import Player
+from src.types import Color, Endgame, GameState
 
 
 class Game:
     def __init__(self) -> None:
         self.board: Board = Board()
+        self.turn: Turn = Turn([])
+        self.state: GameState = GameState.IN_GAME
+
+    @property
+    def current_player(self) -> Optional[Player]:
+        return self.turn.current_player
+
+    def change_turn(self) -> None:
+        self.turn.change()
 
     def is_endgame(self) -> bool:
         return (

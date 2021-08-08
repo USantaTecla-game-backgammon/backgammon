@@ -1,2 +1,13 @@
+from typing import Optional
+
+from src.models.player import Player
+from src.types.color import Color
+
+
 class Turn:
-    pass
+    def __init__(self, players: list[Player]):
+        self.players = players
+        self.current_player: Optional[Player] = None
+
+    def change(self, color: Optional[Color] = None) -> None:
+        raise NotImplementedError
