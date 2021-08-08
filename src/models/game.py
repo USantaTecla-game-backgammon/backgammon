@@ -7,10 +7,10 @@ from src.types import Color, Endgame, GameState
 
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, turn: Turn) -> None:
         self.board: Board = Board()
-        self.turn: Turn = Turn([])
         self.state: GameState = GameState.IN_GAME
+        self.turn: Turn = turn
 
     @property
     def current_player(self) -> Optional[Player]:
