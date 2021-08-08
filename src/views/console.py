@@ -1,7 +1,23 @@
+import enum
 from typing import List
 
 ONLY_NUMBERS_ARE_ALLOWED: str = 'Only numbers are allowed'
 ALLOWED_VALUES: str = 'allowed values: '
+
+
+class FontColors(str, enum.Enum):
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    RED = '\033[91m'
+    BLACK = '\033[0m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+
+
+def show_in_color(msg: str, font_color: FontColors) -> None:
+    print(font_color.value, end='')
+    print(msg)
+    print(FontColors.ENDC.value, end='')
 
 
 def show(msg: str) -> None:
