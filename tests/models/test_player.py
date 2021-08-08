@@ -13,4 +13,3 @@ class PlayerTestCase(unittest.TestCase):
         self.assertFalse(self.player.doubling_cube)
         self.assertFalse(self.player.movements)
         self.assertFalse(self.player.rolls)
-
