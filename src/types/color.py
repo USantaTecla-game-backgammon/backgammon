@@ -2,5 +2,5 @@ import enum
 
 
 class Color(str, enum.Enum):
-    BLACK = 'b'
-    RED = 'r'
+    BLACK = '\u25CF'
+    RED = '\u25CB'

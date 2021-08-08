@@ -1,7 +1,7 @@
 from typing import Dict
 from typing import Final
-from src.types.position import Position
 from src.types.color import Color
+from src.types.position import Position
 
 
 class Board:
