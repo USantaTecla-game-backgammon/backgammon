@@ -8,6 +8,7 @@ from src.models.commands import (
     RollDiceCommand,
 )
 from src.views import GameView
+from src.views.board_view import BoardView
 from src.views.menu_view import MenuView
 
 
@@ -21,12 +22,21 @@ class GameController:
 
     def play(self) -> None:
         game = self.match.games[-1]
-
-        self.menu.commands += [
-            BetCommand(BetController(game, self.view)),
-            MovePieceCommand(MovePieceController(game, self.view)),
-            RollDiceCommand(RollDiceController(game, self.view)),
-        ]
+        board_view = BoardView(game.board)
 
         while not game.is_endgame():
-            self.menu_view(self.menu)
+            self.menu.commands = [
+                BetCommand(BetController(game, self.view)),
+                RollDiceCommand(RollDiceController(game, self.view)),
+            ] + [
+                MovePieceCommand(MovePieceController(game, self.view), move)
+                for move in game.possible_moves
+            ]
+
+            if self.menu.active_commands():
+                board_view.show(game.current_player.color)
+                self.menu_view(self.menu, game.current_player.color)
+            else:
+                game.change_turn()
+
+        game.give_score()

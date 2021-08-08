@@ -6,7 +6,7 @@ from src.types.position import Position
 
 class Board:
 
-    NUM_PICES_PER_COLOR: Final = 10
+    NUM_PICES_PER_COLOR: Final = 15
 
     def __init__(self) -> None:
         self.positions: Dict[int, Dict[str, int]] = {}

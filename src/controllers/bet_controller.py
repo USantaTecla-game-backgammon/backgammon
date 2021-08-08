@@ -1,5 +1,6 @@
 from src.models.game import Game
 from src.views.game_view import GameView
+from src.types.game_state import GameState
 
 
 class BetController:
@@ -9,7 +10,15 @@ class BetController:
         self.game = game
 
     def ask(self) -> None:
-        raise NotImplementedError
+        self.game.turn.change()
+        self.game.state = GameState.BETTING
 
     def answer(self) -> None:
-        raise NotImplementedError
+        accept = self.view.read()
+        if accept:
+            self.view.show_accept()
+            self.game.turn.accept_bet()
+            self.game.state = GameState.IN_GAME
+        else:
+            self.view.show_reject()
+            self.game.state = GameState.END_GAME

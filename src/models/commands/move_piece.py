@@ -4,14 +4,16 @@ from src.types import GameState
 
 
 class MovePieceCommand(Command):
-    title = 'move piece'
+    title = 'move '
 
-    def __init__(self, move_piece_controller: MovePieceController) -> None:
+    def __init__(self, move_piece_controller: MovePieceController, move: int) -> None:
         self.move_piece_controller = move_piece_controller
         self.game = self.move_piece_controller.game
+        self.move = move
+        self.title += str(move)
 
     def __call__(self) -> None:
-        self.move_piece_controller.move()
+        self.move_piece_controller.move(self.move)
 
     def is_active(self) -> bool:
         return self.game.state == GameState.MOVING_PIECE
