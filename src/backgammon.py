@@ -15,6 +15,7 @@ class Backgammon:
 
     def play(self) -> None:
         self.match_controller.configure()
+        self.match_controller.first_roll()
         while not self.match_controller.is_goal():
             self.match_controller.initialize_game()
             self.game_controller.play()

@@ -1,14 +1,15 @@
 import unittest
 from unittest.mock import patch
 
-from src.models import Board, Game
-from src.types import Endgame
+from src.models import Board, Game, Player, Turn
+from src.types import Color, Endgame
 
 
 class GameTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.game = Game()
+        turn = Turn((Player(Color.BLACK), Player(Color.RED)))
+        self.game = Game(turn)
 
     def test_initial_game_have_board(self) -> None:
         self.assertIsNotNone(self.game.board)

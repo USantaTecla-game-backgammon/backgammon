@@ -11,7 +11,7 @@ class Match:
     def __init__(self) -> None:
         self.games: list[Game] = []
         self.goal: int = 0
-        self.turn: Turn = Turn(players=[Player(Color.BLACK), Player(Color.RED)])
+        self.turn: Turn = Turn(players=(Player(Color.BLACK), Player(Color.RED)))
 
     @property
     def current_player(self) -> Optional[Player]:

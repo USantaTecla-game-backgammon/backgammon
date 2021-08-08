@@ -1,4 +1,4 @@
-from src.models import Dice, Game, Match
+from src.models import Dice, Game, Match, Turn
 from src.views import MatchView
 from src.types import Color
 
@@ -25,7 +25,9 @@ class MatchController:
 
     def initialize_game(self) -> None:
         assert self.match.goal > 0
-        self.match.games.append(Game())
+        turn = Turn(players=self.match.turn.players)
+        turn.current_player = self.match.turn.current_player
+        self.match.games.append(Game(turn))
 
     def is_goal(self) -> bool:
         return self.match.is_goal()
