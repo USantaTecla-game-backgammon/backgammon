@@ -29,18 +29,10 @@ class Position(enum.Enum):
     BAR = (0,0)
     OFF_BOARD = (100,100)
 
-    def __init__(self, color_a: int, color_b: int) -> None:
-        self.color_a = color_a
-        self.color_b = color_b
-
-    @property
-    def position_of_color_a(self) -> int:
-        return self.color_a
-
-    @property
-    def position_of_color_b(self) -> int:
-        return self.color_b
+    def __init__(self, color_black: int, color_red: int) -> None:
+        self.color_black: int = color_black
+        self.color_red: int = color_red
 
     @property
     def value(self) -> int:
-        return self.color_a
+        return self.color_black

@@ -1,10 +1,11 @@
+from typing import Dict
 from src.types.position import Position
 from src.types.color import Color
 
 
 class Board:
     def __init__(self) -> None:
-        self.positions = {}
+        self.positions: Dict[int, Dict[str, int]] = {}
         self.reset()
 
     def is_all_pieces_off_board(self, color: Color) -> bool:
@@ -23,7 +24,8 @@ class Board:
         raise NotImplementedError
 
     def move_pice(self, position_from: Position, position_to: Position, color: Color) -> None:
-        self.positions.update(position_from)
+        raise NotImplementedError
+        #self.positions.update(position_from)
 
     def reset(self) -> None:
         self.positions.clear()
@@ -52,6 +54,16 @@ class Board:
         self.__update_position(Position.TWO, 0,0)        
         self.__update_position(Position.ONE, 2, 0)
 
+        self.__update_position(Position.BAR, 0, 0)
+        self.__update_position(Position.OFF_BOARD, 0, 0)
+
+    
     def __update_position(self, position: Position, num_black: int, num_red: int) -> None:
         self.positions.update({position.value: {Color.BLACK.name: num_black, Color.RED.name: num_red}})
 
+ 
+    def position_of_color(self, position: Position, color: Color) -> int:
+        if color == Color.BLACK:
+            return position.color_black
+        else:
+            return position.color_red
