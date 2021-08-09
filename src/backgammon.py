@@ -21,4 +21,5 @@ class Backgammon:
             self.game_controller.play()
 
         if self.match_controller.resume():
+            self.match.reset()
             self.play()

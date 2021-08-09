@@ -14,7 +14,7 @@ class Match:
         self.turn: Turn = Turn(players=(Player(Color.BLACK), Player(Color.RED)))
 
     @property
-    def current_player(self) -> Optional[Player]:
+    def current_player(self) -> Player:
         return self.turn.current_player
 
     def change_turn(self, color: Optional[Color] = None) -> None:
@@ -29,3 +29,11 @@ class Match:
 
     def first_roll(self) -> dict[Color, Dice]:
         return {player.color: player.roll(1)[0] for player in self.turn.players}
+
+    def is_first_game(self) -> bool:
+        return not bool(self.games)
+
+    def reset(self) -> None:
+        self.games = []
+        self.goal = 0
+        self.turn = Turn(players=(Player(Color.BLACK), Player(Color.RED)))

@@ -8,5 +8,6 @@ class MovePieceController:
         self.view = view.move_piece_view
         self.game = game
 
-    def move(self) -> None:
-        raise NotImplementedError
+    def move(self, amount: int) -> None:
+        position = self.view.read_position()
+        self.game.move_piece(amount, position)
