@@ -3,7 +3,7 @@ from src.models.dice import Dice
 from src.models.turn import Turn
 from src.models.player import Player
 from src.models.doubling_cube import doubling_cube
-from src.types import Color, Endgame, GameState
+from src.types import Color, Endgame, GameState, Position
 
 
 class Game:
@@ -78,5 +78,8 @@ class Game:
 
     def move_piece(self, amount: int, position: int) -> None:
         position_to = position - amount
-        self.board.move_piece_int(position, position_to, self.current_player.color)
+        self.board.move_piece(position, position_to, self.current_player.color)
         self.possible_moves.remove(amount)
+
+    def get_pieces(self, position: Position) -> list[Color]:
+        return self.board.get_pieces(self.current_player.color, position)

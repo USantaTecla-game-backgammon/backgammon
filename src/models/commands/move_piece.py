@@ -4,13 +4,13 @@ from src.types import GameState
 
 
 class MovePieceCommand(Command):
-    title = 'move '
+    title = 'move {} spaces'
 
     def __init__(self, move_piece_controller: MovePieceController, move: int) -> None:
         self.move_piece_controller = move_piece_controller
         self.game = self.move_piece_controller.game
         self.move = move
-        self.title += str(move)
+        self.title = self.title.format(move)
 
     def __call__(self) -> None:
         self.move_piece_controller.move(self.move)
