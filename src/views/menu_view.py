@@ -28,7 +28,8 @@ class MenuView:
         active_commands[option - self.START_OPTION]()
 
     def _show_menu(self, commands: list[Command], color: Color) -> None:
-        menu = self.TURN_TEXT.format(color)
+        console.show(self.TURN_TEXT.format(color))
+        menu = ''
         for number, command in enumerate(commands, start=self.START_OPTION):
             menu += f'{number}) {command.title}\n'
 
