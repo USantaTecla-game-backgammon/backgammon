@@ -28,7 +28,7 @@ class MenuViewTest(unittest.TestCase):
         with self.assertRaises(MenuWithoutOption):
             self.menu_view(self.menu, Color.BLACK)
 
-    def test_call_with_one_active_command(self) -> None:
+    def _test_call_with_one_active_command(self) -> None:
         with (
             patch.object(Menu, 'active_commands', return_value=[self.command]),
             patch.object(console, 'show') as mock_show,

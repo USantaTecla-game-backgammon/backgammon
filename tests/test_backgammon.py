@@ -5,7 +5,7 @@ from src.backgammon import Backgammon
 from src.models import Dice, Match
 from src.views import MatchView
 from src.types import Color
-from src.controllers.game_controller import GameController
+from src.controllers import PlayController
 
 
 class BackgammonTest(unittest.TestCase):
@@ -36,7 +36,7 @@ class BackgammonTest(unittest.TestCase):
 
             patch.object(Match, 'first_roll', return_value=first_roll),
             patch.object(Match, 'is_goal', side_effect=[False, True]),
-            patch.object(GameController, 'play') as mock_play,
+            patch.object(PlayController, 'play') as mock_play,
 
             patch.object(MatchView, 'read_resume', return_value=False)
         ):

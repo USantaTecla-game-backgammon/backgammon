@@ -19,7 +19,7 @@ class GameTest(unittest.TestCase):
             patch.object(Board, 'is_all_pieces_off_board', return_value=True),
             patch.object(Board, 'is_any_piece_off_board', return_value=True),
         ):
-            self.assertEqual(self.game.type_endgame(), Endgame.SIMPLE)
+            self.assertEqual(self.game.get_endgame(), Endgame.SIMPLE)
 
     def test_type_endgame_gammon(self) -> None:
         with (
@@ -28,7 +28,7 @@ class GameTest(unittest.TestCase):
             patch.object(Board, 'is_any_piece_at_first_square', return_value=False),
             patch.object(Board, 'is_any_piece_in_bar', return_value=False),
         ):
-            self.assertEqual(self.game.type_endgame(), Endgame.GAMMON)
+            self.assertEqual(self.game.get_endgame(), Endgame.GAMMON)
 
     def test_type_endgame_backgammon_first_square(self) -> None:
         with (
@@ -37,7 +37,7 @@ class GameTest(unittest.TestCase):
             patch.object(Board, 'is_any_piece_at_first_square', return_value=True),
             patch.object(Board, 'is_any_piece_in_bar', return_value=False),
         ):
-            self.assertEqual(self.game.type_endgame(), Endgame.BACKGAMMON)
+            self.assertEqual(self.game.get_endgame(), Endgame.BACKGAMMON)
 
     def test_type_endgame_backgammon_bar(self) -> None:
         with (
@@ -46,4 +46,4 @@ class GameTest(unittest.TestCase):
             patch.object(Board, 'is_any_piece_at_first_square', return_value=False),
             patch.object(Board, 'is_any_piece_in_bar', return_value=True),
         ):
-            self.assertEqual(self.game.type_endgame(), Endgame.BACKGAMMON)
+            self.assertEqual(self.game.get_endgame(), Endgame.BACKGAMMON)

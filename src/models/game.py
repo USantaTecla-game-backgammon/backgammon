@@ -1,3 +1,5 @@
+from typing import Optional
+
 from src.models.board import Board
 from src.models.dice import Dice
 from src.models.turn import Turn
@@ -7,10 +9,10 @@ from src.types import Color, Endgame, GameState, Position
 
 
 class Game:
-    def __init__(self, turn: Turn) -> None:
+    def __init__(self) -> None:
         self.board: Board = Board()
+        self.turn: Turn = Turn()
         self.state: GameState = GameState.IN_GAME
-        self.turn: Turn = turn
         self._last_roll: list[Dice] = []
         self.possible_moves: list[int] = []
 
@@ -36,8 +38,8 @@ class Game:
         self.last_roll = self.turn.roll_current_player()
         self.state = GameState.MOVING_PIECE
 
-    def change_turn(self) -> None:
-        self.turn.change()
+    def change_turn(self, color: Optional[Color] = None) -> None:
+        self.turn.change(color)
         self.state = GameState.IN_GAME
 
     def is_endgame(self) -> bool:
@@ -47,7 +49,7 @@ class Game:
             self.state == GameState.END_GAME
         )
 
-    def type_endgame(self) -> Endgame:
+    def get_endgame(self) -> Endgame:
         assert self.is_endgame()
 
         looser_color: Color = Color.RED
@@ -73,7 +75,7 @@ class Game:
             self.turn.winner_by_color(Color.RED)
 
         self.turn.give_score_to_winner(
-            self.type_endgame().value * doubling_cube.value
+            self.get_endgame().value * doubling_cube.value
         )
 
     def move_piece(self, amount: int, position: int) -> None:

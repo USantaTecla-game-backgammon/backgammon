@@ -6,13 +6,10 @@ from src.types.color import Color
 
 
 class MatchView:
-    TITLE: Final = '### BACKGAMMON ###'
-    CHOOSE_COLOR: Final = 'Each player should choose a color.'
-    DEFINE_GOAL: Final = 'Define your goal? (1-64)'
     GOAL_RANGE: list[int] = list(range(1, 65))
-    RESUME: Final = 'Do you want to resume a match? (y/n)'
-    FIRST_ROLL: Final = '\nFirst roll: choosing first player ...'
-    FIRST_PLAYER: Final = 'First player is {}'
+    RESUME: Final[str] = 'Do you want to resume a match? (y/n)'
+    FIRST_ROLL: Final[str] = '\nFirst roll: choosing first player ...'
+    FIRST_PLAYER: Final[str] = 'First player is {}'
 
     @classmethod
     def show_title(cls) -> None:

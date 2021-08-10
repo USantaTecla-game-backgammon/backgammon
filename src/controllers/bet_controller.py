@@ -1,25 +1,31 @@
-from src.models.game import Game
-from src.views.game_view import GameView
+from src.controllers.controller import Controller
+from src.models import Game
 from src.types.game_state import GameState
 
 
-class BetController:
+class BetController(Controller):
 
-    def __init__(self, game: Game, view: GameView) -> None:
-        self.view = view.bet_view
-        self.game = game
+    def __call__(self) -> None:
+        self.game = self.match.last_game
+        self.ask()
+        self.answer()
 
     def ask(self) -> None:
-        self.game.turn.change()
+        self.view_factory.create_bet_view().show_ask()
+        self.game.change_turn()
         self.game.state = GameState.BETTING
 
     def answer(self) -> None:
-        accept = self.view.read()
+        accept = self.view_factory.create_bet_view().read_answer()
         if accept:
-            self.view.show_accept()
             self.game.turn.accept_bet()
             self.game.state = GameState.IN_GAME
         else:
             self.view.show_reject()
             self.game.turn.reject_bet()
             self.game.state = GameState.END_GAME
+
+        self.view_factory.create_bet_view().show_answer(accept)
+
+    def last_game(self) -> Game:
+        return self.match.last_game

@@ -44,7 +44,7 @@ def read_int(msg: str = '') -> int:
         return read_int(msg)
 
 
-def read_int_range(valids: List[int], msg: str = '') -> int:
+def read_int_range(valids: list[int], msg: str = '') -> int:
     user_int: int = read_int(msg)
     if user_int not in valids:
         print(ALLOWED_VALUES, valids)

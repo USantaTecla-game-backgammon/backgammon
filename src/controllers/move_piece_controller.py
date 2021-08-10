@@ -1,23 +1,27 @@
-from src.models.game import Game
-from src.views.game_view import GameView
+from src.controllers.controller import Controller
+from src.models import Game
 
 
 class IllegalMove(Exception):
     pass
 
 
-class MovePieceController:
+class MovePieceController(Controller):
 
-    def __init__(self, game: Game, view: GameView) -> None:
-        self.view = view.move_piece_view
-        self.game = game
+    def _check_rules(self, spaces: int) -> None:
+        pass
+        #color = self.game.current_player.color
+        # print(color, amount, position)
+        # TODO: check rules: chain of responsability
 
-    def _check_rules(self, amount: int, position: int) -> None:
-        color = self.game.current_player.color
-        print(color, amount, position)
-        # TODO: check rules
+    def __call__(self, spaces: int) -> None:
+        self.game = self.match.last_game
+        valids = self._check_rules(spaces)
+        position = self.view_factory.create_board_view().read_position(valids)
 
-    def move(self, amount: int) -> None:
-        position = self.view.read_position()
-        self._check_rules(amount, position)
-        self.game.move_piece(amount, position)
+        self.game.move_piece(spaces, position)
+        if self.game.is_captured_piece():
+            self.game.move_piece_captured()
+
+    def last_game(self) -> Game:
+        return self.match.last_game
