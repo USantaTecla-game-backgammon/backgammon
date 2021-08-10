@@ -1,5 +1,4 @@
 from src.controllers.controller import Controller
-from src.models import Game
 
 
 class IllegalMove(Exception):
@@ -22,6 +21,3 @@ class MovePieceController(Controller):
         self.game.move_piece(spaces, position)
         if self.game.is_captured_piece():
             self.game.move_piece_captured()
-
-    def last_game(self) -> Game:
-        return self.match.last_game

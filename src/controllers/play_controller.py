@@ -9,7 +9,6 @@ from src.models.commands import (
     MovePieceCommand,
     RollDiceCommand,
 )
-from src.types.game_state import GameState
 from src.views.view_factory import ViewFactory
 
 
@@ -32,11 +31,11 @@ class PlayController(Controller):
             self.view_factory.create_board_view().show(game.board, game.turn.current_color)
 
             menu = Menu(title='', commands=[
-                BetCommand(self.bet_controller),
-                RollDiceCommand(self.roll_dice_controller),
+                BetCommand(self),
+                RollDiceCommand(self),
             ])
             menu.commands += [
-                MovePieceCommand(self.move_piece_controller, move)
+                MovePieceCommand(self, move)
                 for move in game.possible_moves
             ]
 
@@ -59,11 +58,15 @@ class PlayController(Controller):
         self.view_factory.create_play_view().show()
         assert self.match.games
 
+    def last_game(self) -> Game:
+        return self.match.last_game
+
     def is_goal(self) -> bool:
         return self.match.is_goal()
 
     def resume(self) -> bool:
         return self.view.read_resume()
+
     def bet(self) -> None:
         self.bet_controller()
 

@@ -1,5 +1,4 @@
 from src.controllers.controller import Controller
-from src.models import Game
 from src.types.game_state import GameState
 
 
@@ -26,6 +25,3 @@ class BetController(Controller):
             self.game.state = GameState.END_GAME
 
         self.view_factory.create_bet_view().show_answer(accept)
-
-    def last_game(self) -> Game:
-        return self.match.last_game
