@@ -32,20 +32,16 @@ class Dice{}
 
 class DoblingCube{}
 
-class Simple {}
-
-class Gammon{}
-
-class BackGammon{}
-
-class EndGame{}
+enum EndGame{
+    SIMPLE
+    GAMMON
+    BACKGAMMON
+}
 
 class Action {}
 class RollDice {}
 class MovePiece {}
 class Bet {}
-class BetAccept {}
-class BetReject {}
 
 Backgammon *--> Match
 Match *--> Goal
@@ -55,10 +51,10 @@ Match *--> "1..n" Game
 Match *--> Turn
 
 Player *--> Score
-Game --> EndGame
-EndGame <|-- Simple
-EndGame <|-- Gammon
-EndGame <|-- BackGammon
+Score .left.> Goal
+Game *-right-> DoblingCube
+Bet .up.> DoblingCube
+Game -down-> EndGame
 
 Game *--> Board
 Player o--> DoblingCube
@@ -81,7 +77,5 @@ Player ..> Action
 Action <|-- RollDice
 Action <|-- MovePiece
 Action <|-- Bet
-Action <|-- BetAccept
-Action <|-- BetReject
 Action <|-- Resign
 @enduml

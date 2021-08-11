@@ -182,12 +182,6 @@ Select point: 24
 
 ![Context](docs/use_cases/use_cases.png)
 
-### RollDice
-![Context](docs/use_cases/roll_dice.png)
-
-### ConfigureMatchPlay
-![Context](docs/use_cases/configure_matchplay.png)
-
 ### MovePiece
 General Rules:
 - Each player must move the maximum number of possible movements according to the dices.

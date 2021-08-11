@@ -3,15 +3,13 @@ left to right direction
 
 actor Player
 
-usecase ConfigureMatchPlay
-usecase RollDice
-usecase MovePiece
-usecase Bet
+usecase Start
+usecase Play
+usecase Resume
 
 
-Player --> ConfigureMatchPlay
-Player --> RollDice
-Player --> MovePiece
-Player --> Bet
+Player --> Start
+Player --> Play
+Player --> Resume
 
 @enduml
