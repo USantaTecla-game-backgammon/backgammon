@@ -1,17 +1,23 @@
-from src.controllers.roll_dice_controller import RollDiceController
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from src.models.command import Command
 from src.types import GameState
+
+if TYPE_CHECKING:
+    # pylint: disable=cyclic-import
+    from src.controllers import PlayController
 
 
 class RollDiceCommand(Command):
     title = 'roll'
 
-    def __init__(self, roll_dice_controller: RollDiceController) -> None:
-        self.roll_dice_controller = roll_dice_controller
-        self.game = self.roll_dice_controller.game
+    def __init__(self, play_controller: PlayController) -> None:
+        self.play_controller = play_controller
 
     def __call__(self) -> None:
-        self.roll_dice_controller.roll()
+        self.play_controller.roll_dice()
 
     def is_active(self) -> bool:
-        return self.game.state == GameState.IN_GAME
+        game = self.play_controller.match.last_game
+        return game.state == GameState.IN_GAME

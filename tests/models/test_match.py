@@ -24,7 +24,7 @@ class MatchTest(unittest.TestCase):
         self.assertTrue(self.match.is_goal())
 
     def test_first_roll(self) -> None:
-        first_roll = self.match.first_roll()
+        first_roll = self.match.throw_first_dices()
 
         self.assertTrue(Color.BLACK in first_roll.keys())
         self.assertTrue(Color.RED in first_roll.keys())

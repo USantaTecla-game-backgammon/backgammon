@@ -2,10 +2,11 @@ import unittest
 from unittest.mock import patch
 
 from src.backgammon import Backgammon
-from src.models import Dice, Match
-from src.views.console import MatchView
-from src.types import Color
-from src.controllers.game_controller import GameController
+from src.controllers import (
+    PlayController,
+    StartController,
+    ResumeController,
+)
 from src.views.console.console_view_factory import ConsoleViewFactory
 
 
@@ -14,34 +15,13 @@ class BackgammonTest(unittest.TestCase):
     def setUp(self) -> None:
         self.backgammon = Backgammon(ConsoleViewFactory())
 
-    def test_backgammon_flow_resume(self) -> None:
-        first_roll = {Color.BLACK: Dice(1), Color.RED: Dice(6)}
-
+    def test_backgammon_flow(self) -> None:
         with (
-            patch.object(MatchView, 'show_title'),
-            patch.object(MatchView, 'read_goal', return_value=1),
-
-            patch.object(Match, 'first_roll', return_value=first_roll),
-            patch.object(Match, 'is_goal', return_value=True),
-
-            patch.object(MatchView, 'read_resume', side_effect=[True, False])
+            patch.object(StartController, '__call__') as mock_start,
+            patch.object(PlayController, '__call__') as mock_play,
+            patch.object(ResumeController, '__call__', side_effect=[True, False]) as mock_resume,
         ):
             self.backgammon.play()
-            self.assertEqual(self.backgammon.match.goal, 1)
-
-    def test_backgammon_flow_game(self) -> None:
-        first_roll = {Color.BLACK: Dice(1), Color.RED: Dice(6)}
-
-        with (
-            patch.object(MatchView, 'show_title'),
-            patch.object(MatchView, 'read_goal', return_value=1),
-
-            patch.object(Match, 'first_roll', return_value=first_roll),
-            patch.object(Match, 'is_goal', side_effect=[False, True]),
-            patch.object(GameController, 'play') as mock_play,
-
-            patch.object(MatchView, 'read_resume', return_value=False)
-        ):
-            self.backgammon.play()
-            self.assertEqual(self.backgammon.match.goal, 1)
-            mock_play.assert_called_once()
+            self.assertEqual(mock_start.call_count, 2)
+            self.assertEqual(mock_play.call_count, 2)
+            self.assertEqual(mock_resume.call_count, 2)
