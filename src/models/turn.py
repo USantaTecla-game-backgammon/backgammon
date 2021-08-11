@@ -7,26 +7,38 @@ from src.models.doubling_cube import doubling_cube
 
 
 class Turn:
-    def __init__(self, players: tuple[Player, Player]):
-        assert len(players) == 2
-        self.players = players
-        self.current_player: Player = players[0]
+    def __init__(self) -> None:
+        self.players = [Player(Color.BLACK), Player(Color.RED)]
+        self._current_color: Color = Color.BLACK
+        self._current_player: Player = self.players[0]
+        self._opponent_player: Player = self.players[1]
+
+    @property
+    def current_color(self) -> Color:
+        return self._current_color
+
+    @current_color.setter
+    def current_color(self, color: Color) -> None:
+        assert color in [Color.BLACK, Color.RED]
+        if color != self._current_color:
+            self._current_color = color
+            self._current_player, self._opponent_player = (
+                self._opponent_player, self._current_player
+            )
 
     @property
     def opponent_player(self) -> Player:
-        return self.players[0] if self.current_player == self.players[1] else self.players[1]
+        return self._opponent_player
+
+    @property
+    def current_player(self) -> Player:
+        return self._current_player
 
     def change(self, color: Optional[Color] = None) -> None:
-        if color is not None:
-            for player in self.players:
-                if player.color == color:
-                    self.current_player = player
-        elif self.current_player == self.players[0]:
-            self.current_player = self.players[1]
-        elif self.current_player == self.players[1]:
-            self.current_player = self.players[0]
-        else:
-            raise AssertionError
+        assert color in [Color.BLACK, Color.RED, None]
+        if color is None:
+            color = Color.BLACK if self._current_color == Color.RED else Color.RED
+        self.current_color = color
 
     def can_bet_current_player(self) -> bool:
         return self.opponent_player.doubling_cube is None
@@ -48,6 +60,7 @@ class Turn:
             self.opponent_player.earn_score(score)
 
     def winner_by_color(self, color: Color) -> None:
+        assert color in [Color.BLACK, Color.RED]
         if self.current_player.color == color:
             self.current_player.is_winner = True
         else:

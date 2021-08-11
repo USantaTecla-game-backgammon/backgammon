@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from src.controllers.bet_controller import BetController
-from src.models import Game, Match, Player, Turn
+from src.models import Game, Match, Turn
 from src.models.doubling_cube import doubling_cube
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.views.console import BetView
@@ -12,7 +12,7 @@ from src.types import Color, GameState
 class BetControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.turn = Turn((Player(Color.BLACK), Player(Color.RED)))
+        self.turn = Turn()
         self.game = Game(self.turn)
         match = Match()
         match.games = [self.game]

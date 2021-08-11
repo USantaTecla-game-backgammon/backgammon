@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from src.controllers.move_piece_controller import MovePieceController, IllegalMove
-from src.models import Game, Match, Player, Turn
+from src.models import Game, Match, Turn
 from src.views.console import BoardView
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Position
@@ -24,7 +24,7 @@ from src.types import Color, Position
 class MovePieceControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.turn = Turn((Player(Color.BLACK), Player(Color.RED)))
+        self.turn = Turn()
         self.game = Game(self.turn)
         self.match = Match()
         self.match.games = [self.game]

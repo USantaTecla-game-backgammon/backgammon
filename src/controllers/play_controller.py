@@ -54,7 +54,7 @@ class PlayController(Controller):
     def initialize_game(self) -> None:
         assert self.match.goal > 0
 
-        turn = Turn(players=self.match.turn.players)
+        turn = Turn()
         game = Game(turn)
 
         if self.match.is_first_game():
@@ -63,7 +63,7 @@ class PlayController(Controller):
         else:
             self.match.change_turn()
 
-        turn.current_player = self.match.turn.current_player
+        turn.current_color = self.match.turn.current_color
         self.match.games.append(game)
 
     def is_goal(self) -> bool:
