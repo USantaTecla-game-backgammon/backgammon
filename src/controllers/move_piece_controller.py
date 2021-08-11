@@ -1,23 +1,15 @@
-from src.models.game import Game
-from src.views.view_factory import ViewFactory
+from src.controllers.controller import Controller
 
 
 class IllegalMove(Exception):
     pass
 
 
-class MovePieceController:
+class MovePieceController(Controller):
 
-    def __init__(self, game: Game, view_factory: ViewFactory) -> None:
-        self.view = view_factory.create_board_view()
-        self.game = game
-
-    def _check_rules(self, amount: int, position: int) -> None:
-        color = self.game.current_player.color
-        print(color, amount, position)
-        # TODO: check rules
-
-    def move(self, amount: int) -> None:
-        position = self.view.read_position()
-        self._check_rules(amount, position)
-        self.game.move_piece(amount, position)
+    # It violates the Liskov Substitution Principle
+    def __call__(self, spaces: int) -> None:  # type: ignore
+        game = self.match.last_game
+        position = self.view_factory.create_board_view().read_position()
+        # TODO: check rules with chain of responsability pattern
+        game.move_piece(spaces, position)

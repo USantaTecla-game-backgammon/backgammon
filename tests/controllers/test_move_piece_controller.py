@@ -1,9 +1,8 @@
 import unittest
 from unittest.mock import patch
 
-from src.controllers import MovePieceController
-from src.controllers.move_piece_controller import IllegalMove
-from src.models import Game, Player, Turn
+from src.controllers.move_piece_controller import MovePieceController, IllegalMove
+from src.models import Game, Match, Player, Turn
 from src.views.console import BoardView
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Position
@@ -27,7 +26,9 @@ class MovePieceControllerTest(unittest.TestCase):
     def setUp(self) -> None:
         self.turn = Turn((Player(Color.BLACK), Player(Color.RED)))
         self.game = Game(self.turn)
-        self.move_piece_controller = MovePieceController(self.game, ConsoleViewFactory())
+        self.match = Match()
+        self.match.games = [self.game]
+        self.move_piece_controller = MovePieceController(self.match, ConsoleViewFactory())
 
     def test_move_normal_valid_black(self) -> None:
         self.game.possible_moves = [1]
@@ -35,7 +36,7 @@ class MovePieceControllerTest(unittest.TestCase):
         self.assertEqual(self.game.get_pieces(Position(23)), [])
 
         with patch.object(BoardView, 'read_position', return_value=24):
-            self.move_piece_controller.move(1)
+            self.move_piece_controller(1)
 
         self.assertEqual(self.game.get_pieces(Position(24)), [Color.BLACK])
         self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
@@ -47,7 +48,7 @@ class MovePieceControllerTest(unittest.TestCase):
         self.assertEqual(self.game.get_pieces(Position(22)), [])
 
         with patch.object(BoardView, 'read_position', return_value=24):
-            self.move_piece_controller.move(2)
+            self.move_piece_controller(2)
 
         self.assertEqual(self.game.get_pieces(Position(24)), [Color.RED])
         self.assertEqual(self.game.get_pieces(Position(22)), [Color.RED])
@@ -57,7 +58,7 @@ class MovePieceControllerTest(unittest.TestCase):
         self.game.possible_moves = [2]
 
         with patch.object(BoardView, 'read_position', return_value=Position.BAR):
-            self.move_piece_controller.move(2)
+            self.move_piece_controller(2)
 
         self.assertEqual(self.game.get_pieces(Position.BAR), [])
         self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
@@ -71,7 +72,7 @@ class MovePieceControllerTest(unittest.TestCase):
         self.assertEqual(self.game.get_pieces(Position.BAR), [])
 
         with patch.object(BoardView, 'read_position', return_value=6):
-            self.move_piece_controller.move(5)
+            self.move_piece_controller(5)
 
         self.assertEqual(self.game.get_pieces(Position(6)), [Color.BLACK] * 4)
         self.assertEqual(self.game.get_pieces(Position(1)), [Color.BLACK])
@@ -82,7 +83,7 @@ class MovePieceControllerTest(unittest.TestCase):
 
         with patch.object(BoardView, 'read_position', return_value=24):
             with self.assertRaises(IllegalMove):
-                self.move_piece_controller.move(5)
+                self.move_piece_controller(5)
 
     def _test_move_invalid_by_piece_in_bar(self) -> None:
         self.game.board.positions[Position.BAR] = [Color.BLACK]
@@ -90,18 +91,18 @@ class MovePieceControllerTest(unittest.TestCase):
 
         with patch.object(BoardView, 'read_position', return_value=24):
             with self.assertRaises(IllegalMove):
-                self.move_piece_controller.move(5)
+                self.move_piece_controller(5)
 
     def _test_move_invalid_by_unexist_piece(self) -> None:
         self.game.possible_moves = [1]
 
         with patch.object(BoardView, 'read_position', return_value=23):
             with self.assertRaises(IllegalMove):
-                self.move_piece_controller.move(1)
+                self.move_piece_controller(1)
 
     def _test_move_invalid_by_any_piece_not_in_last_square(self) -> None:
         self.game.possible_moves = [6]
 
         with patch.object(BoardView, 'read_position', return_value=6):
             with self.assertRaises(IllegalMove):
-                self.move_piece_controller.move(6)
+                self.move_piece_controller(6)

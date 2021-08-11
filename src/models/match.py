@@ -8,10 +8,13 @@ from src.types.color import Color
 
 
 class Match:
+    colors: list[Color] = [Color.BLACK, Color.RED]
+
     def __init__(self) -> None:
         self.games: list[Game] = []
         self.goal: int = 0
         self.turn: Turn = Turn(players=(Player(Color.BLACK), Player(Color.RED)))
+        self.first_roll: list[Dice] = []
 
     @property
     def current_player(self) -> Player:
@@ -27,8 +30,8 @@ class Match:
     def last_game(self) -> Game:
         return self.games[-1]
 
-    def first_roll(self) -> dict[Color, Dice]:
-        return {player.color: player.roll(1)[0] for player in self.turn.players}
+    def throw_first_dices(self) -> dict[Color, Dice]:
+        return {color: Dice() for color in self.colors}
 
     def is_first_game(self) -> bool:
         return not bool(self.games)
