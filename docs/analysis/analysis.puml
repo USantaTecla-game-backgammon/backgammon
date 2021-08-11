@@ -3,29 +3,76 @@ title MVP-PV
 scale 2000 width
 
 package Models {
+
     class Match {
         games: list[Game]
         goal: int
         turn: Turn
+        current_player: Player
+        last_game: Game
+        first_roll: {Color: Dice}
 
+        change_turn(color: Color)
+        is_goal() -> bool
+        is_first_game() -> bool
+        reset()
+        create_game()
     }
+    Match *-down-> Game
+    Match .down.> Game
+    Match *-down-> Turn
+    Match *.down.> Dice
+
     class Game {
         board: Board
         turn: Turn
+        state: GameState
+        possible_moves: [int]
+        current_player: Player
+        last_roll: [Dice]
 
+        roll_current_player()
+        change_turn(color: Color)
         is_endgame() -> bool
-        type_endgame() -> EndGame
+        get_endgame() -> EndGame
+        give_score()
+        move_piece(amount: int, position: int)
+        get_pieces(position: Position) -> [Color]
     }
+    Game *-down-> Turn
+    Game *-down-> Board
+    Game .right.> Dice
+
+    class Turn {
+        __init__(list[Player])  # sort Player list
+        current_player: Player
+        opponent_player: Player
+        players: list[Player]
+        current_color: Color
+
+        current_color(color: Color)
+        change(color: Color)
+        can_bet_current_player() -> bool
+        accept_bet()
+        reject_bet()
+        give_score_to_winner(score: int)
+        winner_by_color(color: Color)
+        roll_current_player() -> [Dice]
+    }
+    Turn *-down-> Player
+    Turn ..> Player
 
     class Board {
         positions: list[Position]
 
-        is_all_piece_last_square(color: Color) -> bool
-        is_any_pieces_in_bar(color: Color) -> bool
+        filter_color_in_position(color: Color, position: Position)
         is_all_pieces_off_board(color: Color) -> bool
         is_any_piece_off_board(color: Color) -> bool
         is_any_piece_at_first_square(color: Color) -> bool
-        move_piece(position: Position, position: Position, color: Color)
+        is_any_pieces_in_bar(color: Color) -> bool
+        is_all_piece_last_square(color: Color) -> bool
+        get_pieces(color: Color, position: Position) -> [Color]
+        move_piece(position_from: Position, position_to: Position, color: Color)
         reset()
     }
 
@@ -34,93 +81,116 @@ package Models {
     }
 
     class Player {
-        last_roll: list[Dice]
-        last_moves: list[Move]
+        color: Color
         score: int
         doubling_cube: bool = False
+        is_winner: bool
 
+        __init__(color: Color)
         roll(times: int)
-        can_bet() -> bool
-        bet()
-        accept_bet()
-        reject_bet()
-        is_winner()
         earn_score(score: int)
     }
+    Player .left.> DoublingCube
 
     class Dice {
         value: int  # between 1..6
-        __init__()  # constructor
+        __init__(value: Optional[int] = None)
     }
 
-    class Turn {
-        __init__(list[Player])  # sort Player list
-        current_player: Player
-        players: list[Player]
 
-        next()
-    }
 
 }
 
 package Controllers {
-    class MatchController {
-        configure()
+    abstract class Controller {
+        __init__(match: Match, view_factory: ViewFactory)
+    }
+
+    class StartController{
+        configure_goal()
+        first_roll()
+    }
+    StartController -up-|> Controller
+
+    class PlayController {
+        bet_controller: BetController
+        move_piece_controller: MovePieceController
+        roll_dice_controller: RollDiceController
+
         initialize_game()
-        is_goal()
-        resume()
+        last_game() -> Game
+        is_goal() -> bool
+        resume() -> bool
+        bet()
+        move_piece()
+        roll_dice()
     }
-    class GameController {
-        play()
-        is_endgame()
-    }
-    class RollDiceController
+    PlayController -up-|> Controller
+
+    class ResumeController {}
+    ResumeController -up-|> Controller
+
     class MovePieceController
     class BetController
 
-    GameController --> RollDiceController
-    GameController --> MovePieceController
-    GameController --> BetController
+    PlayController --> MovePieceController
+    PlayController --> BetController
 }
 
 package Views {
+    interface ViewFactory {
+        create_match_view() -> MatchView
+        create_game_view() -> GameView
+        create_board_view() -> BoardView
+        create_menu_view() -> MenuView
+        create_bet_view() -> BetView
+    }
+
+    class ConsoleViewFactory {}
+    class GuiViewFactory {}
+
+    ConsoleViewFactory -up-|> ViewFactory
+    GuiViewFactory -up-|> ViewFactory
+
     class Console {
         show(msg: str)
         read_str(msg: str = "") -> str
         read_int(msg: str = "") -> int
         read_bool(msg: str = "") -> bool
     }
-    class MatchView {
-        show()
-        read()  # read input
+    ConsoleViewFactory *-down-> Console
+    abstract class MatchView {
+        show_title()
+        show_dices(dices: dict[Color, Dice])
+        show_first_player(color: Color)
+        read_goal() -> int
+        read_resume() -> bool
     }
 
-    class GameView {
-        show()
-        read()
+    abstract class GameView {
+        show_start()
+        show_score(turn: Turn)
     }
 
-    class BoardView {
-        show(color: Color)
+    abstract class BoardView {
+        show(color: Color, board: Board)
+        read_position() -> int
     }
 
-    class DiceView {
-        show()
-    }
-
-    class BetView {
-        show()
-        read()
-    }
-
-    class MovePieceView {
+    abstract class DiceView {
         show()
     }
 
-    GameView --> BoardView
-    GameView --> DiceView
-    GameView --> BetView
-    GameView --> MovePieceView
+    abstract class BetView {
+        read() -> bool
+        show_accept()
+        show_reject()
+    }
+    ViewFactory --> MatchView
+    ViewFactory --> BoardView
+    ViewFactory --> BetView
+    ViewFactory --> GameView
+    MatchView --> DiceView
 }
 
 package Types {
@@ -129,7 +199,7 @@ package Types {
         BLACK
     }
 
-    enum Point {
+    enum Position {
         1..24
     }
 
@@ -137,6 +207,19 @@ package Types {
         SIMPLE
         GAMMON
         BACKGAMMON
+    }
+
+    enum GameState {
+        IN_GAME
+        MOVING_PIECE
+        BETTING
+        END_GAME
+    }
+
+    enum CommandState{
+        ACTIVE
+        LOCKED
+        INACTIVE
     }
 }
 
