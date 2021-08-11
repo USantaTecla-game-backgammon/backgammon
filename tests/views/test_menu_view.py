@@ -2,8 +2,8 @@ import unittest
 from unittest.mock import call, patch
 
 from src.models import Command, Menu
-from src.views import console
-from src.views.menu_view import MenuView, MenuWithoutOption
+from src.views.console import console
+from src.views.console.menu_view import MenuView, MenuWithoutOption
 from src.types import Color
 
 

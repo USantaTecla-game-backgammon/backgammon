@@ -1,12 +1,12 @@
 from src.models import Dice, Game, Match, Turn
-from src.views import MatchView
+from src.views.view_factory import ViewFactory
 from src.types import Color, GameState
 
 
 class MatchController:
-    def __init__(self, match: Match, view: MatchView) -> None:
+    def __init__(self, match: Match, view_factory: ViewFactory) -> None:
         self.match = match
-        self.view = view
+        self.view = view_factory.create_match_view()
         self._first_roll: list[Dice] = []
 
     def configure(self) -> None:

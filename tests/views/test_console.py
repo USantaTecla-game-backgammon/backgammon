@@ -3,7 +3,7 @@ import string
 import unittest
 from unittest.mock import patch
 
-from src.views import console
+from src.views.console import console
 
 
 class ConsoleTestSuite(unittest.TestCase):
