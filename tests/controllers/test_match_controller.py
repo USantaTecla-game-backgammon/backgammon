@@ -4,14 +4,15 @@ from unittest.mock import MagicMock, patch
 from src.controllers import MatchController
 from src.models import Dice, Match, Turn
 from src.types import Color
-from src.views import MatchView, console
+from src.views.console import MatchView, console
+from src.views.console.console_view_factory import ConsoleViewFactory
 
 
 class MatchControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.match = Match()
-        self.match_controller = MatchController(self.match, MatchView())
+        self.match_controller = MatchController(self.match, ConsoleViewFactory())
 
     @patch.object(MatchView, 'show_title')
     @patch.object(MatchView, 'read_goal')

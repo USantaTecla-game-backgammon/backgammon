@@ -1,5 +1,5 @@
 from src.models.game import Game
-from src.views.game_view import GameView
+from src.views.view_factory import ViewFactory
 
 
 class IllegalMove(Exception):
@@ -8,8 +8,8 @@ class IllegalMove(Exception):
 
 class MovePieceController:
 
-    def __init__(self, game: Game, view: GameView) -> None:
-        self.view = view.move_piece_view
+    def __init__(self, game: Game, view_factory: ViewFactory) -> None:
+        self.view = view_factory.create_board_view()
         self.game = game
 
     def _check_rules(self, amount: int, position: int) -> None:

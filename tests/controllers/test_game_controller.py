@@ -3,8 +3,8 @@ from unittest.mock import MagicMock, patch
 
 from src.controllers import GameController
 from src.models import Game, Match, Turn
-from src.views import GameView
-from src.views.menu_view import MenuView
+from src.views.console import MenuView
+from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Endgame
 
 
@@ -15,7 +15,7 @@ class GameControllerTest(unittest.TestCase):
         turn = Turn(self.match.turn.players)
         self.game = Game(turn)
         self.match.games.append(self.game)
-        self.game_controller = GameController(self.match, GameView())
+        self.game_controller = GameController(self.match, ConsoleViewFactory())
 
     @patch.object(Game, 'is_endgame', side_effect=[False, True])
     @patch.object(MenuView, '__call__')

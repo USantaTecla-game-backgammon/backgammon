@@ -1,11 +1,11 @@
 from src.models.game import Game
-from src.views.game_view import GameView
+from src.views.view_factory import ViewFactory
 
 
 class RollDiceController:
 
-    def __init__(self, game: Game, view: GameView) -> None:
-        self.view = view.dice_view
+    def __init__(self, game: Game, view_factory: ViewFactory) -> None:
+        self.view_factory = view_factory
         self.game = game
 
     def roll(self) -> None:

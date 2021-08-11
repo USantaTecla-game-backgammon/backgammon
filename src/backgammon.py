@@ -1,17 +1,15 @@
 from src.controllers import MatchController, GameController
 from src.models import Match
-from src.views import GameView, MatchView
+from src.views.view_factory import ViewFactory
 
 
 class Backgammon:
-    def __init__(self) -> None:
+    def __init__(self, view_factory: ViewFactory) -> None:
         self.match = Match()
+        self.view_factory = view_factory
 
-        self.match_view = MatchView()
-        self.game_view = GameView()
-
-        self.match_controller = MatchController(self.match, self.match_view)
-        self.game_controller = GameController(self.match, self.game_view)
+        self.match_controller = MatchController(self.match, self.view_factory)
+        self.game_controller = GameController(self.match, self.view_factory)
 
     def play(self) -> None:
         self.match_controller.configure()

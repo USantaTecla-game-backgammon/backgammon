@@ -1,16 +1,15 @@
-from src.views import console
+from abc import abstractmethod
 
 
 class BetView:
-    ANSWER = 'Do you accept bet? (y/n)'
-    ACCEPT = 'Player accepted bet'
-    REJECT = 'Player rejected bet'
-
+    @abstractmethod
     def read(self) -> bool:
-        return console.read_bool(self.ACCEPT)
+        raise NotImplementedError
 
+    @abstractmethod
     def show_accept(self) -> None:
-        console.show(self.ACCEPT)
+        raise NotImplementedError
 
+    @abstractmethod
     def show_reject(self) -> None:
-        console.show(self.REJECT)
+        raise NotImplementedError
