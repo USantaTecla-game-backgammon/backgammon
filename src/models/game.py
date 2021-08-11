@@ -20,7 +20,7 @@ class Game:
 
     @property
     def last_roll(self) -> list[Dice]:
-        return self.last_roll
+        return self._last_roll
 
     @last_roll.setter
     def last_roll(self, dices: list[Dice]) -> None:

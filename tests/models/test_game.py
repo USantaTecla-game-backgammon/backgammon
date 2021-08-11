@@ -1,14 +1,14 @@
 import unittest
 from unittest.mock import patch
 
-from src.models import Board, Game, Player, Turn
-from src.types import Color, Endgame
+from src.models import Board, Game, Turn
+from src.types import Endgame
 
 
 class GameTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        turn = Turn((Player(Color.BLACK), Player(Color.RED)))
+        turn = Turn()
         self.game = Game(turn)
 
     def test_initial_game_have_board(self) -> None:
