@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 from src.controllers.move_piece_controller import MovePieceController
 from src.models import Board, Game, Match, Move
@@ -34,10 +34,17 @@ class MovePieceControllerTest(unittest.TestCase):
 
         move = Move(position_from=Position(6), dice_value=5)
 
-        with (
-            patch.object(Game, 'move_piece') as mock_move,
-            patch.object(Board, 'eat_piece') as mock_eat,
-        ):
+        with patch.object(Board, 'move_piece') as mock_move:
             self.move_piece_controller(move)
-            mock_move.assert_called_once_with(move)
-            mock_eat.assert_called_once_with(move.position_to)
+            mock_move.assert_has_calls([
+                call(
+                    sense=self.game.turn.current_color,
+                    move=move,
+                    color=self.game.turn.current_color
+                ),
+                call(
+                    sense=self.game.turn.current_color,
+                    move=Move(position_from=move.position_to, position_to=Position.OFF_BOARD),
+                    color=self.game.turn.opponent_color
+                ),
+            ])

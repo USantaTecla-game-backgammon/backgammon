@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from src.controllers import PlayController
-from src.models import Game, Match, Move
+from src.models import Game, Match, Menu, Move
 from src.views.console import GameView
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Endgame, Position
@@ -14,18 +14,20 @@ class PlayControllerTest(unittest.TestCase):
         self.match = Match()
         self.play_controller = PlayController(self.match, ConsoleViewFactory())
 
-    def test_play_when_not_is_endgame(self) -> None:
+    def test_play_when_not_is_endgame_create_menu(self) -> None:
         self.match.goal = 1
         with (
-            patch.object(Game, 'is_endgame', side_effect=[False, True]) as mock_game,
-            patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE) as mock_endgame,
             patch.object(GameView, 'show_start') as mock_show,
+            patch.object(Game, 'is_endgame', side_effect=[False, True]) as mock_game,
+            patch.object(Menu, 'active_commands', return_value=[]) as mock_menu,
+            patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE) as mock_endgame,
             patch.object(GameView, 'show_score') as mock_show_score,
         ):
             self.play_controller.__call__()
-            self.assertEqual(mock_game.call_count, 2)
-            mock_endgame.assert_called_once()
             mock_show.assert_called_once()
+            self.assertEqual(mock_game.call_count, 2)
+            mock_menu.assert_called_once()
+            mock_endgame.assert_called_once()
             mock_show_score.assert_called_once()
 
     @patch.object(Match, 'is_goal')
@@ -58,6 +60,7 @@ class PlayControllerAvailableMoveTest(unittest.TestCase):
 
     def test_move_normal_valid_black(self) -> None:
         self.game.possible_moves = [1]
+
         self.assertEqual(self.game.get_pieces(Position(24)), [Color.BLACK, Color.BLACK])
         self.assertEqual(self.game.get_pieces(Position(23)), [])
 

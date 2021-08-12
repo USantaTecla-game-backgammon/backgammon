@@ -40,7 +40,6 @@ class Game:
     def change_turn(self) -> None:
         self.turn.change()
         self.state = GameState.IN_GAME
-        self.board.sense = self.turn.current_color
 
     def is_endgame(self) -> bool:
         return (
@@ -79,13 +78,29 @@ class Game:
         )
 
     def move_piece(self, move: Move) -> None:
-        self.board.move_piece(move.position_from, move.position_to)
+        self.board.move_piece(
+            sense=self.turn.current_color,
+            move=move,
+            color=self.turn.current_color,
+        )
         self.possible_moves.remove(move.dice_value)
 
     def get_pieces(self, position: Position) -> list[Color]:
-        return self.board.get_pieces(position)
+        return self.board.get_pieces(
+            sense=self.current_player.color,
+            position=position
+        )
 
-    def is_one_opponent_piece(self, position: Position) -> bool:
-        if position == Position.OFF_BOARD:
-            return False
-        return self.board.get_pieces(position).count(self.turn.opponent_player.color) == 1
+    def try_eat_piece(self, position_to: Position) -> None:
+        assert position_to != Position.BAR
+
+        if position_to == Position.OFF_BOARD:
+            return
+
+        opponent_color = self.turn.opponent_player.color
+        if self.get_pieces(position_to).count(opponent_color) == 1:
+            self.board.move_piece(
+                sense=self.turn.current_color,
+                move=Move(position_from=position_to, position_to=Position.OFF_BOARD),
+                color=opponent_color
+            )

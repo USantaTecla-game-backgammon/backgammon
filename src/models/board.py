@@ -1,11 +1,12 @@
 from typing import Final
 
+from src.models.move import Move
 from src.types.color import Color
 from src.types.position import Position
 
 
 class Board:
-
+    COLORS: tuple[Color, Color] = (Color.BLACK, Color.RED)
     NUM_PICES_PER_COLOR: Final = 15
     FIRST_SQUARE: list[Position] = [
         Position.ONE,
@@ -25,7 +26,6 @@ class Board:
     ]
 
     def __init__(self) -> None:
-        self._sense: Color = Color.BLACK
         self.positions: list[list[Color]] = []
         self.reset()
 
@@ -33,61 +33,56 @@ class Board:
         return self.positions[position].count(color)
 
     def is_all_pieces_off_board(self, color: Color) -> bool:
-        position = Position.OFF_BOARD if Color.BLACK else Position.BAR
-        return self.positions[position].count(color) == self.NUM_PICES_PER_COLOR
+        pieces = self.get_pieces(sense=color, position=Position.OFF_BOARD)
+        return pieces.count(color) == self.NUM_PICES_PER_COLOR
 
     def is_any_piece_off_board(self, color: Color) -> bool:
-        position = Position.OFF_BOARD if Color.BLACK else Position.BAR
-        return self.positions[position].count(color) > 0
+        pieces = self.get_pieces(sense=color, position=Position.OFF_BOARD)
+        return pieces.count(color) > 0
 
-    def is_any_piece_at_last_square(self, color: Color) -> bool:
-        positions = self.FIRST_SQUARE if Color.BLACK else self.LAST_SQUARE
-        for position in positions:
-            if self.positions[position].count(color) > 0:
+    def is_any_piece_at_last_square(self, sense: Color) -> bool:
+        for position in self.LAST_SQUARE:
+            if self.get_pieces(sense, position).count(sense) > 0:
                 return True
         return False
 
-    def is_all_pieces_first_square(self, color: Color) -> bool:
+    def is_all_pieces_first_square(self, sense: Color) -> bool:
         pieces = 0
-        positions = self.LAST_SQUARE if Color.BLACK else self.FIRST_SQUARE
-        for position in positions:
-            pieces += self.positions[position].count(color)
+        for position in self.FIRST_SQUARE:
+            pieces += self.get_pieces(sense, position).count(sense)
         return pieces == self.NUM_PICES_PER_COLOR
 
     def is_any_piece_in_bar(self, color: Color) -> bool:
-        position = Position.BAR if Color.BLACK else Position.OFF_BOARD
-        return self.positions[position].count(color) > 0
+        pieces = self.get_pieces(sense=color, position=Position.BAR)
+        return pieces.count(color) > 0
 
-    def get_pieces(self, position: Position) -> list[Color]:
+    def get_pieces(self, sense: Color, position: Position) -> list[Color]:
+        positions = self.positions[:]
+        if sense == Color.RED:
+            positions = positions[::-1]
+
         if position == Position.BAR:
-            in_bar = [col for col in self.positions[position] if col == self._sense]
-            offboard = [col for col in self.positions[Position.OFF_BOARD] if col != self._sense]
+            in_bar = [color for color in positions[position] if color == sense]
+            offboard = [color for color in positions[Position.OFF_BOARD] if color != sense]
             return in_bar + offboard
 
         if position == Position.OFF_BOARD:
-            offboard = [col for col in self.positions[position] if col == self._sense]
-            in_bar = [col for col in self.positions[Position.BAR] if col != self._sense]
+            offboard = [color for color in positions[position] if color == sense]
+            in_bar = [color for color in positions[Position.BAR] if color != sense]
             return in_bar + offboard
 
-        return self.positions[position]
+        return positions[position]
 
-    @property
-    def sense(self) -> Color:
-        return self._sense
-
-    @sense.setter
-    def sense(self, color: Color) -> None:
-        if self._sense != color:
-            self._sense = color
+    def move_piece(self, sense: Color, move: Move, color: Color) -> None:
+        assert sense in self.COLORS and color in self.COLORS
+        if sense == Color.RED:
             self.positions.reverse()
 
-    def move_piece(self, position_from: Position, position_to: Position) -> None:
-        piece = self.positions[position_from].pop()
-        self.positions[position_to].append(piece)
+        self.positions[move.position_from].remove(color)
+        self.positions[move.position_to].append(color)
 
-    def eat_piece(self, position: Position) -> None:
-        piece = self.positions[position].pop(0)
-        self.positions[Position.OFF_BOARD].append(piece)
+        if sense == Color.RED:
+            self.positions.reverse()
 
     def reset(self) -> None:
         self.positions = [
