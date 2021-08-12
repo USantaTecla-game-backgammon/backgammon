@@ -8,7 +8,3 @@ class BoardView:
     @abstractmethod
     def show(self, color: Color, board: Board) -> None:
         raise NotImplementedError
-
-    @abstractmethod
-    def read_position(self) -> int:
-        raise NotImplementedError
