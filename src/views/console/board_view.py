@@ -45,8 +45,9 @@ class BoardView(BoardViewBase):
         return self.ROW_POINT.format(*pos_12_to_24)
 
     def _bar(self, board: Board) -> str:
-        num_black: int = board.count_color_in_position(Color.BLACK, Position.BAR)
-        num_red: int = board.count_color_in_position(Color.RED, Position.BAR)
+        pieces = board.get_pieces(sense=Color.BLACK, position=Position.BAR)
+        num_black: int = pieces.count(Color.BLACK)
+        num_red: int = pieces.count(Color.RED)
 
         return (
             self.BAR_VALUES.format(' ', str(num_red) + Color.RED.value, ' ') + '\n' +

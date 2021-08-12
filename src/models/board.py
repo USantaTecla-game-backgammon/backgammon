@@ -29,9 +29,6 @@ class Board:
         self.positions: list[list[Color]] = []
         self.reset()
 
-    def count_color_in_position(self, color: Color, position: Position) -> int:
-        return self.positions[position].count(color)
-
     def is_all_pieces_off_board(self, color: Color) -> bool:
         pieces = self.get_pieces(sense=color, position=Position.OFF_BOARD)
         return pieces.count(color) == self.NUM_PICES_PER_COLOR

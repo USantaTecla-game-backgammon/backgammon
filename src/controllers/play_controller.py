@@ -1,6 +1,7 @@
 from src.controllers.bet_controller import BetController
 from src.controllers.move_piece_controller import MovePieceController
 from src.controllers.controller import Controller
+from src.controllers.rules import chain_move_rules
 from src.models import Game, Match, Menu, Move
 from src.models.commands import (
     BetCommand,
@@ -64,38 +65,14 @@ class PlayController(Controller):
         self.match.games.append(game)
 
     def calculate_available_moves(self) -> list[Move]:
-        # TODO: check rules with chain of responsability pattern
-        # Rules: force move bar
-        # Rules: no move is more than one enemy pieces
-        # Rules: no move to OFF_BOARD if not all piece in last_square
         moves: list[Move] = []
         game = self.match.last_game
-        current_color = game.turn.current_color
-        opponent_color = game.turn.opponent_player.color
 
         for pos in reversed(Position):
-            is_piece = game.board.count_color_in_position(current_color, pos)
-            if not is_piece:
-                continue
-
             for dice_value in set(game.possible_moves):
-                move = Move(position_from=pos, dice_value=dice_value)
-                enemy_pieces = game.board.count_color_in_position(opponent_color, move.position_to)
-                if enemy_pieces >= 2:
-                    continue
+                moves.append(Move(position_from=pos, dice_value=dice_value))
 
-                if (
-                    move.position_to == Position.OFF_BOARD and
-                    not game.board.is_all_pieces_first_square(current_color)
-                ):
-                    continue
-
-                moves.append(move)
-
-            if pos == Position.BAR:
-                break
-
-        return moves
+        return chain_move_rules.restrict(game, moves)
 
     def is_goal(self) -> bool:
         return self.match.is_goal()

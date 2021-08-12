@@ -91,6 +91,12 @@ class Game:
             position=position
         )
 
+    def get_my_pieces(self, position: Position) -> int:
+        return self.get_pieces(position).count(self.current_player.color)
+
+    def get_opponent_pieces(self, position: Position) -> int:
+        return self.get_pieces(position).count(self.turn.opponent_player.color)
+
     def try_eat_piece(self, position_to: Position) -> None:
         assert position_to != Position.BAR
 
