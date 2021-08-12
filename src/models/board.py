@@ -1,4 +1,5 @@
 from typing import Final
+
 from src.types.color import Color
 from src.types.position import Position
 
@@ -28,41 +29,44 @@ class Board:
         self.positions: list[list[Color]] = []
         self.reset()
 
-    def filter_color_in_position(self, color: Color, position: Position) -> int:
-        self.sense = color
-        return len([col for col in self.positions[position] if col == color])
+    def count_color_in_position(self, color: Color, position: Position) -> int:
+        return self.positions[position].count(color)
 
     def is_all_pieces_off_board(self, color: Color) -> bool:
-        return self.filter_color_in_position(color, Position.OFF_BOARD) == self.NUM_PICES_PER_COLOR
+        position = Position.OFF_BOARD if Color.BLACK else Position.BAR
+        return self.positions[position].count(color) == self.NUM_PICES_PER_COLOR
 
     def is_any_piece_off_board(self, color: Color) -> bool:
-        return self.filter_color_in_position(color, Position.OFF_BOARD) > 0
+        position = Position.OFF_BOARD if Color.BLACK else Position.BAR
+        return self.positions[position].count(color) > 0
 
-    def is_any_piece_at_first_square(self, color: Color) -> bool:
-        for position in self.FIRST_SQUARE:
-            if self.filter_color_in_position(color, position) > 0:
+    def is_any_piece_at_last_square(self, color: Color) -> bool:
+        positions = self.FIRST_SQUARE if Color.BLACK else self.LAST_SQUARE
+        for position in positions:
+            if self.positions[position].count(color) > 0:
                 return True
         return False
+
+    def is_all_pieces_first_square(self, color: Color) -> bool:
+        pieces = 0
+        positions = self.LAST_SQUARE if Color.BLACK else self.FIRST_SQUARE
+        for position in positions:
+            pieces += self.positions[position].count(color)
+        return pieces == self.NUM_PICES_PER_COLOR
 
     def is_any_piece_in_bar(self, color: Color) -> bool:
-        return self.filter_color_in_position(color, Position.BAR) > 0
+        position = Position.BAR if Color.BLACK else Position.OFF_BOARD
+        return self.positions[position].count(color) > 0
 
-    def is_all_pieces_last_square(self, color: Color) -> bool:
-        for position in self.LAST_SQUARE:
-            if self.filter_color_in_position(color, position) > 0:
-                return True
-        return False
-
-    def get_pieces(self, color: Color, position: Position) -> list[Color]:
-        self.sense = color
+    def get_pieces(self, position: Position) -> list[Color]:
         if position == Position.BAR:
-            in_bar = [col for col in self.positions[position] if col == color]
-            offboard = [col for col in self.positions[Position.OFF_BOARD] if col != color]
+            in_bar = [col for col in self.positions[position] if col == self._sense]
+            offboard = [col for col in self.positions[Position.OFF_BOARD] if col != self._sense]
             return in_bar + offboard
 
         if position == Position.OFF_BOARD:
-            offboard = [col for col in self.positions[position] if col == color]
-            in_bar = [col for col in self.positions[Position.BAR] if col != color]
+            offboard = [col for col in self.positions[position] if col == self._sense]
+            in_bar = [col for col in self.positions[Position.BAR] if col != self._sense]
             return in_bar + offboard
 
         return self.positions[position]
@@ -77,17 +81,20 @@ class Board:
             self._sense = color
             self.positions.reverse()
 
-    def move_piece(self, position_from: int, position_to: int, color: Color) -> None:
-        self.sense = color
+    def move_piece(self, position_from: Position, position_to: Position) -> None:
         piece = self.positions[position_from].pop()
         self.positions[position_to].append(piece)
 
+    def eat_piece(self, position: Position) -> None:
+        piece = self.positions[position].pop(0)
+        self.positions[Position.OFF_BOARD].append(piece)
+
     def reset(self) -> None:
         self.positions = [
-            [],  # OFF_BOARD
+            [],  # OFF_BOARD (BLACK) / BAR (RED)
             [Color.RED] * 2, [], [], [], [], [Color.BLACK] * 5,  # 1 to 6
             [], [Color.BLACK] * 3, [], [], [], [Color.RED] * 5,  # 7 to 12
             [Color.BLACK] * 5, [], [], [], [Color.RED] * 3, [],  # 13 to 18
             [Color.RED] * 5, [], [], [], [], [Color.BLACK] * 2,  # 19 to 24
-            [],  # BAR
+            [],  # BAR (BLACK) / OFF_BOARD (RED)
         ]

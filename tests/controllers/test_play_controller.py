@@ -2,9 +2,10 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from src.controllers import PlayController
-from src.models import Game, Match
+from src.models import Game, Match, Move
+from src.views.console import GameView
 from src.views.console.console_view_factory import ConsoleViewFactory
-from src.types import Endgame
+from src.types import Color, Endgame, Position
 
 
 class PlayControllerTest(unittest.TestCase):
@@ -13,17 +14,19 @@ class PlayControllerTest(unittest.TestCase):
         self.match = Match()
         self.play_controller = PlayController(self.match, ConsoleViewFactory())
 
-    @patch.object(Game, 'is_endgame', side_effect=[False, True])
-    @patch.object(Game, 'type_endgame', return_value=Endgame.SIMPLE)
-    def test_play_when_not_is_endgame(
-        self,
-        mock_endgame: MagicMock,
-        mock_game: MagicMock,
-    ) -> None:
+    def test_play_when_not_is_endgame(self) -> None:
         self.match.goal = 1
-        self.play_controller.__call__()
-        self.assertEqual(mock_game.call_count, 2)
-        self.assertEqual(mock_endgame.call_count, 1)
+        with (
+            patch.object(Game, 'is_endgame', side_effect=[False, True]) as mock_game,
+            patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE) as mock_endgame,
+            patch.object(GameView, 'show_start') as mock_show,
+            patch.object(GameView, 'show_score') as mock_show_score,
+        ):
+            self.play_controller.__call__()
+            self.assertEqual(mock_game.call_count, 2)
+            mock_endgame.assert_called_once()
+            mock_show.assert_called_once()
+            mock_show_score.assert_called_once()
 
     @patch.object(Match, 'is_goal')
     def test_is_goal(self, mock: MagicMock) -> None:
@@ -43,3 +46,73 @@ class PlayControllerTest(unittest.TestCase):
         self.play_controller.initialize_game()
 
         self.assertEqual(len(self.match.games), 1)
+
+
+class PlayControllerAvailableMoveTest(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.game = Game()
+        self.match = Match()
+        self.match.games = [self.game]
+        self.play_controller = PlayController(self.match, ConsoleViewFactory())
+
+    def test_move_normal_valid_black(self) -> None:
+        self.game.possible_moves = [1]
+        self.assertEqual(self.game.get_pieces(Position(24)), [Color.BLACK, Color.BLACK])
+        self.assertEqual(self.game.get_pieces(Position(23)), [])
+
+        move = Move(position_from=Position(24), dice_value=1)
+        self.play_controller.move_piece(move)
+
+        self.assertEqual(self.game.get_pieces(Position(24)), [Color.BLACK])
+        self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
+        self.assertFalse(self.game.possible_moves)
+
+    def test_move_normal_valid_red(self) -> None:
+        self.game.change_turn()
+        self.game.possible_moves = [2]
+        self.assertEqual(self.game.get_pieces(Position(24)), [Color.RED, Color.RED])
+        self.assertEqual(self.game.get_pieces(Position(22)), [])
+
+        move = Move(position_from=Position(24), dice_value=2)
+        self.play_controller.move_piece(move)
+
+        self.assertEqual(self.game.get_pieces(Position(24)), [Color.RED])
+        self.assertEqual(self.game.get_pieces(Position(22)), [Color.RED])
+        self.assertFalse(self.game.possible_moves)
+
+    def test_move_from_bar(self) -> None:
+        self.game.board.positions[Position.BAR] = [Color.BLACK]
+        self.game.possible_moves = [2]
+
+        move = Move(position_from=Position.BAR, dice_value=2)
+        self.play_controller.move_piece(move)
+
+        self.assertEqual(self.game.get_pieces(Position.BAR), [])
+        self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
+        self.assertFalse(self.game.possible_moves)
+
+    def test_move_invalid_by_opponent_pieces(self) -> None:
+        self.game.possible_moves = [5]
+        move = Move(position_from=Position(24), dice_value=5)
+        available_moves = self.play_controller.calculate_available_moves()
+        self.assertFalse(move in available_moves)
+
+    def test_move_invalid_by_piece_in_bar(self) -> None:
+        self.game.board.positions[Position.BAR] = [Color.BLACK]
+        self.game.possible_moves = [5]
+        move = Move(position_from=Position(24), dice_value=5)
+        available_moves = self.play_controller.calculate_available_moves()
+        self.assertFalse(move in available_moves)
+
+    def test_move_invalid_by_unexist_piece(self) -> None:
+        self.game.possible_moves = [1]
+        move = Move(position_from=Position(23), dice_value=1)
+        available_moves = self.play_controller.calculate_available_moves()
+        self.assertFalse(move in available_moves)
+
+    def test_move_invalid_by_any_piece_not_in_first_square(self) -> None:
+        self.game.possible_moves = [6]
+        move = Move(position_from=Position(6), dice_value=6)
+        available_moves = self.play_controller.calculate_available_moves()
+        self.assertFalse(move in available_moves)

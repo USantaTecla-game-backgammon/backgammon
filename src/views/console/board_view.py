@@ -21,9 +21,9 @@ class BoardView(BoardViewBase):
 
         console.show(self.BOARD_WRAPPER)
         console.show_in_color(self._top_position(color), font_color)
-        console.show(self._top_pieces(color, board))
+        console.show(self._top_pieces(board))
         console.show(self._bar(board))
-        console.show(self._down_pieces(color, board))
+        console.show(self._down_pieces(board))
         console.show_in_color(self._down_position(color), font_color)
         console.show(self.BOARD_WRAPPER)
 
@@ -33,10 +33,10 @@ class BoardView(BoardViewBase):
 
         return self.ROW_POINT.format(*Position.pos_12_to_1())
 
-    def _top_pieces(self, color: Color, board: Board) -> str:
+    def _top_pieces(self, board: Board) -> str:
         pos_12_to_24 = []
         for pos in Position.pos_13_to_24():
-            pieces = board.get_pieces(color, pos)
+            pieces = board.get_pieces(pos)
             value = ''
             if pieces:
                 value = f'{len(pieces)}{pieces[0].value}'
@@ -45,8 +45,8 @@ class BoardView(BoardViewBase):
         return self.ROW_POINT.format(*pos_12_to_24)
 
     def _bar(self, board: Board) -> str:
-        num_black: int = board.filter_color_in_position(Color.BLACK, Position.BAR)
-        num_red: int = board.filter_color_in_position(Color.RED, Position.BAR)
+        num_black: int = board.count_color_in_position(Color.BLACK, Position.BAR)
+        num_red: int = board.count_color_in_position(Color.RED, Position.BAR)
 
         return (
             self.BAR_VALUES.format(' ', str(num_red) + Color.RED.value, ' ') + '\n' +
@@ -54,10 +54,10 @@ class BoardView(BoardViewBase):
             self.BAR_VALUES.format(' ', str(num_black) + Color.BLACK.value, ' ')
         )
 
-    def _down_pieces(self, color: Color, board: Board) -> str:
+    def _down_pieces(self, board: Board) -> str:
         pos_11_to_1 = []
         for pos in Position.pos_12_to_1():
-            pieces = board.get_pieces(color, pos)
+            pieces = board.get_pieces(pos)
             value = ''
             if pieces:
                 value = f'{len(pieces)}{pieces[0].value}'
@@ -70,6 +70,3 @@ class BoardView(BoardViewBase):
             return self.ROW_POINT.format(*Position.pos_12_to_1())
 
         return self.ROW_POINT.format(*Position.pos_13_to_24())
-
-    def read_position(self) -> int:
-        return console.read_int(self.POSITION)

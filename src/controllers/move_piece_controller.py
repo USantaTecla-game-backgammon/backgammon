@@ -1,15 +1,12 @@
 from src.controllers.controller import Controller
-
-
-class IllegalMove(Exception):
-    pass
+from src.models import Move
 
 
 class MovePieceController(Controller):
 
     # It violates the Liskov Substitution Principle
-    def __call__(self, spaces: int) -> None:  # type: ignore
+    def __call__(self, move: Move) -> None:  # type: ignore
         game = self.match.last_game
-        position = self.view_factory.create_board_view().read_position()
-        # TODO: check rules with chain of responsability pattern
-        game.move_piece(spaces, position)
+        game.move_piece(move)
+        if game.is_one_opponent_piece(move.position_to):
+            game.board.eat_piece(move.position_to)

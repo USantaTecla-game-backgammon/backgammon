@@ -27,6 +27,10 @@ class Turn:
             )
 
     @property
+    def opponent_color(self) -> Color:
+        return Color.BLACK if self._current_color == Color.RED else Color.RED
+
+    @property
     def opponent_player(self) -> Player:
         return self._opponent_player
 
@@ -37,7 +41,7 @@ class Turn:
     def change(self, color: Optional[Color] = None) -> None:
         assert color in [Color.BLACK, Color.RED, None]
         if color is None:
-            color = Color.BLACK if self._current_color == Color.RED else Color.RED
+            color = self.opponent_color
         self.current_color = color
 
     def can_bet_current_player(self) -> bool:

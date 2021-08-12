@@ -1,9 +1,8 @@
 import unittest
 from unittest.mock import patch
 
-from src.controllers.move_piece_controller import MovePieceController, IllegalMove
-from src.models import Game, Match, Turn
-from src.views.console import BoardView
+from src.controllers.move_piece_controller import MovePieceController
+from src.models import Board, Game, Match, Move
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Position
 
@@ -24,85 +23,21 @@ from src.types import Color, Position
 class MovePieceControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.turn = Turn()
-        self.game = Game(self.turn)
+        self.game = Game()
         self.match = Match()
         self.match.games = [self.game]
         self.move_piece_controller = MovePieceController(self.match, ConsoleViewFactory())
 
-    def test_move_normal_valid_black(self) -> None:
-        self.game.possible_moves = [1]
-        self.assertEqual(self.game.get_pieces(Position(24)), [Color.BLACK, Color.BLACK])
-        self.assertEqual(self.game.get_pieces(Position(23)), [])
-
-        with patch.object(BoardView, 'read_position', return_value=24):
-            self.move_piece_controller(1)
-
-        self.assertEqual(self.game.get_pieces(Position(24)), [Color.BLACK])
-        self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
-
-    def test_move_normal_valid_red(self) -> None:
-        self.game.change_turn()
-        self.game.possible_moves = [2]
-        self.assertEqual(self.game.get_pieces(Position(24)), [Color.RED, Color.RED])
-        self.assertEqual(self.game.get_pieces(Position(22)), [])
-
-        with patch.object(BoardView, 'read_position', return_value=24):
-            self.move_piece_controller(2)
-
-        self.assertEqual(self.game.get_pieces(Position(24)), [Color.RED])
-        self.assertEqual(self.game.get_pieces(Position(22)), [Color.RED])
-
-    def test_move_from_bar(self) -> None:
-        self.game.board.positions[Position.BAR] = [Color.BLACK]
-        self.game.possible_moves = [2]
-
-        with patch.object(BoardView, 'read_position', return_value=Position.BAR):
-            self.move_piece_controller(2)
-
-        self.assertEqual(self.game.get_pieces(Position.BAR), [])
-        self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
-
-    def _test_move_eat_piece(self) -> None:
+    def test_move_eat_piece(self) -> None:
         self.game.board.positions[1] = [Color.RED]
         self.game.possible_moves = [5]
 
-        self.assertEqual(self.game.get_pieces(Position(6)), [Color.BLACK] * 5)
-        self.assertEqual(self.game.get_pieces(Position(1)), [Color.RED])
-        self.assertEqual(self.game.get_pieces(Position.BAR), [])
+        move = Move(position_from=Position(6), dice_value=5)
 
-        with patch.object(BoardView, 'read_position', return_value=6):
-            self.move_piece_controller(5)
-
-        self.assertEqual(self.game.get_pieces(Position(6)), [Color.BLACK] * 4)
-        self.assertEqual(self.game.get_pieces(Position(1)), [Color.BLACK])
-        self.assertEqual(self.game.get_pieces(Position.BAR), [Color.RED])
-
-    def _test_move_invalid_by_opponent_pieces(self) -> None:
-        self.game.possible_moves = [5]
-
-        with patch.object(BoardView, 'read_position', return_value=24):
-            with self.assertRaises(IllegalMove):
-                self.move_piece_controller(5)
-
-    def _test_move_invalid_by_piece_in_bar(self) -> None:
-        self.game.board.positions[Position.BAR] = [Color.BLACK]
-        self.game.possible_moves = [5]
-
-        with patch.object(BoardView, 'read_position', return_value=24):
-            with self.assertRaises(IllegalMove):
-                self.move_piece_controller(5)
-
-    def _test_move_invalid_by_unexist_piece(self) -> None:
-        self.game.possible_moves = [1]
-
-        with patch.object(BoardView, 'read_position', return_value=23):
-            with self.assertRaises(IllegalMove):
-                self.move_piece_controller(1)
-
-    def _test_move_invalid_by_any_piece_not_in_last_square(self) -> None:
-        self.game.possible_moves = [6]
-
-        with patch.object(BoardView, 'read_position', return_value=6):
-            with self.assertRaises(IllegalMove):
-                self.move_piece_controller(6)
+        with (
+            patch.object(Game, 'move_piece') as mock_move,
+            patch.object(Board, 'eat_piece') as mock_eat,
+        ):
+            self.move_piece_controller(move)
+            mock_move.assert_called_once_with(move)
+            mock_eat.assert_called_once_with(move.position_to)

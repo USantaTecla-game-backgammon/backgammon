@@ -1,15 +1,13 @@
 from src.controllers.bet_controller import BetController
 from src.controllers.move_piece_controller import MovePieceController
 from src.controllers.controller import Controller
-from src.models import Match, Menu
-from src.models.turn import Turn
-from src.models.game import Game
+from src.models import Game, Match, Menu, Move
 from src.models.commands import (
     BetCommand,
     MovePieceCommand,
     RollDiceCommand,
 )
-from src.types.game_state import GameState
+from src.types import GameState, Position
 from src.views.view_factory import ViewFactory
 
 
@@ -39,7 +37,7 @@ class PlayController(Controller):
             ])
             menu.commands += [
                 MovePieceCommand(self, move)
-                for move in game.possible_moves
+                for move in self.calculate_available_moves()
             ]
 
             if menu.active_commands():
@@ -54,8 +52,7 @@ class PlayController(Controller):
     def initialize_game(self) -> None:
         assert self.match.goal > 0
 
-        turn = Turn()
-        game = Game(turn)
+        game = Game()
 
         if self.match.is_first_game():
             game.state = GameState.MOVING_PIECE
@@ -63,8 +60,42 @@ class PlayController(Controller):
         else:
             self.match.change_turn()
 
-        turn.current_color = self.match.turn.current_color
+        game.turn.current_color = self.match.turn.current_color
         self.match.games.append(game)
+
+    def calculate_available_moves(self) -> list[Move]:
+        # TODO: check rules with chain of responsability pattern
+        # Rules: force move bar
+        # Rules: no move is more than one enemy pieces
+        # Rules: no move to OFF_BOARD if not all piece in last_square
+        moves: list[Move] = []
+        game = self.match.last_game
+        current_color = game.turn.current_color
+        opponent_color = game.turn.opponent_player.color
+
+        for pos in reversed(Position):
+            is_piece = game.board.count_color_in_position(current_color, pos)
+            if not is_piece:
+                continue
+
+            for dice_value in set(game.possible_moves):
+                move = Move(position_from=pos, dice_value=dice_value)
+                enemy_pieces = game.board.count_color_in_position(opponent_color, move.position_to)
+                if enemy_pieces >= 2:
+                    continue
+
+                if (
+                    move.position_to == Position.OFF_BOARD and
+                    not game.board.is_all_pieces_first_square(current_color)
+                ):
+                    continue
+
+                moves.append(move)
+
+            if pos == Position.BAR:
+                break
+
+        return moves
 
     def is_goal(self) -> bool:
         return self.match.is_goal()
@@ -72,7 +103,7 @@ class PlayController(Controller):
     def bet(self) -> None:
         self.bet_controller()
 
-    def move_piece(self, move: int) -> None:
+    def move_piece(self, move: Move) -> None:
         self.move_piece_controller(move)
 
     def roll_dice(self) -> None:

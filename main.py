@@ -6,15 +6,20 @@ from src.views.gui.gui_view_factory import GUIViewFactory
 from src.views.view_factory import ViewFactory
 
 
+factories = {
+    'default': ConsoleViewFactory(),
+    'console': ConsoleViewFactory(),
+    'gui': GUIViewFactory(),
+}
+
+
 def read_settings_from_arguments() -> ViewFactory:
     arguments = sys.argv[1:]
-    if not arguments:
-        return ConsoleViewFactory()
+    key = arguments[0] if arguments else 'default'
 
-    if arguments[0] == 'gui':
-        return GUIViewFactory()
-
-    return ConsoleViewFactory()
+    if key in factories.keys():
+        return factories.get(key)
+    return factories.get('default')
 
 
 if __name__ == '__main__':
