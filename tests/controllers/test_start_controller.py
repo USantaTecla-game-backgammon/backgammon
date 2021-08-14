@@ -25,7 +25,7 @@ class StartControllerTest(unittest.TestCase):
         goal = 2
         mock_read.return_value = goal
 
-        self.start_controller.configure()
+        self.start_controller.configure_goal()
         mock_show.assert_called_once()
         mock_read.assert_called_once()
         self.assertEqual(self.match.goal, goal)
