@@ -31,9 +31,11 @@ class PlayController(Controller):
             game = self.match.last_game
             while not game.is_endgame():
                 menu = self.create_menu()
-                if menu.active_commands():
+                active_commands = menu.active_commands()
+                if active_commands:
                     self.board_view.show(game.turn.current_color, game.board)
-                    self.menu_view(menu, game.current_player.color)
+                    option = self.menu_view.interact(active_commands)
+                    active_commands[option]()
                 else:
                     game.change_turn()
 

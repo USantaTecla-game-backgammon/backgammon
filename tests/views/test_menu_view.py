@@ -1,10 +1,9 @@
 import unittest
-from unittest.mock import call, patch
+from unittest.mock import patch
 
 from src.models import Command, Menu
 from src.views.console import console
-from src.views.console.menu_view import MenuView, MenuWithoutOption
-from src.types import Color
+from src.views.console.menu_view import MenuView
 
 
 class FakeCommand(Command):
@@ -24,23 +23,15 @@ class MenuViewTest(unittest.TestCase):
         self.menu_view = MenuView()
         self.command = FakeCommand()
 
-    def test_call_no_active_commands(self) -> None:
-        with self.assertRaises(MenuWithoutOption):
-            self.menu_view(self.menu, Color.BLACK)
-
     def test_call_with_one_active_command(self) -> None:
         with (
             patch.object(Menu, 'active_commands', return_value=[self.command]),
             patch.object(console, 'show') as mock_show,
             patch.object(console, 'read_int_range') as mock_read,
         ):
-            self.menu_view(self.menu, Color.BLACK)
-            mock_show.assert_has_calls([
-                call(MenuView.TURN_TEXT.format(Color.BLACK)),
-                call(f'1) {self.command.title}\n'),
-                call(MenuView.OPTION_SELECTED.format(1)),
-            ])
-            self.assertEqual(mock_read.call_count, 0)
+            self.menu_view.interact(self.menu.active_commands())
+            mock_show.assert_called_once_with(f'1) {self.command.title}\n')
+            mock_read.assert_called_once_with(valids=[1], msg=MenuView.SELECT_CHOICE)
 
     def test_call_with_two_active_command(self) -> None:
         with (
@@ -48,10 +39,8 @@ class MenuViewTest(unittest.TestCase):
             patch.object(console, 'show') as mock_show,
             patch.object(console, 'read_int_range', return_value=1) as mock_read,
         ):
-            self.menu_view(self.menu, Color.BLACK)
-            mock_show.assert_has_calls([
-                call(MenuView.TURN_TEXT.format(Color.BLACK)),
-                call(f'1) {self.command.title}\n2) {self.command.title}\n'),
-                call(MenuView.OPTION_SELECTED.format(1)),
-            ])
+            self.menu_view.interact(self.menu.active_commands())
+            mock_show.assert_called_once_with(
+                f'1) {self.command.title}\n2) {self.command.title}\n'
+            )
             mock_read.assert_called_once_with(valids=[1, 2], msg=MenuView.SELECT_CHOICE)
