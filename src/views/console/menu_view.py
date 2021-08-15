@@ -1,44 +1,25 @@
 from typing import Final
 
 from src.models.command import Command
-from src.models.menu import Menu
-from src.types import Color
 from src.views import MenuView as MenuViewBase
 from src.views.console import console
 
 
-class MenuWithoutOption(Exception):
-    pass
-
-
 class MenuView(MenuViewBase):
-    TURN_TEXT: Final = '\nPlayer {} turn:\n'
-    SELECT_CHOICE: Final = 'Select your choice'
-    START_OPTION: Final = 1
-    OPTION_SELECTED: Final = 'Selected option {}'
+    START_OPTION: Final[int] = 1
 
-    def __call__(self, menu: Menu, color: Color) -> None:
-        active_commands = menu.active_commands()
+    def interact(self, commands: list[Command]) -> int:
+        self._show(commands)
+        return self._read(commands)
 
-        if len(active_commands) == 0:
-            raise MenuWithoutOption()
-
-        self._show_menu(active_commands, color)
-        option = self._select_option(active_commands)
-        console.show(self.OPTION_SELECTED.format(option))
-        active_commands[option - self.START_OPTION]()
-
-    def _show_menu(self, commands: list[Command], color: Color) -> None:
-        console.show(self.TURN_TEXT.format(color))
+    def _show(self, commands: list[Command]) -> None:
         menu = ''
         for number, command in enumerate(commands, start=self.START_OPTION):
             menu += f'{number}) {command.title}\n'
 
         console.show(menu)
 
-    def _select_option(self, commands: list[Command]) -> int:
-        if len(commands) == 1:
-            return self.START_OPTION
-
+    def _read(self, commands: list[Command]) -> int:
         valids = list(range(self.START_OPTION, self.START_OPTION + len(commands)))
-        return console.read_int_range(valids=valids, msg=self.SELECT_CHOICE)
+        option = console.read_int_range(valids=valids, msg=self.SELECT_CHOICE)
+        return option - self.START_OPTION
