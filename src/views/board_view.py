@@ -6,5 +6,5 @@ from src.types import Color
 
 class BoardView:
     @abstractmethod
-    def show(self, color: Color, board: Board) -> None:
+    def show(self, color: Color, board: str) -> None:
         raise NotImplementedError

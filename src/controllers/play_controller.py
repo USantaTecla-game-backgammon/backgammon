@@ -1,3 +1,4 @@
+from src.serializers.board_serializer import BoardSerializer
 from src.controllers.bet_controller import BetController
 from src.controllers.controller import Controller
 from src.controllers.rules import chain_move_rules
@@ -33,7 +34,7 @@ class PlayController(Controller):
                 menu = self.create_menu()
                 active_commands = menu.active_commands()
                 if active_commands:
-                    self.board_view.show(game.turn.current_color, game.board)
+                    self.board_view.show(game.turn.current_color, BoardSerializer(game.board).serialize())
                     option = self.menu_view.interact(active_commands)
                     active_commands[option]()
                 else:
