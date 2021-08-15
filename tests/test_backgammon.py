@@ -7,13 +7,12 @@ from src.controllers import (
     StartController,
     ResumeController,
 )
-from src.views.console.console_view_factory import ConsoleViewFactory
 
 
 class BackgammonTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.backgammon = Backgammon(ConsoleViewFactory())
+        self.backgammon = Backgammon('console')
 
     def test_backgammon_flow(self) -> None:
         with (
