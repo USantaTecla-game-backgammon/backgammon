@@ -13,7 +13,7 @@ class DoublingCubeTestCase(unittest.TestCase):
         self.doubling_cube.double()
         self.assertEqual(self.doubling_cube.value, 2)
 
-    def test_when_double_7_times_rise_exception(self) -> None:
+    def test_when_double_6_times(self) -> None:
         for _ in range(6):
             self.doubling_cube.double()
 

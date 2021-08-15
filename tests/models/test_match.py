@@ -19,8 +19,9 @@ class MatchTest(unittest.TestCase):
         self.assertFalse(self.match.is_goal())
 
     def test_is_goal_true(self) -> None:
-        self.match.goal = 3
-        self.match.turn.players[0].score = 3
+        goal = 3
+        self.match.goal = goal
+        self.match.turn.players[0].score = goal
         self.assertTrue(self.match.is_goal())
 
     def test_first_roll(self) -> None:

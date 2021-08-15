@@ -16,5 +16,4 @@ class Player:
         return [Dice() for _ in range(amount)]
 
     def earn_score(self, score: int) -> None:
-        assert score > 0
         self.score += score

@@ -13,10 +13,10 @@ class StartController(Controller):
         self.view = view_factory.create_match_view()
 
     def __call__(self) -> None:
-        self.configure()
+        self.configure_goal()
         self.first_roll()
 
-    def configure(self) -> None:
+    def configure_goal(self) -> None:
         self.view.show_title()
         self.match.goal = self.view.read_goal()
 
