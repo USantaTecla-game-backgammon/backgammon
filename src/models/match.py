@@ -43,15 +43,16 @@ class Match:
         self.goal = 0
         self.turn = Turn()
 
-    def current_score(self) -> None:
-        if player.is_rejected():
+    def current_score(self) -> int:
+        if self.turn.rejected_bet():
             score = doubling_cube.value
         else:
             score = self.last_game.get_type_endgame().value * doubling_cube.value
 
+        return score
+
     def give_score(self) -> None:
         score = self.current_score()
-
         if self.last_game.board.is_all_pieces_off_board(Color.BLACK):
             self.turn.give_score(score, Color.BLACK)
             self.last_game.turn.give_score(score, Color.BLACK)

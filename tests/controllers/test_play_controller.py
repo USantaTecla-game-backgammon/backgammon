@@ -51,6 +51,7 @@ class PlayControllerTest(unittest.TestCase):
             patch.object(Match, 'is_goal', side_effect=[False, True]),
             patch.object(GameView, 'show_start') as mock_show,
             patch.object(Game, 'is_endgame', return_value=True) as mock_game,
+            patch.object(Board, 'is_all_pieces_off_board', side_effect=[True, False]),
             patch.object(Game, 'get_type_endgame', return_value=Endgame.GAMMON) as mock_endgame,
             patch.object(GameView, 'show_score') as mock_show_score,
         ):
@@ -60,10 +61,10 @@ class PlayControllerTest(unittest.TestCase):
             mock_endgame.assert_called_once()
             mock_show_score.assert_called_once()
             score = doubling_cube.value * Endgame.GAMMON
-            self.assertEqual(self.match.last_game.turn.current_player.score, 0)
-            self.assertEqual(self.match.last_game.turn.opponent_player.score, score)
             self.assertEqual(self.match.turn.current_player.score, 0)
             self.assertEqual(self.match.turn.opponent_player.score, score)
+            self.assertEqual(self.match.last_game.turn.current_player.score, score)
+            self.assertEqual(self.match.last_game.turn.opponent_player.score, 0)
 
     def test_initialize_game_without_goal_defined(self) -> None:
         with self.assertRaises(AssertionError):

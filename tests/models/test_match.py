@@ -2,8 +2,9 @@ import unittest
 from unittest.mock import patch
 
 from src.models import Board, Dice, Match, Game
-from src.types import Color, Endgame
 from src.models.doubling_cube import doubling_cube
+from src.types import Color, Endgame
+
 
 class MatchTest(unittest.TestCase):
 
@@ -34,7 +35,6 @@ class MatchTest(unittest.TestCase):
             self.assertIsInstance(value, Dice)
 
     def test_give_same_score_game_and_match(self) -> None:
-
         def side_effect_board(color: Color) -> bool:
             return color == Color.BLACK
 
@@ -43,8 +43,8 @@ class MatchTest(unittest.TestCase):
 
         # When
         with (
-            patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE),
-            patch.object(Board, 'is_all_pieces_off_board', side_effect=side_effect_board),
+                patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE),
+                patch.object(Board, 'is_all_pieces_off_board', side_effect=side_effect_board),
         ):
             self.match.give_score()
 
@@ -57,7 +57,6 @@ class MatchTest(unittest.TestCase):
         self.assertEqual(self.match.last_game.turn.opponent_player.score, 0)
 
     def test_give_score_match_during_match(self) -> None:
-
         def side_effect_board(color: Color) -> bool:
             return color == Color.BLACK
 
@@ -68,8 +67,8 @@ class MatchTest(unittest.TestCase):
 
         # When
         with (
-            patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE),
-            patch.object(Board, 'is_all_pieces_off_board', side_effect=side_effect_board),
+                patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE),
+                patch.object(Board, 'is_all_pieces_off_board', side_effect=side_effect_board),
         ):
             self.match.give_score()
 
