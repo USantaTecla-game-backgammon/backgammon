@@ -10,9 +10,9 @@ class TurnSerializer:
 
     @property
     def data(self) -> Any:
-        turn_dict: dict[str, list[Any]]= {}
+        turn_dict: dict[str, list[Any]] = {}
         player_list: list[Any] = []
         for player in self.players:
             player_list.append(PlayerSerializer(player).data)
-        turn_dict["players"]= player_list
+        turn_dict["players"] = player_list
         return turn_dict

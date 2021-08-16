@@ -5,7 +5,7 @@ from src.models.player import Player
 class PlayerSerializer:
     def __init__(self, player: Player) -> None:
         self.player: Player = player
-    
+
     @property
     def data(self) -> Any:
         doubling_cube_int: int = 0

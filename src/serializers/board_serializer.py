@@ -6,14 +6,14 @@ from src.types.position import Position
 
 class BoardSerializer(Board):
     board: Board
- 
+
     def __init__(self, board: Board) -> None:
         self.board = board
 
     @property
     def data(self) -> Any:
         available_colors: list[Color] = [Color.BLACK, Color.RED]
-        board_dic: dict[str, dict[str, dict[str, int]]]= {}
+        board_dic: dict[str, dict[str, dict[str, int]]] = {}
         for sense_color in available_colors:
             board_dic[sense_color.name] = {}
             for position in Position:
