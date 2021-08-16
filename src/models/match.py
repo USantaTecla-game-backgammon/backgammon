@@ -43,23 +43,22 @@ class Match:
         self.goal = 0
         self.turn = Turn()
 
+    def current_score(self) -> None:
+        if player.is_rejected():
+            score = doubling_cube.value
+        else:
+            score = self.last_game.get_type_endgame().value * doubling_cube.value
+
     def give_score(self) -> None:
-        score = self.last_game.get_type_endgame().value * doubling_cube.value
-        # print(score)
+        score = self.current_score()
+
         if self.last_game.board.is_all_pieces_off_board(Color.BLACK):
             self.turn.give_score(score, Color.BLACK)
+            self.last_game.turn.give_score(score, Color.BLACK)
 
         if self.last_game.board.is_all_pieces_off_board(Color.RED):
             self.turn.give_score(score, Color.RED)
-        # print("current > ", self.turn.current_player.score)
-        # print("opponent > ", self.turn.opponent_player.score)
-        # self.turn.give_score_to_winner(score)
-
-        # for player in self.last_game.turn.players:
-        #     if player.color == self.turn.current_player:
-        #         self.turn.current_player.earn_score(score)
-        #     else:
-        #         self.turn.opponent_player.earn_score(score)
+            self.last_game.turn.give_score(score, Color.RED)
 
     def add_game(self) -> None:
         self.games.append(game_factory(self.turn.current_color, self.first_roll))
