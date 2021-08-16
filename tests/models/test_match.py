@@ -1,8 +1,9 @@
 import unittest
+from unittest.mock import patch
 
-from src.models import Dice, Match
-from src.types import Color
-
+from src.models import Dice, Match, Game
+from src.types import Color, Endgame
+from src.models.doubling_cube import doubling_cube
 
 class MatchTest(unittest.TestCase):
 
@@ -31,3 +32,27 @@ class MatchTest(unittest.TestCase):
         self.assertTrue(Color.RED in first_roll.keys())
         for value in first_roll.values():
             self.assertIsInstance(value, Dice)
+
+    def test_give_same_score_game_and_match(self) -> None:
+        score_match: int = 0
+        score_game: int = 0
+        self.match.add_game()
+        self.assertEqual(self.match.turn.current_player.score, score_match)
+        self.assertEqual(self.match.last_game.turn.current_player.score, score_game)
+
+        with patch.object(Game, "get_type_endgame", return_value=Endgame.SIMPLE):
+            self.match.give_score()
+
+        score = doubling_cube.value * Endgame.SIMPLE
+        self.assertEqual(self.match.turn.current_player.score, score)
+        # self.assertEqual(self.match.last_game.turn.current_player.score, score)
+
+
+
+
+
+
+
+
+
+

@@ -39,7 +39,7 @@ class PlayController(Controller):
                 else:
                     game.change_turn()
 
-            game.give_score()
+            # game.give_score()
             self.match.give_score()
             self.game_view.show_score(game.turn)
             self.match.change_turn()

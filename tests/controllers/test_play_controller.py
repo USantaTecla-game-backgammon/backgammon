@@ -3,6 +3,7 @@ from unittest.mock import call, patch
 
 from src.controllers import PlayController
 from src.models import Board, Game, Match, Menu, Move
+from src.models.doubling_cube import doubling_cube
 from src.views.console import GameView
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Endgame, Position
@@ -58,10 +59,11 @@ class PlayControllerTest(unittest.TestCase):
             mock_game.assert_called_once()
             mock_endgame.assert_called_once()
             mock_show_score.assert_called_once()
+            score = doubling_cube.value * Endgame.GAMMON
             self.assertEqual(self.match.last_game.turn.current_player.score, 0)
-            self.assertEqual(self.match.last_game.turn.opponent_player.score, 0)
+            self.assertEqual(self.match.last_game.turn.opponent_player.score, score)
             self.assertEqual(self.match.turn.current_player.score, 0)
-            self.assertEqual(self.match.turn.opponent_player.score, 0)
+            self.assertEqual(self.match.turn.opponent_player.score, score)
 
     def test_initialize_game_without_goal_defined(self) -> None:
         with self.assertRaises(AssertionError):
