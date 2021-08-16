@@ -1,3 +1,4 @@
+from src.serializers.turn_serializer import TurnSerializer
 from src.serializers.board_serializer import BoardSerializer
 from src.controllers.bet_controller import BetController
 from src.controllers.controller import Controller
@@ -42,7 +43,7 @@ class PlayController(Controller):
 
             game.give_score()
             self.match.give_score()
-            self.game_view.show_score(game.turn)
+            self.game_view.show_score(TurnSerializer(game.turn).data)
             self.match.change_turn()
 
     def add_game(self) -> None:

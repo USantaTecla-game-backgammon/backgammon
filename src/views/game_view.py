@@ -1,4 +1,4 @@
-from src.models.turn import Turn
+from typing import Any
 
 
 class GameView:
@@ -8,5 +8,5 @@ class GameView:
         raise NotImplementedError
 
     @classmethod
-    def show_score(cls, turn: Turn) -> None:
+    def show_score(cls, turn: Any) -> None:
         raise NotImplementedError
