@@ -1,7 +1,5 @@
-import json
 from typing import Any, Final
 
-from src.models.board import Board
 from src.types import Color, Position
 from src.views import BoardView as BoardViewBase
 from src.views.console import console
@@ -14,8 +12,8 @@ class BoardView(BoardViewBase):
     BAR_VALUES: str = '|{:24} |{:>4}|{:24} |'
     POSITION: Final[str] = 'Move from position'
 
-    def show(self, color: Color, board_json: str) -> None:
-        self.board: Any = json.loads(board_json)
+    def show(self, color: Color, board: Any) -> None:
+        self.board = board
         if color == Color.RED:
             font_color = console.FontColors.RED
         else:

@@ -1,10 +1,10 @@
 from abc import abstractmethod
+from typing import Any
 
-from src.models import Board
 from src.types import Color
 
 
 class BoardView:
     @abstractmethod
-    def show(self, color: Color, board: str) -> None:
+    def show(self, color: Color, board: Any) -> None:
         raise NotImplementedError

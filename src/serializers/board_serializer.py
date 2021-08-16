@@ -1,6 +1,4 @@
 from typing import Any
-from typing import Final
-import json
 from src.models.board import Board
 from src.types.color import Color
 from src.types.position import Position
@@ -12,7 +10,8 @@ class BoardSerializer(Board):
     def __init__(self, board: Board) -> None:
         self.board = board
 
-    def serialize(self) -> str:
+    @property
+    def data(self) -> Any:
         available_colors: list[Color] = [Color.BLACK, Color.RED]
         board_dic: dict[str, dict[str, dict[str, int]]]= {}
         for sense_color in available_colors:
@@ -25,4 +24,4 @@ class BoardSerializer(Board):
                     num_of_color_dic[pice_color.name] = pices_in_position.count(pice_color)
                 board_dic[sense_color.name][position.name].update(num_of_color_dic)
 
-        return json.dumps(board_dic, indent=4)
+        return board_dic

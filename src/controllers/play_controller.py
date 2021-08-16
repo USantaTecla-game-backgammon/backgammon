@@ -34,7 +34,7 @@ class PlayController(Controller):
                 menu = self.create_menu()
                 active_commands = menu.active_commands()
                 if active_commands:
-                    self.board_view.show(game.turn.current_color, BoardSerializer(game.board).serialize())
+                    self.board_view.show(game.turn.current_color, BoardSerializer(game.board).data)
                     option = self.menu_view.interact(active_commands)
                     active_commands[option]()
                 else:
