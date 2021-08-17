@@ -4,7 +4,7 @@ from src.types.color import Color
 from src.types.position import Position
 
 
-class BoardSerializer(Board):
+class BoardSerializer:
     board: Board
 
     def __init__(self, board: Board) -> None:
