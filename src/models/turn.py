@@ -1,9 +1,9 @@
 from typing import Optional
 
-from src.models.player import Player
 from src.models.dice import Dice
-from src.types.color import Color
 from src.models.doubling_cube import doubling_cube
+from src.models.player import Player
+from src.types.color import Color
 
 
 class Turn:
@@ -12,6 +12,7 @@ class Turn:
         self._current_color: Color = Color.BLACK
         self._current_player: Player = self.players[0]
         self._opponent_player: Player = self.players[1]
+        self._rejected_bet: bool = False
 
     @property
     def current_color(self) -> Color:
@@ -54,13 +55,23 @@ class Turn:
         self.change()
 
     def reject_bet(self) -> None:
+        self._rejected_bet = True
         self.opponent_player.is_winner = True
+
+    def rejected_bet(self) -> bool:
+        return self._rejected_bet
 
     def give_score_to_winner(self, score: int) -> None:
         if self.current_player.is_winner:
             self.current_player.earn_score(score)
 
         if self.opponent_player.is_winner:
+            self.opponent_player.earn_score(score)
+
+    def give_score(self, score: int, color: Color) -> None:
+        if self.current_color == color:
+            self.current_player.earn_score(score)
+        else:
             self.opponent_player.earn_score(score)
 
     def winner_by_color(self, color: Color) -> None:

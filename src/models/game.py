@@ -2,7 +2,6 @@ from src.models.board import Board
 from src.models.dice import Dice
 from src.models.turn import Turn
 from src.models.player import Player
-from src.models.doubling_cube import doubling_cube
 from src.models.move import Move
 from src.types import Color, Endgame, GameState, Position
 
@@ -67,15 +66,7 @@ class Game:
         return Endgame.BACKGAMMON
 
     def give_score(self) -> None:
-        if self.board.is_all_pieces_off_board(Color.BLACK):
-            self.turn.winner_by_color(Color.BLACK)
-
-        if self.board.is_all_pieces_off_board(Color.RED):
-            self.turn.winner_by_color(Color.RED)
-
-        self.turn.give_score_to_winner(
-            self.get_type_endgame().value * doubling_cube.value
-        )
+        pass
 
     def move_piece(self, move: Move) -> None:
         self.board.move_piece(
