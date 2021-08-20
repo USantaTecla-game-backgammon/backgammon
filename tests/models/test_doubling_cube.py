@@ -1,4 +1,5 @@
 import unittest
+
 from src.models.doubling_cube import DoublingCube
 
 
@@ -18,3 +19,9 @@ class DoublingCubeTestCase(unittest.TestCase):
             self.doubling_cube.double()
 
         self.assertEqual(self.doubling_cube.value, 64)
+
+    def test_reset(self) -> None:
+        self.doubling_cube.double()
+        self.assertTrue(self.doubling_cube.value > 1)
+        self.doubling_cube.reset()
+        self.assertEqual(self.doubling_cube.value, 1)
