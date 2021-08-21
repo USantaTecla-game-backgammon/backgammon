@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 from src.models import Move
@@ -7,7 +8,7 @@ from src.types import GameState
 
 if TYPE_CHECKING:
     # pylint: disable=cyclic-import
-    from src.controllers import PlayController
+    from src.controllers import PlayController  # pragma: no cover
 
 
 class MovePieceCommand(Command):
