@@ -6,7 +6,7 @@ from src.types import GameState
 
 if TYPE_CHECKING:
     # pylint: disable=cyclic-import
-    from src.controllers import PlayController
+    from src.controllers import PlayController  # pragma: no cover
 
 
 class RollDiceCommand(Command):
