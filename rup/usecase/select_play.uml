@@ -1,0 +1,92 @@
+@startuml
+
+state IN_GAME
+state END_GAME
+state EXIT
+state "IN_GAME" as IN_GAME2
+
+
+state SelectPlay ##green {
+    state " " as 1
+    state " " as 2
+    state " " as 3
+    state " " as 4
+    state " " as 41
+    state " " as 5
+
+    [*] -[#green]-> 1
+    1 -[#green]-> 2
+    note on link #white
+        <b>System requires</b>
+        * play [rollDice, movePiece or Bet]
+        <b>System allows</b>
+        * Introduce a valid play [rollDice, movePiece or Bet]
+        * exit
+    end note
+
+    ' rollDice
+    2 -[#green]-> 3
+    note on link #white
+        <b>Player provides</b>
+        * play [rollDice]
+    end note
+
+    3 -[#green]-> [*]
+    note on link #white
+        <b>System shows</b>
+        * dice value
+        * board
+    end note
+
+
+    ' movePiece
+    2 -[#green]-> 4
+    note on link #white
+        <b>Player provides</b>
+        * play [MovePiece]
+    end note
+
+    4 -[#green]-> 41
+    note on link #white
+        <b>System shows</b>
+        * board
+        * point options
+        <b>System allows:</b>
+        * introduce a point value
+        * exit
+    end note
+
+    41 -[#green]-> [*]
+    note on link #white
+        <b>Player provides</b>
+        * point value
+    end note
+
+    41 -[#red]-> [*]
+    note on link #white
+        <b>Player request to</b>
+        * exit
+    end note
+
+
+    'bet
+    2 -[#green]-> 5
+    note on link #white
+        <b>Player provides</b>
+        * play [Bet]
+    end note
+
+    2 -[#red]-> [*]
+    note on link #white
+        <b>Player request to</b>
+        * exit
+    end note
+}
+
+IN_GAME -[#green]-> SelectPlay
+
+SelectPlay -[#green]-> IN_GAME2
+SelectPlay -[#blue]-> END_GAME
+SelectPlay -[#red]-> EXIT
+
+@enduml

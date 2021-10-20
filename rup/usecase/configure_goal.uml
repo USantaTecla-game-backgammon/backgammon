@@ -1,0 +1,40 @@
+@startuml
+
+state INITIAL
+state IN_GAME
+state EXIT
+
+
+state ConfigureGoal ##green {
+    state " " as 1
+    state " " as 2
+
+    [*] -[#green]-> 1
+    1 -[#green]-> 2
+    note on link #white
+        <b>System requires</b>
+        * goal
+        <b>System allows</b>
+        * Introduce a number between 1 and 64, both inclusive
+        * exit
+    end note
+
+    2 -[#green]-> [*]
+    note on link #white
+        <b>Player provides</b>
+        * goal
+    end note
+
+    2 -[#red]-> [*]
+    note on link #white
+        <b>Player request to</b>
+        * exit
+    end note
+}
+
+INITIAL -[#green]-> ConfigureGoal
+
+ConfigureGoal -[#green]-> IN_GAME
+ConfigureGoal -[#red]-> EXIT
+
+@enduml

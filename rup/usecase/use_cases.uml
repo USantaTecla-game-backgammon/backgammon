@@ -1,0 +1,16 @@
+@startuml use_cases
+left to right direction
+
+actor Player
+
+usecase ConfigureGoal
+usecase SelectPlay
+usecase SelectResume
+usecase Exit
+
+Player --> ConfigureGoal
+Player --> SelectPlay
+Player --> SelectResume
+Player --> Exit
+
+@enduml
