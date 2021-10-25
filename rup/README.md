@@ -1,16 +1,16 @@
 ### Use Cases
 
-![Use Cases](rup/usecase/use_cases.png)
+![Use Cases](/rup/usecase/use_cases.png)
 
 ### Context
 
-![Context](rup/context/context.png)
+![Context](/rup/context/context.png)
 
 ### Configure Goal
-![Configure Goal](rup/usecase/configure_goal.png)
+![Configure Goal](/rup/usecase/configure_goal.png)
 
 ### Resume 
-![Resume](rup/usecase/resume.png)
+![Resume](/rup/usecase/resume.png)
 
 ### Select Play 
-![Select Play](rup/usecase/select_play.png)
+![Select Play](/rup/usecase/select_play.png)
