@@ -1,0 +1,12 @@
+@startuml
+
+state DICE_ROLLED
+state " " as MOVED_PIECE
+
+
+[*] --> DICE_ROLLED
+
+DICE_ROLLED --> MOVED_PIECE : MovePiece
+DICE_ROLLED --> EXIT : Exit
+
+@enduml

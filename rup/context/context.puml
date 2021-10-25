@@ -1,0 +1,29 @@
+@startuml contexto
+
+state INITIAL
+state IN_GAME
+state END_GAME
+state EXIT
+
+state is_endgame <<choice>>
+state is_resume <<choice>>
+
+
+[*] --> INITIAL
+INITIAL --> IN_GAME: CreateGoal
+INITIAL --> EXIT: Exit
+
+IN_GAME --> is_endgame: SelectPlay
+IN_GAME --> EXIT: Exit
+is_endgame --> IN_GAME
+is_endgame --> END_GAME: [is_endgame]
+
+
+END_GAME --> is_resume: SelectResume
+END_GAME --> EXIT: Exit
+
+is_resume --> INITIAL: [yes]
+is_resume --> EXIT
+
+EXIT --> [*]
+@enduml

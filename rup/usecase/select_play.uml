@@ -10,18 +10,31 @@ state SelectPlay ##green {
     state " " as 1
     state " " as 2
     state " " as 3
-    state " " as 4
-    state " " as 41
     state " " as 5
+    state " " as 6
+    state " " as 7
 
     [*] -[#green]-> 1
     1 -[#green]-> 2
     note on link #white
         <b>System requires</b>
-        * play [rollDice, movePiece or Bet]
+        * play [rollDice, movePiece, answerBet, responseBet]
         <b>System allows</b>
-        * Introduce a valid play [rollDice, movePiece or Bet]
+        * Introduce a valid play [rollDice, movePiece, answerBet, responseBet]
         * exit
+        <b>System shows</b>
+        * board
+        * menu:
+            - rollDice: active when there aren't dice moves
+            - movePiece: active when there is any possible dice move. Rules:
+                o position_from should be a owner piece
+                o position_to must not two or more opponent piece
+                o all rules in: https://en.wikipedia.org/wiki/Backgammon#Rules
+                o ???
+            - answerBet: active when player haven't doubling cube
+            - acceptBet: active when previous action was answerBet
+            - rejectBet: active when previous action was answerBet
+            - exit: active always
     end note
 
     ' rollDice
@@ -35,45 +48,54 @@ state SelectPlay ##green {
     note on link #white
         <b>System shows</b>
         * dice value
-        * board
     end note
 
 
     ' movePiece
-    2 -[#green]-> 4
+    2 -[#green]-> [*]
     note on link #white
         <b>Player provides</b>
         * play [MovePiece]
     end note
 
-    4 -[#green]-> 41
-    note on link #white
-        <b>System shows</b>
-        * board
-        * point options
-        <b>System allows:</b>
-        * introduce a point value
-        * exit
-    end note
-
-    41 -[#green]-> [*]
-    note on link #white
-        <b>Player provides</b>
-        * point value
-    end note
-
-    41 -[#red]-> [*]
-    note on link #white
-        <b>Player request to</b>
-        * exit
-    end note
-
-
-    'bet
+    'answerBet
     2 -[#green]-> 5
     note on link #white
         <b>Player provides</b>
-        * play [Bet]
+        * play [answerBet]
+    end note
+
+    5 -[#green]-> [*]
+    note on link #white
+        <b>System shows</b>
+        * show bet
+    end note
+
+    'acceptBet
+    2 -[#green]-> 6
+    note on link #white
+        <b>Player provides</b>
+        * play [acceptBet]
+    end note
+
+    6 -[#green]-> [*]
+    note on link #white
+        <b>System shows</b>
+        * bet
+    end note
+
+
+    'rejectBet
+    2 -[#green]-> 7
+    note on link #white
+        <b>Player provides</b>
+        * play [rejectBet]
+    end note
+
+    7 -[#blue]-> [*]
+    note on link #white
+        <b>System shows</b>
+        * show end_game
     end note
 
     2 -[#red]-> [*]
@@ -81,6 +103,7 @@ state SelectPlay ##green {
         <b>Player request to</b>
         * exit
     end note
+
 }
 
 IN_GAME -[#green]-> SelectPlay
