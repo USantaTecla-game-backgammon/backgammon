@@ -1,0 +1,47 @@
+@startuml contexto
+
+state INITIAL
+INITIAL: ""### BACKGAMMON ###""
+INITIAL: ""Each player should choose a color.""
+INITIAL: ""Define your goal? (1-64):""
+state IN_GAME
+IN_GAME: ""BOARD [1]""
+IN_GAME: ""1) Move from point 24 to 23 (dice 1)""
+IN_GAME: ""2) Move from point 24 to 22 (dice 2)""
+IN_GAME: ""3) ...""
+IN_GAME: ""4) Roll""
+IN_GAME: ""5) Bet""
+IN_GAME: ""6) Exit""
+state END_GAME
+END_GAME: ""### BACKGAMMON ###""
+END_GAME: ""1) Resume""
+END_GAME: ""2) Exit""
+state EXIT
+EXIT: ""### BACKGAMMON ###""
+EXIT: ""###            ###""
+EXIT: ""###     BYE    ###""
+EXIT: ""###            ###""
+EXIT: ""##################""
+state is_endgame <<choice>>
+state is_resume <<choice>>
+
+
+
+[*] --> INITIAL
+INITIAL --> IN_GAME: CreateGoal
+INITIAL --> EXIT: Exit
+
+IN_GAME --> is_endgame: SelectPlay
+IN_GAME --> EXIT: Exit
+is_endgame --> IN_GAME
+is_endgame --> END_GAME: [is_endgame]
+
+
+END_GAME --> is_resume: SelectResume
+END_GAME --> EXIT: Exit
+
+is_resume --> INITIAL: [yes]
+is_resume --> EXIT
+
+EXIT --> [*]
+@enduml
