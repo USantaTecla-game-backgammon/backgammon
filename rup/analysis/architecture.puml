@@ -1,0 +1,72 @@
+@startuml
+
+package Views {
+    boundary MatchView
+    boundary PlayerView
+    boundary GameView
+    boundary GoalView
+    boundary MenuView
+    boundary BoardView
+    boundary ActionView
+    boundary PositionView
+    boundary PieceView
+    boundary DoublingCubeView
+
+    MatchView *--> GameView
+    MatchView *--> GoalView
+    MatchView *--> PlayerView
+    GameView *--> MenuView
+    GameView *--> BoardView
+    GameView *--> DoublingCubeView
+    MenuView *--> ActionView
+    BoardView *--> PositionView
+    PositionView *--> PieceView
+}
+
+package Models {
+    entity Match
+    entity Player
+    entity Game
+    entity Goal
+    entity Menu
+    entity Board
+    entity Action
+    entity Position
+    entity Piece
+    entity DoublingCube
+
+    Match *-down-> Player
+    Match *-down-> Goal
+    Match *-down-> Game
+    Game *-down-> Menu
+    Game *-down-> DoublingCube
+    Game *-down-> Board
+    Board *-down-> Position
+    Position *-down-> Piece
+    Menu *-down-> "N" Action
+}
+
+package Controllers {
+    control ConfigureGoalController
+    control SelectPlayController
+    control SelectResumeController
+    control ExitController
+
+    ConfigureGoalController ..> SelectPlayController
+    ConfigureGoalController ..> ExitController
+    SelectPlayController ..> SelectPlayController
+    SelectPlayController ..> SelectResumeController
+    SelectPlayController ..> ExitController
+    SelectResumeController ..> ConfigureGoalController
+    SelectResumeController ..> ExitController
+}
+
+Views -down-> Controllers
+
+Controllers -down-> Models
+
+
+
+
+
+@enduml

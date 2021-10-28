@@ -1,3 +1,8 @@
+## Requirements
+
+### Domain Model
+![Domain Model](/docs/domain_model/domain_model.png)
+
 ### Use Cases
 
 ![Use Cases](/rup/usecase/use_cases.png)
@@ -31,3 +36,10 @@
 |  12  11  10   9   8   7 |    |   6   5   4   3   2   1 |
 |--------------------------------------------------------|
 ```
+
+## Analysis
+
+### Architecture
+![Architecture](/rup/analysis/architecture.png)
+
+
