@@ -6,7 +6,7 @@ state EXIT
 state "IN_GAME" as IN_GAME2
 
 
-state SelectPlay ##green {
+state DoAction ##green {
     state " " as 1
     state " " as 2
     state " " as 3
@@ -106,10 +106,10 @@ state SelectPlay ##green {
 
 }
 
-IN_GAME -[#green]-> SelectPlay
+IN_GAME -[#green]-> DoAction
 
-SelectPlay -[#green]-> IN_GAME2
-SelectPlay -[#blue]-> END_GAME
-SelectPlay -[#red]-> EXIT
+DoAction -[#green]-> IN_GAME2
+DoAction -[#blue]-> END_GAME
+DoAction -[#red]-> EXIT
 
 @enduml

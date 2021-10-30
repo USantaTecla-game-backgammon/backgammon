@@ -3,14 +3,19 @@ left to right direction
 
 actor Player
 
-usecase ConfigureGoal
-usecase SelectPlay
-usecase SelectResume
+usecase Start
+usecase MovePiece
+usecase Bet
+usecase RollDice
+usecase Resume
 usecase Exit
 
-Player --> ConfigureGoal
-Player --> SelectPlay
-Player --> SelectResume
+Player --> Start
+Player --> MovePiece
+Player --> Bet
+Player --> RollDice
+Player --> Resume
+Resume ..> Start : <extend>
 Player --> Exit
 
 @enduml

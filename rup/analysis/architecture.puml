@@ -28,9 +28,7 @@ package Models {
     entity Player
     entity Game
     entity Goal
-    entity Menu
     entity Board
-    entity Action
     entity Position
     entity Piece
     entity DoublingCube
@@ -38,35 +36,29 @@ package Models {
     Match *-down-> Player
     Match *-down-> Goal
     Match *-down-> Game
-    Game *-down-> Menu
     Game *-down-> DoublingCube
     Game *-down-> Board
     Board *-down-> Position
     Position *-down-> Piece
-    Menu *-down-> "N" Action
 }
 
 package Controllers {
-    control ConfigureGoalController
-    control SelectPlayController
+    control StartController
+    control DoActionController
     control SelectResumeController
     control ExitController
 
-    ConfigureGoalController ..> SelectPlayController
-    ConfigureGoalController ..> ExitController
-    SelectPlayController ..> SelectPlayController
-    SelectPlayController ..> SelectResumeController
-    SelectPlayController ..> ExitController
-    SelectResumeController ..> ConfigureGoalController
+    StartController ..> DoActionController
+    StartController ..> ExitController
+    DoActionController ..> DoActionController
+    DoActionController ..> SelectResumeController
+    DoActionController ..> ExitController
+    SelectResumeController ..> StartController
     SelectResumeController ..> ExitController
 }
 
 Views -down-> Controllers
 
 Controllers -down-> Models
-
-
-
-
 
 @enduml
