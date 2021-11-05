@@ -2,10 +2,11 @@
 
 state INITIAL
 state IN_GAME
-state END_GAME
+state END_MATCH
 state EXIT
 
 state is_endgame <<choice>>
+state is_endmatch <<choice>>
 state is_resume <<choice>>
 state exit_from_initial <<choice>>
 
@@ -16,14 +17,18 @@ exit_from_initial --> IN_GAME
 exit_from_initial --> EXIT: [exit]
 
 IN_GAME --> IN_GAME : RollDice
-IN_GAME --> IN_GAME : Bet
+IN_GAME --> is_endgame: Bet
 IN_GAME --> is_endgame: MovePiece
 IN_GAME --> EXIT: Exit
+
+
 is_endgame --> IN_GAME
-is_endgame --> END_GAME: [is_endgame]
+is_endgame --> is_endmatch
 
+is_endmatch --> END_MATCH: [is_endmatch]
+is_endmatch --> IN_GAME: [is_endgame]
 
-END_GAME --> is_resume: Resume
+END_MATCH --> is_resume: Resume
 
 is_resume --> INITIAL: [yes]
 is_resume --> EXIT
