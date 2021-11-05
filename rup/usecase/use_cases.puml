@@ -10,11 +10,18 @@ usecase RollDice
 usecase Resume
 usecase Exit
 
+usecase ShowMenu
+
 Player --> Start
+Start ..> ShowMenu : <include>
 Player --> MovePiece
+MovePiece ..> ShowMenu : <extend>
 Player --> Bet
+Bet ..> ShowMenu : <extend>
+Bet ..> Resume : <extend>
 Player --> RollDice
-Player --> Resume
+RollDice ..> ShowMenu : <include>
+MovePiece ..> Resume : <extend>
 Resume ..> Start : <extend>
 Player --> Exit
 

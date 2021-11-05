@@ -1,0 +1,27 @@
+@startuml
+
+state IN_GAME
+state IN_GAME2 as "IN_GAME"
+
+state RollDice ##green {
+    state " " as 1
+    state " " as 2
+
+    [*] -[#green]-> 1
+    1 -[#green]-> 2
+    note on link #white
+        <b>System shows</b>
+        * board
+        * rolled dices
+        * menu
+    end note
+
+}
+
+IN_GAME -[#green]-> RollDice
+note on link #white
+    <b>Player request to</b>
+    * RollDice
+end note
+
+RollDice -[#green]-> IN_GAME2

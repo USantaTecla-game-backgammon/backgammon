@@ -46,7 +46,6 @@ class Bet {}
 Backgammon *--> Match
 Match *--> Goal
 
-'Match --> Configurator
 Match *--> "1..n" Game
 Match *--> Turn
 
@@ -74,8 +73,10 @@ Player *--> "2" Dice
 Player o--> Goal
 Player ..> Action
 
+Resume .up.> Match
+
 Action <|-- RollDice
 Action <|-- MovePiece
 Action <|-- Bet
-Action <|-- Resign
+Action <|-- Resume
 @enduml

@@ -33,6 +33,7 @@ state Start ##green {
         <b>Player request to</b>
         * exit
     end note
+
 }
 
 INITIAL -[#green]-> Start

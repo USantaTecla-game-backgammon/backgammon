@@ -1,7 +1,7 @@
 ## Requirements
 
 ### Domain Model
-![Domain Model](/docs/domain_model/domain_model.png)
+![Domain Model](/rup/domain_model/domain_model.png)
 
 ### Use Cases
 
@@ -14,14 +14,22 @@
 ### Start
 ![Start](/rup/usecase/start.png)
 
-### DoAction
-![DoAction](/rup/usecase/do_action.png)
+### MovePiece
+![MovePiece](/rup/usecase/move_piece.png)
+
+### Bet
+![Bet](/rup/usecase/bet.png)
+
+### Resume
+![Resume](/rup/usecase/resume.png)
+
+### RollDice
+![RollDice](/rup/usecase/roll_dice.png)
 
 ### Resume
 ![Resume](/rup/usecase/resume.png)
 
 ### GUI
-
 ![GUI](/rup/context/gui.png)
 
 ## Analysis

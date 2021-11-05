@@ -1,12 +1,42 @@
 @startuml
 
+state STARTED
 state DICE_ROLLED
-state " " as MOVED_PIECE
+state BET
+state BET2 as "BET"
+state MOVED_PIECE
+
+state MENU ##green {
+    state " " as 1
+    state " " as 2
+
+    [*] -[#green]-> 1
+    1 -[#green]-> 2
+    note on link #white
+        <b>System requires</b>
+        * Select menu option
+        <b>System allows</b>
+        * rollDice
+        * movePiece
+        * Bet
+        * exit
+        <b>System shows</b>
+        * board
+        * menu:
+            - ACA IRIAN LAS REGLAS??
+            - exit: active always
+    end note
+
+}
 
 
-[*] --> DICE_ROLLED
+STARTED --> MENU
+DICE_ROLLED --> MENU
+BET --> MENU
 
-DICE_ROLLED --> MOVED_PIECE : MovePiece
-DICE_ROLLED --> EXIT : Exit
+MENU --> BET2 : Bet
+MENU --> MOVED_PIECE : MovePiece
+MENU --> EXIT : Exit
+
 
 @enduml
