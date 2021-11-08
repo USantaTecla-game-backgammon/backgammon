@@ -44,15 +44,24 @@ package Models {
 
 package Controllers {
     control StartController
-    control DoActionController
+    control BetController
+    control MovePieceController
+    control RollDiceController
     control SelectResumeController
     control ExitController
 
-    StartController ..> DoActionController
+    StartController ..> MovePieceController
     StartController ..> ExitController
-    DoActionController ..> DoActionController
-    DoActionController ..> SelectResumeController
-    DoActionController ..> ExitController
+    MovePieceController ..> MovePieceController
+    MovePieceController ..> BetController
+    MovePieceController ..> ExitController
+    MovePieceController ..> RollDiceController
+    MovePieceController ..> SelectResumeController
+    RollDiceController ..> MovePieceController
+    RollDiceController ..> ExitController
+    BetController ..> ExitController
+    BetController ..> MovePieceController
+
     SelectResumeController ..> StartController
     SelectResumeController ..> ExitController
 }

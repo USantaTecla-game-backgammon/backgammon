@@ -1,0 +1,54 @@
+@startuml
+
+state IN_GAME
+state IN_GAME2 as "IN_GAME"
+state END_GAME
+
+state Bet ##green {
+    state " " as 1
+    state " " as 2
+    state " " as 3
+    state " " as 4
+
+    [*] -[#green]-> 1
+    1 -[#green]-> 2
+    note on link #white
+        <b>System requires</b>
+        * Response Bet
+        <b>System allows</b>
+        * Yes
+        * No
+    end note
+    2 -[#green]-> 3
+    note on link #white
+        <b>Opponent Player</b>
+        Response Yes
+    end note
+    2 -[#red]-> 4
+    note on link #white
+        <b>Opponent Player</b>
+        Response No
+    end note
+
+    3 -[#green]-> [*]: Yes
+    note on link #white
+        <b>System shows:</b>
+        Doubling Cube doubled
+        Menu
+    end note
+
+    4 -[#red]-> [*]: No
+    note on link #white
+        <b>System shows</b>
+        End Game
+    end note
+}
+
+IN_GAME -[#green]-> Bet
+note on link #white
+    <b>Player request to</b>
+    * Bet
+end note
+
+Bet -[#green]-> IN_GAME2
+Bet -[#red]-> END_GAME

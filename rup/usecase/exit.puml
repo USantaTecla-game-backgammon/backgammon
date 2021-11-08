@@ -1,0 +1,39 @@
+@startuml
+
+state IN_GAME
+state IN_GAME2 as "IN_GAME"
+state END_MATCH
+
+state Exit ##green {
+    state " " as 1
+    state " " as 2
+
+    [*] -[#green]-> 1
+    1 -[#green]-> 2
+    note on link #white
+        <b>System requires</b>
+        * Response Exit
+        <b>System allows</b>
+        * Yes
+        * No
+    end note
+    2 -[#green]-> [*]
+    note on link #white
+        <b>Player</b>
+        Response No
+    end note
+    2 -[#red]-> [*]
+    note on link #white
+        <b>Player</b>
+        Response Yes
+    end note
+}
+
+IN_GAME -[#green]-> Exit
+note on link #white
+    <b>Player request to</b>
+    * Exit
+end note
+
+Exit -[#green]-> IN_GAME2
+Exit -[#red]-> END_MATCH

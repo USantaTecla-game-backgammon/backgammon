@@ -1,0 +1,36 @@
+@startuml MovePiece
+
+state END_GAME
+state INITIAL_BOARD
+state ANSWER_BET
+state MOVE_BAR_PIECE
+state REJECT_BET
+state MOVED_PIECE
+state ROLLED_DICES
+
+
+state is_last_piece_in_board <<choice>>
+state are_any_available_moves <<choice>>
+state are_all_pieces_in_last_square <<choice>>
+state is_any_piece_in_bar <<choice>>
+state move_piece <<choice>>
+
+
+[*] -down-> INITIAL_BOARD
+
+INITIAL_BOARD -down-> MOVED_PIECE: [move_piece]
+
+MOVED_PIECE -down-> ANSWER_BET: Bet
+MOVED_PIECE -down-> ROLLED_DICES: RollDice
+
+ROLLED_DICES -down-> MOVE_BAR_PIECE: [is_any_piece_in_bar]
+ROLLED_DICES -up-> MOVED_PIECE: [are_any_available_moves]
+MOVE_BAR_PIECE -down-> ROLLED_DICES
+ROLLED_DICES -down-> END_GAME: [is_last_piece_in_board]
+
+ANSWER_BET --> REJECT_BET: [No]
+ANSWER_BET --> ROLLED_DICES: [Yes]
+
+REJECT_BET --> END_GAME
+END_GAME --> [*]
+@enduml
