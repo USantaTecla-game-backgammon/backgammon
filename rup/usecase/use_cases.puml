@@ -5,9 +5,10 @@ actor Player
 
 usecase Start
 usecase MovePiece
-usecase Bet
 usecase RollDice
-usecase Resume
+usecase Bet
+usecase AcceptBet
+usecase RejectBet
 usecase Exit
 
 usecase ShowMenu
@@ -18,9 +19,10 @@ Player --> MovePiece
 MovePiece ..> ShowMenu : <extend>
 Player --> Bet
 Bet ..> ShowMenu : <extend>
-Player --> RollDice
 RollDice ..> ShowMenu : <include>
-Player --> Resume
+Player --> AcceptBet
+Player --> RejectBet
+Player --> RollDice
 Player --> Exit
 
 @enduml

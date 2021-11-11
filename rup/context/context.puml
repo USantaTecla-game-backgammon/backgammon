@@ -1,37 +1,36 @@
 @startuml contexto
 
 state INITIAL
-state IN_GAME
-state END_MATCH
+state PENDING_MOVE
+state INITIAL_TURN_ABLE_BET
+state ANSWER_BET
+state INITIAL_TURN_DISABLE_BET
 state EXIT
 
-state is_endgame <<choice>>
-state is_endmatch <<choice>>
-state is_resume <<choice>>
-state exit_from_initial <<choice>>
+state s2 <<choice>>
+state s3 <<choice>>
 
 
 [*] --> INITIAL
-INITIAL --> exit_from_initial: Start
-exit_from_initial --> IN_GAME
-exit_from_initial --> EXIT: [exit]
+INITIAL --> PENDING_MOVE: Start
+INITIAL --> EXIT: Exit
 
-IN_GAME --> IN_GAME : RollDice
-IN_GAME --> is_endgame: Bet
-IN_GAME --> is_endgame: MovePiece
-IN_GAME --> EXIT: Exit
+PENDING_MOVE --> s2 : MovePiece
+s2 --> INITIAL_TURN_ABLE_BET : [is_not_possible_moves and is_can_bet]
+s2 --> INITIAL_TURN_DISABLE_BET : [is_not_possible_moves and is_not_can_bet]
+s2 --> PENDING_MOVE : [is_possible_moves]
+PENDING_MOVE --> EXIT : Exit
+INITIAL_TURN_ABLE_BET --> EXIT : Exit
+INITIAL_TURN_DISABLE_BET --> EXIT : Exit
 
+INITIAL_TURN_ABLE_BET --> s2 : RollDice
+INITIAL_TURN_DISABLE_BET --> s2 : RollDice
 
-is_endgame --> IN_GAME
-is_endgame --> is_endmatch
-
-is_endmatch --> END_MATCH: [is_endmatch]
-is_endmatch --> IN_GAME: [is_endgame]
-
-END_MATCH --> is_resume: Resume
-
-is_resume --> INITIAL: [yes]
-is_resume --> EXIT
+INITIAL_TURN_ABLE_BET --> ANSWER_BET : Bet
+ANSWER_BET --> INITIAL_TURN_DISABLE_BET : AcceptBet
+ANSWER_BET --> s3 : RejectBet
+s3 --> PENDING_MOVE : [is_endgame]
+s3 --> INITIAL : [is_endmatch]
 
 EXIT --> [*]
 @enduml

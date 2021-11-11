@@ -1,30 +1,47 @@
 @startuml
+hide empty description
 
-state IN_GAME
-state IN_GAME2 as "IN_GAME"
-state END_GAME
+state INITIAL_TURN_ABLE_BET
+state INITIAL_TURN_DISABLE_BET
+state PENDING_MOVE
+state "PENDING_MOVE" as PENDING_MOVE2
+
 
 state MovePiece ##green {
     state " " as 1
     state " " as 2
+    state " " as 3
 
-    [*] -[#green]-> 1
-    1 -[#green]-> 2
+    state status <<choice>>
+
+    [*] -[#green]-> status
+
+    status -[#green]-> 1 : [is_possible_moves]
+    status -[#blue]-> 2 : [is_not_possible_moves and is_can_bet]
+    status -[#red]-> 3 : [is_not_possible_moves and is_not_can_bet]
+
+    1 -[#green]-> [*]
+    2 -[#blue]-> [*]
     note on link #white
         <b>System shows</b>
-        * board
-        * menu
+        * player turn has changed
     end note
-    2 -[#green]-> [*]
-    2 --> [*]
-
+    3 -[#red]-> [*]
+    note on link #white
+        <b>System shows</b>
+        * player turn has changed
+    end note
 }
 
-IN_GAME -[#green]-> MovePiece
+PENDING_MOVE -[#green]-> MovePiece
 note on link #white
     <b>Player request to</b>
     * MovePiece
 end note
 
-MovePiece -[#green]-> IN_GAME2
-MovePiece -[#red]-> END_GAME
+MovePiece -[#green]-> :ShowMenu
+:ShowMenu -[#green]-> INITIAL_TURN_ABLE_BET
+MovePiece -[#blue]-> :ShowMenu
+:ShowMenu -[#blue]-> INITIAL_TURN_DISABLE_BET
+MovePiece -[#red]->  :ShowMenu
+:ShowMenu -[#red]->  PENDING_MOVE2

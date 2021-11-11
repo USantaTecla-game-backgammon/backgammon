@@ -1,13 +1,13 @@
 @startuml
+hide empty description
 
 state INITIAL
-state IN_GAME
-state EXIT
-
 
 state Start ##green {
     state " " as 1
     state " " as 2
+
+    state validate <<choice>>
 
     [*] -[#green]-> 1
     1 -[#green]-> 2
@@ -19,21 +19,20 @@ state Start ##green {
         * goal
         <b>System allows</b>
         * Introduce a number between 1 and 64, both inclusive
-        * exit
     end note
 
-    2 -[#green]-> [*]
+    2 -[#green]-> validate
     note on link #white
         <b>Player provides</b>
         * goal
     end note
 
-    2 -[#red]-> [*]
+    validate -[#red]-> 2
     note on link #white
-        <b>Player request to</b>
-        * exit
+        invalid goal
     end note
 
+    validate -[#green]-> [*]
 }
 
 INITIAL -[#green]-> Start
@@ -42,7 +41,7 @@ note on link #white
     * Start
 end note
 
-Start -[#green]-> IN_GAME
-Start -[#red]-> EXIT
+Start -[#green]-> :RollDice
+:RollDice -[#green]-> PENDING_MOVE
 
 @enduml
