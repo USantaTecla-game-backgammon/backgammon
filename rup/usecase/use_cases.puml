@@ -13,16 +13,14 @@ usecase Exit
 usecase ShowMenu
 
 Player --> Start
-Start ..> ShowMenu : <include>
+Start ..> ShowMenu : <extend>
 Player --> MovePiece
 MovePiece ..> ShowMenu : <extend>
 Player --> Bet
 Bet ..> ShowMenu : <extend>
-Bet ..> Resume : <extend>
 Player --> RollDice
 RollDice ..> ShowMenu : <include>
-MovePiece ..> Resume : <extend>
-Resume ..> Start : <extend>
+Player --> Resume
 Player --> Exit
 
 @enduml

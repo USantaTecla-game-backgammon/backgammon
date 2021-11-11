@@ -19,7 +19,7 @@ state Start ##green {
         * goal
         <b>System allows</b>
         * Introduce a number between 1 and 64, both inclusive
-        * exit (CTRL + C)
+        * exit
     end note
 
     2 -[#green]-> [*]
