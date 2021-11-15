@@ -1,69 +1,86 @@
 @startuml
 
 package Views {
-    boundary MatchView
-    boundary PlayerView
-    boundary GameView
-    boundary GoalView
-    boundary MenuView
-    boundary BoardView
-    boundary ActionView
-    boundary PositionView
-    boundary PieceView
-    boundary DoublingCubeView
+
+    package Match3 as "Match"{
+        boundary MatchView
+        boundary PlayerView
+        boundary GameView
+        boundary GoalView
+    }
+
+    package Menu2 as "Menu"{
+        boundary MenuView
+        boundary ActionView
+    }
+
+    package Board2 as "Board"{
+        boundary BoardView
+        boundary PositionView
+        boundary PieceView
+        boundary DoublingCubeView
+    }
 
     MatchView *--> GameView
     MatchView *--> GoalView
     MatchView *--> PlayerView
-    GameView *--> MenuView
-    GameView *--> BoardView
-    GameView *--> DoublingCubeView
+    GameView *--> Board2
+    BoardView *--> DoublingCubeView
     MenuView *--> ActionView
     BoardView *--> PositionView
     PositionView *--> PieceView
+
 }
 
 package Models {
-    entity Match
-    entity Player
-    entity Game
-    entity Goal
-    entity Board
-    entity Position
-    entity Piece
-    entity DoublingCube
+
+    package Match4 as "Match"{
+        entity Match
+        entity Player
+        entity Game
+        entity Goal
+    }
+
+    package Board3 as "Board"{
+        entity Board
+        entity Position
+        entity Piece
+        entity DoublingCube
+    }
+
+
 
     Match *-down-> Player
     Match *-down-> Goal
     Match *-down-> Game
-    Game *-down-> DoublingCube
+    Board *-down-> DoublingCube
     Game *-down-> Board
     Board *-down-> Position
     Position *-down-> Piece
 }
 
 package Controllers {
-    control StartController
-    control BetController
-    control MovePieceController
-    control RollDiceController
-    control SelectResumeController
-    control ExitController
 
-    StartController ..> MovePieceController
-    StartController ..> ExitController
-    MovePieceController ..> MovePieceController
-    MovePieceController ..> BetController
-    MovePieceController ..> ExitController
-    MovePieceController ..> RollDiceController
-    MovePieceController ..> SelectResumeController
-    RollDiceController ..> MovePieceController
-    RollDiceController ..> ExitController
-    BetController ..> ExitController
-    BetController ..> MovePieceController
+    package Menu {
+        control ShowMenuController
+        control BetController
+        control AcceptBetController
+        control MovePieceController
+        control RollDiceController
+        control RejectBetController
 
-    SelectResumeController ..> StartController
-    SelectResumeController ..> ExitController
+        BetController ..> ShowMenuController
+        AcceptBetController ..> ShowMenuController
+        MovePieceController ..> ShowMenuController
+        RollDiceController ..> ShowMenuController
+
+    }
+
+    package Match2 as "Match" {
+        control StartController
+        control ExitController
+    }
+
 }
 
 Views -down-> Controllers
