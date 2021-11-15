@@ -1,0 +1,23 @@
+@startuml
+
+actor Player2 as "Player"
+
+package Models {
+    package Board3 as "Board"{
+        entity Board
+    }
+}
+
+package Controllers {
+    package Menu {
+        control ShowMenuController
+        control MovePieceController
+
+        MovePieceController --> ShowMenuController: <extend>
+    }
+}
+
+Player2 -right-> MovePieceController
+MovePieceController -right-> Board
+
+@enduml

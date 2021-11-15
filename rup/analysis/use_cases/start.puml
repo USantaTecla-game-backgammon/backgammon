@@ -1,0 +1,44 @@
+@startuml
+
+actor Player2 as "Player"
+
+package Views {
+    package Match3 as "Match"{
+        boundary GoalView
+        boundary PlayerView
+    }
+    package Menu2 as "Menu"{
+        boundary MenuView
+    }
+    package Board{
+        entity BoardView
+    }
+}
+
+package Models {
+    package Match4 as "Match"{
+        entity Match
+    }
+}
+
+package Controllers {
+    package Menu {
+        control ShowMenuController
+    }
+
+    package Match2 as "Match" {
+        control ExitController
+        control StartController
+    }
+}
+
+Player2 -right-> StartController
+StartController -right-> ExitController: <extend>
+StartController -down-> ShowMenuController: <extend>
+StartController --> GoalView
+GoalView --> PlayerView: frame
+StartController --> Match
+ShowMenuController --> BoardView
+ShowMenuController --> MenuView
+
+@enduml
