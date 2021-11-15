@@ -1,23 +1,36 @@
 @startuml
+object showMenuController
+object Match
+object MatchView
+object MenuView
+object Action
 
-actor Player2 as "Player"
+object MoveAction
+object RollDiceAction
+object BetAction
 
-package Models {
-    package Board3 as "Board"{
-        entity Board
-    }
-}
+showMenuController ..> Action
+MenuView ..> Action
 
-package Controllers {
-    package Menu {
-        control ShowMenuController
-        control MovePieceController
+MoveAction -up-|> Action
+BetAction -up-|> Action
+RollDiceAction -up-|> Action
 
-        MovePieceController --> ShowMenuController: <extend>
-    }
-}
+showMenuController --> showMenuController : execute
+showMenuController --> Match
+note on link
+  getMatchDTO()
+  getPossibleMoves() : list[Move]
+  canBet()
+end note
 
-Player2 -right-> MovePieceController
-MovePieceController -right-> Board
+showMenuController --> MatchView
+note on link
+  showBoard(MatchDTO)
+end note
 
+showMenuController --> MenuView
+note on link
+  addAction(Action)
+end note
 @enduml

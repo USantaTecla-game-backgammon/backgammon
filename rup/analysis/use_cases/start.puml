@@ -1,23 +1,9 @@
 @startuml
 
-actor Player2 as "Player"
-
 package Views {
     package Match3 as "Match"{
         boundary GoalView
-        boundary PlayerView
-    }
-    package Menu2 as "Menu"{
-        boundary MenuView
-    }
-    package Board{
-        entity BoardView
-    }
-}
-
-package Models {
-    package Match4 as "Match"{
-        entity Match
+        boundary MatchView
     }
 }
 
@@ -29,16 +15,21 @@ package Controllers {
     package Match2 as "Match" {
         control ExitController
         control StartController
+        control RollDiceController
     }
 }
 
-Player2 -right-> StartController
-StartController -right-> ExitController: <extend>
-StartController -down-> ShowMenuController: <extend>
-StartController --> GoalView
-GoalView --> PlayerView: frame
-StartController --> Match
-ShowMenuController --> BoardView
-ShowMenuController --> MenuView
+StartController --> RollDiceController
+note on link
+    execute
+end note
+StartController --> StartController
+note on link
+    execute
+end note
+StartController -right-> ExitController: execute
+StartController -down-> ShowMenuController: execute
+StartController --> GoalView : interact
+StartController --> MatchView : showTitle
 
 @enduml
