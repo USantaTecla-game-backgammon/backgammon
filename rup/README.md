@@ -75,8 +75,12 @@ RollDice is so similar to MovePiece
 ![Architecture](/rup/analysis/architecture.png)
 
 #### Use Cases
+
+#### Start
 ![Start](/rup/analysis/use_cases/start.png)
 
+#### MovePiece
 ![MovePiece](/rup/analysis/use_cases/move_piece.png)
 
+#### Bet
 ![Bet](/rup/analysis/use_cases/bet.png)
