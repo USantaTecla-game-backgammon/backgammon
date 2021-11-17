@@ -1,6 +1,7 @@
 @startuml
 hide empty description
 
+state LAUNCH
 state INITIAL
 
 state Start ##green {
@@ -16,9 +17,7 @@ state Start ##green {
         * Welcome message
         * Goal message
         <b>System requires</b>
-        * goal
-        <b>System allows</b>
-        * Introduce a number between 1 and 64, both inclusive
+        * goal (number between 1 and 64, both inclusive)
     end note
 
     2 -[#green]-> validate
@@ -34,12 +33,12 @@ state Start ##green {
 
     validate -[#green]-> [*]
 }
-
-INITIAL -[#green]-> Start
+LAUNCH -[#green]-> INITIAL
 note on link #white
     <b>Player request to</b>
     * Start
 end note
+INITIAL -[#green]-> Start
 
 Start -[#green]-> :RollDice
 :RollDice -[#green]-> PENDING_MOVE

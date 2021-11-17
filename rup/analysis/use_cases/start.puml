@@ -2,20 +2,20 @@
 
 package Views {
     package Match3 as "Match"{
-        boundary GoalView
-        boundary MatchView
+        object GoalView
+        object MatchView
     }
 }
 
 package Controllers {
     package Menu {
-        control ShowMenuController
+        object ShowMenuController
     }
 
     package Match2 as "Match" {
-        control ExitController
-        control StartController
-        control RollDiceController
+        object ExitController
+        object StartController
+        object RollDiceController
     }
 }
 

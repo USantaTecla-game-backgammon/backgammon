@@ -1,0 +1,61 @@
+@startuml
+allow_mixing
+
+actor Player
+
+object MenuController
+object Match
+object MatchView
+object MenuView
+object Action
+
+object MoveAction
+object RollDiceAction
+object RequestBetAction
+
+object RollDiceController
+object RequestBetController
+object MovePieceController
+object ActionController
+
+Player -right-> MenuView
+note on link
+  interact()
+end note
+
+MenuController ..> Action
+MenuView ..> Action
+
+Action <|-- MoveAction
+Action <|-- RequestBetAction
+Action <|-- RollDiceAction
+
+ActionController <|-- MovePieceController
+ActionController <|-- RequestBetController
+ActionController <|-- RollDiceController
+
+MenuController --> MenuController : execute
+MenuController --> Match
+note on link
+  match_serialized()
+  possible_moves() : list[Move]
+  can_bet()
+end note
+
+MenuController --> MatchView
+note on link
+  show_board(MatchSerialized)
+end note
+
+MenuController --> MenuView
+note on link
+  add_action(Action)
+  show_actions()
+  read_action(): Action
+end note
+
+MenuController --> ActionController
+note on link
+  execute_action(Action)
+end note
+@enduml

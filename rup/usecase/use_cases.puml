@@ -6,22 +6,20 @@ actor Player
 usecase Start
 usecase MovePiece
 usecase RollDice
-usecase Bet
-usecase AcceptBet
-usecase RejectBet
+usecase RequestBet
+usecase ResponseBet
 usecase Exit
-
 usecase ShowMenu
 
 Player --> Start
 Start ..> ShowMenu : <extend>
+Start ..> RollDice : <include>
 Player --> MovePiece
 MovePiece ..> ShowMenu : <extend>
-Player --> Bet
-Bet ..> ShowMenu : <extend>
+Player --> RequestBet
+RequestBet ..> ShowMenu : <extend>
 RollDice ..> ShowMenu : <include>
-Player --> AcceptBet
-Player --> RejectBet
+Player --> ResponseBet
 Player --> RollDice
 Player --> Exit
 

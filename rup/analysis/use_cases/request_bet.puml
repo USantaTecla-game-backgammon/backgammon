@@ -1,0 +1,34 @@
+@startuml
+
+package Models {
+    package Match as "Match" {
+        object Match
+    }
+}
+
+package Views {
+    package Match2 as "Match" {
+        object MatchView
+    }
+}
+
+package Controllers {
+    package Menu {
+        object MenuController
+        object RequestBetController
+    }
+}
+
+MenuController --> RequestBetController: execute
+
+RequestBetController --> Match
+note on link
+  change_turn()
+end note
+
+RequestBetController --> MatchView
+note on link
+  show_bet()
+end note
+
+@enduml

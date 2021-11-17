@@ -1,0 +1,54 @@
+@startuml
+allow_mixing
+
+actor Player
+
+package Models {
+    package Match as "Match" {
+        object Match
+    }
+}
+
+package Views {
+    package Match2 as "Match" {
+        object MatchView
+    }
+    package Menu {
+        object MenuView
+    }
+}
+
+package Controllers {
+    package Menu2 as "Menu" {
+        object ResponseBetController
+        object RequestBetController
+    }
+}
+
+Player --> MenuView
+note on link
+  interact()
+end note
+
+RequestBetController --> ResponseBetController
+note on link
+  execute()
+end note
+
+ResponseBetController --> Match
+note on link
+  bet()
+  serialize(): MatchSerialized
+end note
+
+ResponseBetController --> MatchView
+note on link
+  show_response_bet(MatchSerialized)
+end note
+
+ResponseBetController --> MenuView
+note on link
+  read_response_bet()
+end note
+
+@enduml

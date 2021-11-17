@@ -62,17 +62,16 @@ package Models {
 package Controllers {
 
     package Menu {
-        control ShowMenuController
-        control BetController
-        control AcceptBetController
+        control MenuController
+        control ResponseBetController
+        control RequestBetController
         control MovePieceController
         control RollDiceController
-        control RejectBetController
 
-        BetController ..> ShowMenuController
-        AcceptBetController ..> ShowMenuController
-        MovePieceController ..> ShowMenuController
-        RollDiceController ..> ShowMenuController
+        RequestBetController ..> MenuController
+        ResponseBetController ..> MenuController
+        MovePieceController ..> MenuController
+        RollDiceController ..> MenuController
 
     }
 
