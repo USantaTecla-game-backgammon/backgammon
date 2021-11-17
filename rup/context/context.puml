@@ -2,35 +2,46 @@
 
 state INITIAL
 state PENDING_MOVE
-state INITIAL_TURN_ABLE_BET
-state ANSWER_BET
-state INITIAL_TURN_DISABLE_BET
+state ABLE_BET
+state DISABLE_BET
+state REQUESTED_BET
 state EXIT
 
-state s2 <<choice>>
-state s3 <<choice>>
+state is_endmatch <<choice>>
+state is_possible_moves <<choice>>
+state can_bet <<choice>>
+state is_possible_moves2 <<choice>>
+state accept_bet <<choice>>
 
-
-[*] --> INITIAL
+[*] -down-> INITIAL
 INITIAL --> PENDING_MOVE: Start
 INITIAL --> EXIT: Exit
 
-PENDING_MOVE --> s2 : MovePiece
-s2 --> INITIAL_TURN_ABLE_BET : [is_not_possible_moves and is_can_bet]
-s2 --> INITIAL_TURN_DISABLE_BET : [is_not_possible_moves and is_not_can_bet]
-s2 --> PENDING_MOVE : [is_possible_moves]
+PENDING_MOVE --> is_possible_moves : MovePiece
+
+is_possible_moves --> PENDING_MOVE : [is_possible_moves]
+is_possible_moves --> is_endmatch
+
+is_endmatch --> INITIAL : [is_endmatch]
+is_endmatch --> can_bet
+
+can_bet --> ABLE_BET : [can_bet]
+can_bet --> DISABLE_BET
+
 PENDING_MOVE --> EXIT : Exit
-INITIAL_TURN_ABLE_BET --> EXIT : Exit
-INITIAL_TURN_DISABLE_BET --> EXIT : Exit
+ABLE_BET --> EXIT : Exit
+DISABLE_BET --> EXIT : Exit
 
-INITIAL_TURN_ABLE_BET --> s2 : RollDice
-INITIAL_TURN_DISABLE_BET --> s2 : RollDice
+ABLE_BET --> is_possible_moves2 : RollDice
+DISABLE_BET --> is_possible_moves2 : RollDice
 
-INITIAL_TURN_ABLE_BET --> ANSWER_BET : Bet
-ANSWER_BET --> INITIAL_TURN_DISABLE_BET : AcceptBet
-ANSWER_BET --> s3 : RejectBet
-s3 --> PENDING_MOVE : [is_endgame]
-s3 --> INITIAL : [is_endmatch]
+is_possible_moves2 --> PENDING_MOVE : [is_possible_moves]
+is_possible_moves2 --> can_bet
+
+ABLE_BET --> REQUESTED_BET : RequestBet
+REQUESTED_BET --> accept_bet : ResponseBet
+accept_bet --> DISABLE_BET : [yes]
+accept_bet --> is_endmatch
 
 EXIT --> [*]
 @enduml

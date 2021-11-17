@@ -1,36 +1,59 @@
 @startuml
-object showMenuController
-object Match
-object MatchView
-object MenuView
-object Action
 
-object MoveAction
-object RollDiceAction
-object BetAction
+package Views {
+    package Menu as ViewsMenu {
+        object MatchView
+    }
+}
 
-showMenuController ..> Action
-MenuView ..> Action
+package Models {
+    package Board3 as "Board" {
+        object Board
+        object Move
+        object Match
+    }
+}
 
-MoveAction -up-|> Action
-BetAction -up-|> Action
-RollDiceAction -up-|> Action
+package Controllers {
+    package Menu {
+        object MenuController
+        object MovePieceController
 
-showMenuController --> showMenuController : execute
-showMenuController --> Match
+        MovePieceController --> MenuController
+        note on link
+            execute()
+        end note
+
+        MenuController --> MovePieceController
+        note on link
+            execute_action(Action)
+        end note
+    }
+}
+
+MovePieceController -right-> Move
 note on link
-  getMatchDTO()
-  getPossibleMoves() : list[Move]
-  canBet()
+    from_dto(MoveSerialized) : Move
 end note
 
-showMenuController --> MatchView
+MovePieceController -right-> Board
 note on link
-  showBoard(MatchDTO)
+    serialize() : BoardSerialized
+    move(Move)
 end note
 
-showMenuController --> MenuView
+MovePieceController -right-> Match
 note on link
-  addAction(Action)
+    serialize() : MatchSerialized
+    serialize_last_game() : GameSerialized
 end note
+
+MovePieceController --> MatchView
+note on link
+    show_move(MoveSerialized)
+    show_endgame(GameSerialized)
+    show_end(MatchSerialized)
+    show_game_turn(GameSerialized)
+end note
+
 @enduml

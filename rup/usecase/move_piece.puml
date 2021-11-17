@@ -1,47 +1,64 @@
 @startuml
 hide empty description
 
-state INITIAL_TURN_ABLE_BET
-state INITIAL_TURN_DISABLE_BET
+state INITIAL
+state ABLE_BET
+state DISABLE_BET
 state PENDING_MOVE
 state "PENDING_MOVE" as PENDING_MOVE2
 
+state " " as 1
+state " " as endgame
+state " " as endmatch
 
-state MovePiece ##green {
-    state " " as 1
-    state " " as 2
-    state " " as 3
+state is_endgame <<choice>>
+state is_endmatch <<choice>>
+state is_possible_moves <<choice>>
+state can_bet <<choice>>
 
-    state status <<choice>>
+1 -[#green]-> is_possible_moves
+note on link #white
+    <b>System shows</b>
+    * player movement
+end note
 
-    [*] -[#green]-> status
+is_possible_moves -[#green]-> :ShowMenu : [is_possible_moves]
+is_possible_moves -[#red]-> is_endgame
 
-    status -[#green]-> 1 : [is_possible_moves]
-    status -[#blue]-> 2 : [is_not_possible_moves and is_can_bet]
-    status -[#red]-> 3 : [is_not_possible_moves and is_not_can_bet]
+is_endgame -[#green]-> endgame : [is_endgame]
+endgame -[#green]-> is_endmatch
+note on link #white
+    <b>System shows</b>
+    * game result
+end note
+is_endgame -[#red]-> can_bet
+note on link #white
+    <b>System shows</b>
+    * player turn has changed
+end note
 
-    1 -[#green]-> [*]
-    2 -[#blue]-> [*]
-    note on link #white
-        <b>System shows</b>
-        * player turn has changed
-    end note
-    3 -[#red]-> [*]
-    note on link #white
-        <b>System shows</b>
-        * player turn has changed
-    end note
-}
+is_endmatch -[#green]-> endmatch : [is_endmatch]
+endmatch -[#purple]-> INITIAL
+note on link #white
+    <b>System shows</b>
+    * match result
+end note
+is_endmatch -[#red]-> :ShowMenu
+note on link #white
+    <b>System shows</b>
+    * player turn has changed
+end note
 
-PENDING_MOVE -[#green]-> MovePiece
+can_bet -[#blue]-> :ShowMenu : [can_bet]
+can_bet -[#red]-> :ShowMenu
+
+
+PENDING_MOVE -[#green]-> 1
 note on link #white
     <b>Player request to</b>
     * MovePiece
 end note
 
-MovePiece -[#green]-> :ShowMenu
-:ShowMenu -[#green]-> INITIAL_TURN_ABLE_BET
-MovePiece -[#blue]-> :ShowMenu
-:ShowMenu -[#blue]-> INITIAL_TURN_DISABLE_BET
-MovePiece -[#red]->  :ShowMenu
-:ShowMenu -[#red]->  PENDING_MOVE2
+:ShowMenu -[#red]-> DISABLE_BET
+:ShowMenu -[#blue]-> ABLE_BET
+:ShowMenu -[#green]->  PENDING_MOVE2
