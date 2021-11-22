@@ -2,18 +2,16 @@
 
 package Views {
     package Match3 as "Match"{
-        object GoalView
         object MatchView
     }
 }
 
 package Controllers {
     package Menu {
-        object ShowMenuController
+        object MenuController
     }
 
     package Match2 as "Match" {
-        object ExitController
         object StartController
         object RollDiceController
     }
@@ -21,15 +19,18 @@ package Controllers {
 
 StartController --> RollDiceController
 note on link
-    execute
+    execute()
 end note
-StartController --> StartController
+
+MenuController -down-> StartController
 note on link
-    execute
+    execute()
 end note
-StartController -right-> ExitController: execute
-StartController -down-> ShowMenuController: execute
-StartController --> GoalView : interact
-StartController --> MatchView : showTitle
+
+StartController --> MatchView
+note on link
+    show_title()
+    interact_goal()
+end note
 
 @enduml

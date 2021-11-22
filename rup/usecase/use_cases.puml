@@ -13,7 +13,7 @@ usecase ShowMenu
 
 Player --> Start
 Start ..> ShowMenu : <extend>
-Start ..> RollDice : <include>
+Start ..> RollDice : <extend>
 Player --> MovePiece
 MovePiece ..> ShowMenu : <extend>
 Player --> RequestBet

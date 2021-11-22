@@ -1,46 +1,41 @@
 @startuml
 hide empty description
 
-state LAUNCH
 state INITIAL
 
-state Start ##green {
-    state " " as 1
-    state " " as 2
+state " " as 1
+state " " as 2
 
-    state validate <<choice>>
+state validate <<choice>>
 
-    [*] -[#green]-> 1
-    1 -[#green]-> 2
-    note on link #white
-        <b>System shows</b>
-        * Welcome message
-        * Goal message
-        <b>System requires</b>
-        * goal (number between 1 and 64, both inclusive)
-    end note
+1 -[#green]-> 2
+note on link #white
+    <b>System shows</b>
+    * Welcome message
+    * Goal message
+    <b>System requires</b>
+    * goal (number between 1 and 64, both inclusive)
+end note
 
-    2 -[#green]-> validate
-    note on link #white
-        <b>Player provides</b>
-        * goal
-    end note
+2 -[#green]-> validate
+note on link #white
+    <b>Player provides</b>
+    * goal
+end note
 
-    validate -[#red]-> 2
-    note on link #white
-        invalid goal
-    end note
+validate -[#red]-> 2
+note on link #white
+    invalid goal
+end note
 
-    validate -[#green]-> [*]
-}
-LAUNCH -[#green]-> INITIAL
+validate -[#green]-> :RollDice
+
+INITIAL -[#green]-> 1
 note on link #white
     <b>Player request to</b>
     * Start
 end note
-INITIAL -[#green]-> Start
 
-Start -[#green]-> :RollDice
 :RollDice -[#green]-> PENDING_MOVE
 
 @enduml

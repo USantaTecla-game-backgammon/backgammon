@@ -1,27 +1,75 @@
 @startuml
+hide empty description
 
-state IN_GAME
-state IN_GAME2 as "IN_GAME"
+state INITIAL
 
-state RollDice ##green {
-    state " " as 1
-    state " " as 2
+state 1 as " "
+state 2 as " " <<choice>>
+state 3 as " "
+state 4 as " "
+state 5 as " "
+state 6 as " " <<choice>>
 
-    [*] -[#green]-> 1
-    1 -[#green]-> 2
-    note on link #white
-        <b>System shows</b>
-        * board
-        * rolled dices
-        * menu
-    end note
+' TODO: Hace falta especificar desde donse se ejecuta el
+' TODO: controlador?
+INITIAL -[#green]-> 1
+note on link #white
+    <b>StartController request to</b>
+    * RollDice
+end note
 
-}
+1 -[#green]-> 2
+note on link #white
+    System throws two dices
+end note
 
-IN_GAME -[#green]-> RollDice
+2 -[#red]-> 1
+note on link #white
+    Dices with same value
+end note
+
+2 -[#green]-> 3
+note on link #white
+    Red Dice greater than Black Dice
+    <b>System shows</b>
+    * Red player start
+end note
+
+2 -[#blue]-> 4
+note on link #white
+    Black Dice greater than Red Dice
+    <b>System shows</b>
+    * Black player start
+end note
+
+3 -[#green]-> :MenuController
+4 -[#blue]-> :MenuController
+
+ABLE_BET -[#green]-> 5
 note on link #white
     <b>Player request to</b>
     * RollDice
 end note
 
-RollDice -[#green]-> IN_GAME2
+DISABLE_BET -[#green]-> 5
+note on link #white
+    <b>Player request to</b>
+    * RollDice
+end note
+
+5 -[#green]-> 6
+note on link #white
+    System throws two dices
+end note
+
+6 -[#green]-> :MenuController
+note on link #white
+    Both dices with same value
+end note
+
+6 -[#red]-> :MenuController
+note on link #white
+    Dices with different values
+end note
+
+@enduml
