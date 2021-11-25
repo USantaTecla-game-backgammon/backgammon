@@ -1,40 +1,46 @@
 @startuml
+hide empty description
 
-state IN_GAME
-state IN_GAME2 as "IN_GAME"
-state END_GAME
+state REQUESTED_BET
+state response <<choice>>
+state status <<choice>>
 
-state ResponseBet ##green {
-    state response <<choice>>
-    state " " as 1
-
-    [*] -[#green]-> 1
-    1 -[#green]-> response
-    note on link #white
-        <b>Player Response</b>
-    end note
-
-    response -[#green]-> [*]
-    note on link #white
-        <b>System shows:</b>
-        Doubling Cube doubled
-        Accepted Bet
-    end note
-
-    response -[#red]-> [*]: No
-    note on link #white
-        <b>System shows</b>
-        End Game
-    end note
-}
-
-IN_GAME -[#green]-> ResponseBet
+REQUESTED_BET -[#green]-> response
 note on link #white
     <b>Player request to</b>
+    * ResponseBet
 end note
 
-ResponseBet -[#green]-> :ShowMenu
-:ShowMenu -[#green]-> IN_GAME2
-ResponseBet -[#red]-> END_GAME
+response -[#green]-> :ShowMenu : [accept_bet]
+note on link #white
+    <b>System shows</b>
+    * bet accepted
+    * doubling cube doubled
+    * player turn
+end note
 
-:ShowMenu -[hidden]right-> END_GAME
+response -[#red]-> status
+note on link #white
+    <b>System shows</b>
+    * bet rejected
+    * game result
+end note
+
+status -[#blue]-> :ShowMenu
+note on link #white
+    <b>System </b>
+    * new game started
+    * player turn
+end note
+
+status -[#red]-> :ShowMenu : [is_endmatch]
+note on link #white
+    <b>System shows</b>
+    * match result
+end note
+
+:ShowMenu -[#blue]-> ABLE_BET
+:ShowMenu -[#red]-> INITIAL
+:ShowMenu -[#green]-> DISABLE_BET
+
+@enduml

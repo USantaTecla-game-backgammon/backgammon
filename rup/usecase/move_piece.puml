@@ -9,7 +9,6 @@ state "PENDING_MOVE" as PENDING_MOVE2
 
 state " " as 1
 state " " as endgame
-state " " as endmatch
 
 state is_endgame <<choice>>
 state is_endmatch <<choice>>
@@ -37,16 +36,16 @@ note on link #white
     * player turn has changed
 end note
 
-is_endmatch -[#green]-> endmatch : [is_endmatch]
-endmatch -[#purple]-> INITIAL
+is_endmatch -[#purple]-> :ShowMenu : [is_endmatch]
 note on link #white
     <b>System shows</b>
     * match result
 end note
-is_endmatch -[#red]-> :ShowMenu
+is_endmatch -[#blue]-> :ShowMenu
 note on link #white
     <b>System shows</b>
-    * player turn has changed
+    * new game started
+    * player turn
 end note
 
 can_bet -[#blue]-> :ShowMenu : [can_bet]
@@ -59,6 +58,7 @@ note on link #white
     * MovePiece
 end note
 
+:ShowMenu -[#purple]-> INITIAL
 :ShowMenu -[#red]-> DISABLE_BET
 :ShowMenu -[#blue]-> ABLE_BET
 :ShowMenu -[#green]->  PENDING_MOVE2

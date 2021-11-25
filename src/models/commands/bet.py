@@ -16,6 +16,7 @@ class BetCommand(Command):
         self.play_controller = play_controller
 
     def __call__(self) -> None:
+        # TODO: remove cyclic
         self.play_controller.bet()
 
     def is_active(self) -> bool:

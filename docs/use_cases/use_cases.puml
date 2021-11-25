@@ -3,13 +3,14 @@ left to right direction
 
 actor Player
 
-usecase Start
-usecase Play
-usecase Resume
+usecase ConfigureGoal
+usecase SelectPlay
+usecase SelectResume
+usecase Exit
 
-
-Player --> Start
-Player --> Play
-Player --> Resume
+Player --> ConfigureGoal
+Player --> SelectPlay
+Player --> SelectResume
+Player --> Exit
 
 @enduml

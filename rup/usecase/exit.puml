@@ -1,39 +1,40 @@
 @startuml
+hide empty description
 
-state IN_GAME
-state IN_GAME2 as "IN_GAME"
-state END_MATCH
+state INITIAL
+state PENDING_MOVE
+state ABLE_BET
+state DISABLE_BET
+state EXIT
 
-state Exit ##green {
-    state " " as 1
-    state " " as 2
+state " " as 1
 
-    [*] -[#green]-> 1
-    1 -[#green]-> 2
-    note on link #white
-        <b>System requires</b>
-        * Response Exit
-        <b>System allows</b>
-        * Yes
-        * No
-    end note
-    2 -[#green]-> [*]
-    note on link #white
-        <b>Player</b>
-        Response No
-    end note
-    2 -[#red]-> [*]
-    note on link #white
-        <b>Player</b>
-        Response Yes
-    end note
-}
-
-IN_GAME -[#green]-> Exit
+INITIAL -[#green]-> 1
 note on link #white
     <b>Player request to</b>
     * Exit
 end note
 
-Exit -[#green]-> IN_GAME2
-Exit -[#red]-> END_MATCH
+PENDING_MOVE -[#green]-> 1
+note on link #white
+    <b>Player request to</b>
+    * Exit
+end note
+
+ABLE_BET -[#green]-> 1
+note on link #white
+    <b>Player request to</b>
+    * Exit
+end note
+
+DISABLE_BET -[#green]-> 1
+note on link #white
+    <b>Player request to</b>
+    * Exit
+end note
+
+1 -[#green]-> EXIT
+note on link #white
+    <b>System shows</b>
+    * exit message
+end note

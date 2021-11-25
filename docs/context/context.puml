@@ -1,56 +1,29 @@
 @startuml contexto
 
-state INITIAL as " "
-state CONFIG as " "
-state FIRST_PLAYER as " "
+state INITIAL
 state IN_GAME
-state ROLLING_DICE
-state CHANGING_TURN
 state END_GAME
-state END_MATCH
 state EXIT
 
-state is_bet_accept <<choice>>
-state is_pending_move <<choice>>
-state is_moved <<choice>>
-state is_goal <<choice>>
+state is_endgame <<choice>>
 state is_resume <<choice>>
-state select_command <<choice>>
 
 
 [*] --> INITIAL
-INITIAL --> CONFIG: configure_goal
-CONFIG --> FIRST_PLAYER: first_roll
-FIRST_PLAYER --> IN_GAME: initialize_game
+INITIAL --> IN_GAME: CreateGoal
+INITIAL --> EXIT: Exit
 
-IN_GAME --> select_command: select_command
+IN_GAME --> is_endgame: SelectPlay
+IN_GAME --> EXIT: Exit
+is_endgame --> IN_GAME
+is_endgame --> END_GAME: [is_endgame]
 
-select_command --> BETTING: [player_can_bet and bet]
-select_command --> ROLLING_DICE: [player_can_roll and roll_dice]
-select_command --> MOVING_PIECE: [player_can_move and move_piece]
 
-BETTING --> is_bet_accept
-is_bet_accept --> IN_GAME: [is_bet_accept]
-is_bet_accept --> END_GAME
+END_GAME --> is_resume: SelectResume
+END_GAME --> EXIT: Exit
 
-ROLLING_DICE --> is_pending_move: is_pending_move
-is_pending_move --> MOVING_PIECE: [yes]
-is_pending_move --> IN_GAME: [no]
-
-MOVING_PIECE --> is_moved: move_piece
-is_moved --> END_GAME: [is_endgame]
-is_moved --> MOVING_PIECE: [is_pending_move]
-is_moved --> CHANGING_TURN
-
-CHANGING_TURN --> IN_GAME
-
-END_GAME --> is_goal: is_goal
-is_goal --> FIRST_PLAYER: [no]
-is_goal --> END_MATCH: [yes]
-
-END_MATCH --> is_resume: is_resume
 is_resume --> INITIAL: [yes]
-is_resume --> EXIT: [no]
+is_resume --> EXIT
 
 EXIT --> [*]
 @enduml

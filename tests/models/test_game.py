@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from src.models import Board, Game
-from src.types import Endgame
+from src.types import Color, Endgame, Position
 
 
 class GameTest(unittest.TestCase):
@@ -46,3 +46,22 @@ class GameTest(unittest.TestCase):
             patch.object(Board, 'is_any_piece_in_bar', return_value=True),
         ):
             self.assertEqual(self.game.get_type_endgame(), Endgame.BACKGAMMON)
+
+    def test_eat_piece_with_black(self) -> None:
+        position = Position.FIVE
+        self.game.board.positions[position] = [Color.BLACK, Color.RED]
+        self.game.try_eat_piece(position)
+        self.assertEqual(self.game.board.positions[position], [Color.BLACK])
+        self.assertEqual(self.game.board.positions[Position.OFF_BOARD], [Color.RED])
+
+    def test_eat_piece_with_red(self) -> None:
+        self.game.turn.change(Color.RED)
+
+        position = Position.ONE
+        position_red = Position.TWENTY_FOUR
+
+        self.game.board.positions[position] = [Color.BLACK, Color.RED]
+        self.game.try_eat_piece(position_red)
+
+        self.assertEqual(self.game.board.positions[position], [Color.RED])
+        self.assertEqual(self.game.board.positions[Position.BAR], [Color.BLACK])

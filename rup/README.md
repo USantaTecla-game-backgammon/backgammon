@@ -55,16 +55,22 @@ otra ficha que pueda utilizar más movimiento
 
 ### MovePiece
 
-RollDice is so similar to MovePiece
-
 ![MovePiece](/rup/usecase/move_piece.png)
 
+### RequestBet
+![RequestBet](/rup/usecase/request_bet.png)
 
-### RejectBet
-![RejectBet](/rup/usecase/reject_bet.png)
+### ResponseBet
+![ResponseBet](/rup/usecase/response_bet.png)
+
+### RollDice
+![RollDice](/rup/usecase/roll_dice.png)
 
 ### Exit
 ![Exit](/rup/usecase/exit.png)
+
+### ShowMenu
+![ShowMenu](/rup/usecase/show_menu.png)
 
 ### GUI
 ![GUI](/rup/context/gui.png)

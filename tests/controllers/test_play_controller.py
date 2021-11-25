@@ -148,6 +148,7 @@ class PlayControllerAvailableMoveTest(unittest.TestCase):
         self.assertEqual(self.game.get_pieces(Position(23)), [Color.BLACK])
         self.assertFalse(self.game.possible_moves)
 
+    # Rules
     def test_move_invalid_by_opponent_pieces(self) -> None:
         self.game.possible_moves = [5]
         move = Move(position_from=Position(24), dice_value=5)

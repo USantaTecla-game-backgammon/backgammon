@@ -3,24 +3,19 @@ hide empty description
 
 state ABLE_BET
 state REQUESTED_BET
+state " " as 1
+state " " as 2
 
-state RequestBet ##green {
-    state " " as 1
-    state " " as 2
 
-    [*] -[#green]-> 1
-    1 -[#green]-> 2
-    note on link #white
-        <b>System shows</b>
-        * Bet
-        * Change Turn
-    end note
-}
-
-ABLE_BET -[#green]-> RequestBet
+ABLE_BET -[#green]-> 1
 note on link #white
     <b>Player request to</b>
     * Bet
 end note
 
-RequestBet -[#green]-> REQUESTED_BET
+1 -[#green]-> REQUESTED_BET
+note on link #white
+    <b>System shows</b>
+    * bet
+    * player turn
+end note
