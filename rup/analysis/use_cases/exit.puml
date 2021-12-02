@@ -1,7 +1,7 @@
 @startuml
 
 package Views {
-    package Menu as ViewsMenu {
+    package Match as MatchView {
         object MatchView
     }
 }

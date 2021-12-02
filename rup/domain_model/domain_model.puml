@@ -10,7 +10,6 @@ class Position {}
 
 class OffBoard{}
 
-
 class Point {}
 
 class Piece{}
@@ -22,7 +21,6 @@ enum Color{
 
 class Goal{}
 class Bar{}
-
 
 class Turn{}
 
@@ -72,11 +70,11 @@ Point --> Point
 Player *--> "2" Dice
 Player o--> Goal
 Player ..> Action
-
-Resume .up.> Match
+RollDice ..> Dice
+MovePiece ..> Piece
 
 Action <|-- RollDice
 Action <|-- MovePiece
 Action <|-- Bet
-Action <|-- Resume
+
 @enduml

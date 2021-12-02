@@ -3,25 +3,9 @@
 ### Domain Model
 ![Domain Model](/rup/domain_model/domain_model.png)
 
-### RULES
-Estado inicial del tablero
-```
-|--------------------------------------------------------|
-|  13  14  15  16  17  18 |    |  19  20  21  22  23  24 |
-|  5●              3○     |    |  5○                  2● |
-|                         |  0○|                         |
-|                         | BAR|                         |
-|                         |  0●|                         |
-|  5○              3●     |    |  5●                  2○ |
-|  12  11  10   9   8   7 |    |   6   5   4   3   2   1 |
-|--------------------------------------------------------|
-```
+![Board](/rup/images/board.jpg)
 
-Mover en forma de herradura, y bajando posiciones 
-```
-Rojo mueve del 1 al 24 
-Negro mueve del 24 al 1
-```
+### RULES
 
 Movimiento inválido 1: 
 ```
@@ -73,12 +57,103 @@ otra ficha que pueda utilizar más movimiento
 ![ShowMenu](/rup/usecase/show_menu.png)
 
 ### GUI
-![GUI](/rup/context/gui.png)
+
+```
+### BACKGAMMON ###
+
+Each player should choose a color.
+
+Define your goal? (1-64): 65
+Define your goal? (1-64): 64
+
+First roll: choosing first player ...
+Player ●: 5
+Player ○: 5
+
+First roll: choosing first player ...
+Player ●: 4
+Player ○: 2
+
+-- Starting new game --
+
+|--------------------------------------------------------|
+|  13  14  15  16  17  18 |    |  19  20  21  22  23  24 |
+|  5●              3○     |    |  5○                  2● |
+|                         |  0○|                         |
+|                         | BAR|                         |
+|                         |  0●|                         |
+|  5○              3●     |    |  5●                  2○ |
+|  12  11  10   9   8   7 |    |   6   5   4   3   2   1 |
+|--------------------------------------------------------|
+1) Move from point 24 to 22 (dice 2)
+2) Move from point 24 to 20 (dice 4)
+3) Move from point 13 to 11 (dice 2)
+4) Move from point 13 to 9 (dice 4)
+5) Move from point 8 to 6 (dice 2)
+6) Move from point 8 to 4 (dice 4)
+7) Move from point 6 to 4 (dice 2)
+8) Move from point 6 to 2 (dice 4)
+9) Exit
+
+Select your choice: 1
+|--------------------------------------------------------|
+|  13  14  15  16  17  18 |    |  19  20  21  22  23  24 |
+|  5●              3○     |    |  5○          1●      1● |
+|                         |  0○|                         |
+|                         | BAR|                         |
+|                         |  0●|                         |
+|  5○              3●     |    |  5●                  2○ |
+|  12  11  10   9   8   7 |    |   6   5   4   3   2   1 |
+|--------------------------------------------------------|
+1) Move from point 24 to 20 (dice 4)
+2) Move from point 22 to 18 (dice 4)
+3) Move from point 13 to 9 (dice 4)
+4) Move from point 8 to 4 (dice 4)
+5) Move from point 6 to 2 (dice 4)
+
+Select your choice: 1
+|--------------------------------------------------------|
+|  12  11  10   9   8   7 |    |   6   5   4   3   2   1 |
+|  5○              3●     |    |  5●                  2○ |
+|                         |  0○|                         |
+|                         | BAR|                         |
+|                         |  0●|                         |
+|  5●              3○     |    |  5○  1●      1●         |
+|  13  14  15  16  17  18 |    |  19  20  21  22  23  24 |
+|--------------------------------------------------------|
+1) RequestBet
+2) RollDice
+3) Exit
+
+Select your choice: 1
+
+1) ResponseBet accept
+2) ResponseBet reject
+3) Exit
+
+Select your choice: 1
+
+|--------------------------------------------------------|
+|  12  11  10   9   8   7 |    |   6   5   4   3   2   1 |
+|  5○              3●     |    |  5●                  2○ |
+|                         |  0○|                         |
+|                         | BAR|                         |
+|                         |  0●|                         |
+|  5●              3○     |    |  5○  1●      1●         |
+|  13  14  15  16  17  18 |    |  19  20  21  22  23  24 |
+|--------------------------------------------------------|
+1) RollDice
+2) Exit
+
+Select your choice: 2
+
+### BYE ###
+```
 
 ## Analysis
 
 ### Architecture
-![Architecture](/rup/analysis/architecture.png)
+![Architecture](/rup/analysis/architecture.svg)
 
 #### Use Cases
 

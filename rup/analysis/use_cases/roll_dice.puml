@@ -1,13 +1,13 @@
 @startuml
 
 package Views {
-    package Menu as ViewsMenu {
+    package Match as MatchView {
         object MatchView
     }
 }
 
 package Models {
-    package Board3 as "Board" {
+    package MatchModel as "Match" {
         object Match
     }
 }

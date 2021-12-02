@@ -1,4 +1,7 @@
 @startuml
+allow_mixing
+
+actor Player
 
 package Views {
     package Menu3 as "Menu" {
@@ -81,41 +84,16 @@ note on link
     select_action() : Action
 end note
 
-' Call Actions
-'MenuController --> Controllers
-'note on link
-'    execute(Action)
-'end note
-'
-'MenuController --> MovePieceController
-'note on link
-'    execute(Action)
-'end note
-'
-'MenuController --> RollDiceController
-'note on link
-'    execute(Action)
-'end note
-'
-'MenuController --> RequestBetController
-'note on link
-'    execute(Action)
-'end note
-'
-'MenuController --> ResponseBetController
-'note on link
-'    execute(Action)
-'end note
-'
-'MenuController --> StartController
-'note on link
-'    execute(Action)
-'end note
-'
-'MenuController --> ExitController
-'note on link
-'    execute(Action)
-'end note
+Player -right-> MenuView
+note on link
+    interact()
+end note
+
+MenuController -left-> Controllers
+note on link
+    Call controller with:
+    execute(Action)
+end note
 
 Menu -down-> MatchController
 

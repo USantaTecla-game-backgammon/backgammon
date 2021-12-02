@@ -1,4 +1,7 @@
 @startuml
+allow_mixing
+
+actor Player
 
 package Views {
     package Match3 as "Match"{
@@ -31,6 +34,11 @@ StartController --> MatchView
 note on link
     show_title()
     interact_goal()
+end note
+
+Player --> MatchView
+note on link
+    interact()
 end note
 
 @enduml
