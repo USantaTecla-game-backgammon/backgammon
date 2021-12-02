@@ -85,8 +85,17 @@ otra ficha que pueda utilizar más movimiento
 #### Start
 ![Start](/rup/analysis/use_cases/start.png)
 
-#### MovePiece
-![MovePiece](/rup/analysis/use_cases/move_piece.png)
+### RequestBet
+![RequestBet](/rup/analysis/usecase/request_bet.png)
 
-#### Bet
-![Bet](/rup/analysis/use_cases/bet.png)
+### ResponseBet
+![ResponseBet](/rup/analysis/usecase/response_bet.png)
+
+### RollDice
+![RollDice](/rup/analysis/usecase/roll_dice.png)
+
+### Exit
+![Exit](/rup/analysis/usecase/exit.png)
+
+### ShowMenu
+![ShowMenu](/rup/analysis/usecase/show_menu.png)

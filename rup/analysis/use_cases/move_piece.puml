@@ -8,7 +8,6 @@ package Views {
 
 package Models {
     package Board3 as "Board" {
-        object Board
         object Move
         object Match
     }
@@ -26,34 +25,33 @@ package Controllers {
 
         MenuController --> MovePieceController
         note on link
-            execute_action(Action)
+            execute(MovePieceAction)
         end note
     }
 }
 
 MovePieceController -right-> Move
 note on link
-    from_dto(MoveSerialized) : Move
-end note
-
-MovePieceController -right-> Board
-note on link
-    serialize() : BoardSerialized
-    move(Move)
+    serialize(MovePieceAction) : MoveSerialized
 end note
 
 MovePieceController -right-> Match
 note on link
+    move(MovePieceAction)
+    possible_moves() : list[Move]
+    is_endgame() : bool
+    is_end() : bool
     serialize() : MatchSerialized
     serialize_last_game() : GameSerialized
+    new_game()
+    change_game_turn()
 end note
 
 MovePieceController --> MatchView
 note on link
     show_move(MoveSerialized)
-    show_endgame(GameSerialized)
-    show_end(MatchSerialized)
-    show_game_turn(GameSerialized)
+    show_game(GameSerialized)
+    show(MatchSerialized)
 end note
 
 @enduml

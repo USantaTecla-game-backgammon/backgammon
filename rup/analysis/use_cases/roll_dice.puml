@@ -1,0 +1,53 @@
+@startuml
+
+package Views {
+    package Menu as ViewsMenu {
+        object MatchView
+    }
+}
+
+package Models {
+    package Board3 as "Board" {
+        object Match
+    }
+}
+
+package Controllers {
+    package "Match" as MatchController {
+        object StartController
+    }
+
+    package Menu {
+        object MenuController
+        object RollDiceController
+
+        RollDiceController --> MenuController
+        note on link
+            execute()
+        end note
+
+        MenuController --> RollDiceController
+        note on link
+            execute(RollDiceAction)
+        end note
+    }
+
+    StartController --> RollDiceController
+    note on link
+        execute()
+    end note
+}
+
+RollDiceController -right-> Match
+note on link
+    roll_dice(start: bool)
+    serialize_last_game() : GameSerialized
+end note
+
+RollDiceController --> MatchView
+note on link
+    show_dices(GameSerialized)
+    show_game(GameSerialized)
+end note
+
+@enduml

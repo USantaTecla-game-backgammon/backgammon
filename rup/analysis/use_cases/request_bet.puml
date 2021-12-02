@@ -19,16 +19,24 @@ package Controllers {
     }
 }
 
-MenuController --> RequestBetController: execute
+MenuController --> RequestBetController
+note on link
+    execute(RequestBetAction)
+end note
 
 RequestBetController --> Match
 note on link
-  change_turn()
+    request_bet()
 end note
 
 RequestBetController --> MatchView
 note on link
-  show_bet()
+    show_bet()
+end note
+
+RequestBetController --> MenuController
+note on link
+    execute()
 end note
 
 @enduml

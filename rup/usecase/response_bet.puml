@@ -16,7 +16,7 @@ note on link #white
     <b>System shows</b>
     * bet accepted
     * doubling cube doubled
-    * player turn
+    * player turn changed
 end note
 
 response -[#red]-> status
@@ -28,9 +28,9 @@ end note
 
 status -[#blue]-> :ShowMenu
 note on link #white
-    <b>System </b>
+    <b>System shows</b>
     * new game started
-    * player turn
+    * player turn changed
 end note
 
 status -[#red]-> :ShowMenu : [is_endmatch]
@@ -38,9 +38,5 @@ note on link #white
     <b>System shows</b>
     * match result
 end note
-
-:ShowMenu -[#blue]-> ABLE_BET
-:ShowMenu -[#red]-> INITIAL
-:ShowMenu -[#green]-> DISABLE_BET
 
 @enduml

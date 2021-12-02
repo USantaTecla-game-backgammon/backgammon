@@ -1,8 +1,6 @@
 @startuml
 allow_mixing
 
-actor Player
-
 package Models {
     package Match as "Match" {
         object Match
@@ -13,42 +11,38 @@ package Views {
     package Match2 as "Match" {
         object MatchView
     }
-    package Menu {
-        object MenuView
-    }
 }
 
 package Controllers {
     package Menu2 as "Menu" {
         object ResponseBetController
-        object RequestBetController
+        object MenuController
     }
 }
 
-Player --> MenuView
+MenuController --> ResponseBetController
 note on link
-  interact()
+    execute(ResponseBetAction)
 end note
 
-RequestBetController --> ResponseBetController
+ResponseBetController --> MenuController
 note on link
-  execute()
+    execute()
 end note
 
 ResponseBetController --> Match
 note on link
-  bet()
-  serialize(): MatchSerialized
+    response_bet(ResponseBetAction)
+    is_end() : bool
+    serialize_game(): GameSerialized
+    serialize(): MatchSerialized
 end note
 
 ResponseBetController --> MatchView
 note on link
-  show_response_bet(MatchSerialized)
-end note
-
-ResponseBetController --> MenuView
-note on link
-  read_response_bet()
+    show_response_bet(GameSerialized)
+    show_game(GameSerialized)
+    show(MatchSerialized)
 end note
 
 @enduml

@@ -1,0 +1,30 @@
+@startuml
+
+package Views {
+    package Menu as ViewsMenu {
+        object MatchView
+    }
+}
+
+package Controllers {
+    package "Match" as MatchController {
+        object ExitController
+    }
+
+    package Menu {
+        object MenuController
+    }
+
+    MenuController --> ExitController
+    note on link
+        execute(ExitAction)
+    end note
+
+}
+
+ExitController --> MatchView
+note on link
+    show_exit()
+end note
+
+@enduml

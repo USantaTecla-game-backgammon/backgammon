@@ -3,6 +3,7 @@ hide empty description
 
 state IniRollDice as ":RollDice"
 state IniRequestBet as ":RequestBet"
+state IniResponseBet as ":ResponseBet"
 state IniMovePiece as ":MovePiece"
 state 3 as " "
 state 4 as " "
@@ -14,6 +15,8 @@ state is_endgame <<choice>>
 state is_endmatch <<choice>>
 state is_possible_moves <<choice>>
 state can_bet <<choice>>
+state response_bet <<choice>>
+state response_is_endmatch <<choice>>
 
 ' RollDice
 IniRollDice -[#green]-> possible_moves
@@ -65,10 +68,6 @@ is_possible_moves -[#red]-> is_endgame
 
 is_endgame -[#green]-> is_endmatch : [is_endgame]
 is_endgame -[#red]-> can_bet
-note on link #white
-    <b>System shows</b>
-    * player turn has changed
-end note
 
 is_endmatch -[#purple]-> 4 : [is_endmatch]
 note on link #white
@@ -137,6 +136,45 @@ note on link #white
     * action
 end note
 
+' ResponseBet
+IniResponseBet -[#green]-> response_bet
+note on link #white
+    <b>Controller request to</b>
+    * ShowMenu
+end note
+
+response_bet -[#green]-> 4 : [accept]
+note on link #white
+    <b>System shows</b>
+    * actions:
+        - RollDice
+        - Exit
+    <b>System requires</b>
+    * select action
+end note
+
+response_bet -[#red]-> response_is_endmatch
+response_is_endmatch -[#red]-> 4 : [is_endmatch]
+note on link #white
+    <b>System shows</b>
+    * actions:
+        - Start
+        - Exit
+    <b>System requires</b>
+    * select action
+end note
+
+response_is_endmatch -[#blue]-> 4
+note on link #white
+    <b>System shows</b>
+    * actions:
+        - RollDice
+        - RequestBet
+        - Exit
+    <b>System requires</b>
+    * select action
+end note
+
 select_action -[#green]-> :Start
 select_action -[#green]-> :MovePiece
 select_action -[#green]-> :RollDice
@@ -146,5 +184,6 @@ select_action -[#green]-> :Exit
 
 IniRollDice -[hidden]right-> IniRequestBet
 IniRollDice -[hidden]right-> IniMovePiece
+IniRollDice -[hidden]left-> IniResponseBet
 
 @enduml

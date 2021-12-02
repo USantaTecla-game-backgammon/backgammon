@@ -1,11 +1,7 @@
 @startuml
 hide empty description
 
-state INITIAL
-state ABLE_BET
-state DISABLE_BET
 state PENDING_MOVE
-state "PENDING_MOVE" as PENDING_MOVE2
 
 state " " as 1
 state " " as endgame
@@ -13,7 +9,6 @@ state " " as endgame
 state is_endgame <<choice>>
 state is_endmatch <<choice>>
 state is_possible_moves <<choice>>
-state can_bet <<choice>>
 
 1 -[#green]-> is_possible_moves
 note on link #white
@@ -30,10 +25,10 @@ note on link #white
     <b>System shows</b>
     * game result
 end note
-is_endgame -[#red]-> can_bet
+is_endgame -[#red]-> :ShowMenu
 note on link #white
     <b>System shows</b>
-    * player turn has changed
+    * player turn changed
 end note
 
 is_endmatch -[#purple]-> :ShowMenu : [is_endmatch]
@@ -45,20 +40,11 @@ is_endmatch -[#blue]-> :ShowMenu
 note on link #white
     <b>System shows</b>
     * new game started
-    * player turn
+    * player turn changed
 end note
-
-can_bet -[#blue]-> :ShowMenu : [can_bet]
-can_bet -[#red]-> :ShowMenu
-
 
 PENDING_MOVE -[#green]-> 1
 note on link #white
     <b>Player request to</b>
     * MovePiece
 end note
-
-:ShowMenu -[#purple]-> INITIAL
-:ShowMenu -[#red]-> DISABLE_BET
-:ShowMenu -[#blue]-> ABLE_BET
-:ShowMenu -[#green]->  PENDING_MOVE2

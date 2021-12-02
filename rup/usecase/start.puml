@@ -36,6 +36,4 @@ note on link #white
     * Start
 end note
 
-:RollDice -[#green]-> PENDING_MOVE
-
 @enduml

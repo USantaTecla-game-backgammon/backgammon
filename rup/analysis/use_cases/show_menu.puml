@@ -1,0 +1,122 @@
+@startuml
+
+package Views {
+    package Menu3 as "Menu" {
+        object MenuView
+
+        object Action
+
+        object MovePieceAction
+        object RollDiceAction
+        object RequestBetAction
+        object ResponseBetAction
+        object StartAction
+        object ExitAction
+    }
+}
+
+package Controllers {
+    package Menu {
+        object MenuController
+        object MovePieceController
+        object RollDiceController
+        object RequestBetController
+        object ResponseBetController
+    }
+
+    package MatchController as "Match" {
+        object StartController
+        object ExitController
+    }
+}
+
+package Models {
+    package MatchModel as "Match" {
+        object Match
+    }
+}
+
+MenuController ..> Action
+MenuView ..> Action
+
+MovePieceAction -up-|> Action
+RequestBetAction -up-|> Action
+ResponseBetAction -up-|> Action
+RollDiceAction -up-|> Action
+StartAction -up-|> Action
+ExitAction -up-|> Action
+
+MovePieceController --> MenuController
+note on link
+    execute()
+end note
+
+RollDiceController --> MenuController
+note on link
+    execute()
+end note
+
+RequestBetController --> MenuController
+note on link
+    execute()
+end note
+
+ResponseBetController --> MenuController
+note on link
+    execute()
+end note
+
+MenuController --> Match
+note on link
+    is_bet_accepted() : bool
+    is_endgame() : bool
+    is_end() : bool
+    can_bet() : bool
+    possible_moves() : list[Move]
+end note
+
+MenuController --> MenuView
+note on link
+    add_action(Action)
+    select_action() : Action
+end note
+
+' Call Actions
+'MenuController --> Controllers
+'note on link
+'    execute(Action)
+'end note
+'
+'MenuController --> MovePieceController
+'note on link
+'    execute(Action)
+'end note
+'
+'MenuController --> RollDiceController
+'note on link
+'    execute(Action)
+'end note
+'
+'MenuController --> RequestBetController
+'note on link
+'    execute(Action)
+'end note
+'
+'MenuController --> ResponseBetController
+'note on link
+'    execute(Action)
+'end note
+'
+'MenuController --> StartController
+'note on link
+'    execute(Action)
+'end note
+'
+'MenuController --> ExitController
+'note on link
+'    execute(Action)
+'end note
+
+Menu -down-> MatchController
+
+@enduml

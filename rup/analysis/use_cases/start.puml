@@ -9,11 +9,11 @@ package Views {
 package Controllers {
     package Menu {
         object MenuController
+        object RollDiceController
     }
 
     package Match2 as "Match" {
         object StartController
-        object RollDiceController
     }
 }
 
@@ -24,7 +24,7 @@ end note
 
 MenuController -down-> StartController
 note on link
-    execute()
+    execute(StartAction)
 end note
 
 StartController --> MatchView

@@ -2,9 +2,7 @@
 hide empty description
 
 state ABLE_BET
-state REQUESTED_BET
 state " " as 1
-state " " as 2
 
 
 ABLE_BET -[#green]-> 1
@@ -13,9 +11,9 @@ note on link #white
     * Bet
 end note
 
-1 -[#green]-> REQUESTED_BET
+1 -[#green]-> :ShowMenu
 note on link #white
     <b>System shows</b>
     * bet
-    * player turn
+    * player turn changed
 end note
