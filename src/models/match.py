@@ -64,3 +64,6 @@ class Match:
     def add_game(self) -> None:
         self.games.append(game_factory(self.turn.current_color, self.first_roll))
         self.first_roll = []
+
+    def roll_dice(self) -> None:
+        self.first_roll()

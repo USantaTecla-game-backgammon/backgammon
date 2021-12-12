@@ -1,6 +1,9 @@
+from typing import Optional
+
 from src.controllers.controller import Controller
-from src.models.match import Match
+from src.models import Dice, Match
 from src.views.view_factory import ViewFactory
+from src.types import Color
 
 
 class RollDiceController(Controller):
@@ -11,5 +14,22 @@ class RollDiceController(Controller):
         self.view = view_factory.create_match_view()
 
     def __call__(self) -> None:
-        self.match.roll_dice()
+        self.roll_dice()
         self.view.show_dices(self.match.serialize_last_game())
+
+    def roll_dice(self) -> None:
+        dices: dict[Color, Dice] = {}
+        winner_color: Optional[Color] = None
+
+        while not winner_color:
+            dices = self.match.throw_first_dices()
+
+            if dices[Color.BLACK] > dices[Color.RED]:
+                winner_color = Color.BLACK
+            elif dices[Color.BLACK] < dices[Color.RED]:
+                winner_color = Color.RED
+
+            self.view.show_dices(dices)
+
+        self.match.change_turn(winner_color)
+        self.match.first_roll = list(dices.values())

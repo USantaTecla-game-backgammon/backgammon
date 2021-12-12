@@ -33,7 +33,7 @@ class StartControllerTest(unittest.TestCase):
     @patch.object(Turn, 'change')
     @patch.object(MatchView, 'show_dices')
     @patch.object(Match, 'throw_first_dices')
-    def test_match_controller_first_roll_one_tie_and_black_win(
+    def test_match_controller_roll_dice_one_tie_and_black_win(
         self,
         mock_roll: MagicMock,
         mock_show: MagicMock,
@@ -43,20 +43,20 @@ class StartControllerTest(unittest.TestCase):
             {Color.BLACK: Dice(4), Color.RED: Dice(4)},
             {Color.BLACK: Dice(5), Color.RED: Dice(3)},
         ]
-        self.start_controller.first_roll()
+        self.start_controller.roll_dice_controller.roll_dice()
         mock_turn.assert_called_once_with(Color.BLACK)
         self.assertEqual(mock_show.call_count, 2)
 
     @patch.object(Turn, 'change')
     @patch.object(MatchView, 'show_dices')
     @patch.object(Match, 'throw_first_dices')
-    def test_match_controller_first_roll_red_win(
+    def test_match_controller_roll_dice_red_win(
         self,
         mock_roll: MagicMock,
         mock_show: MagicMock,
         mock_turn: MagicMock,
     ) -> None:
         mock_roll.return_value = {Color.BLACK: Dice(1), Color.RED: Dice(6)}
-        self.start_controller.first_roll()
+        self.start_controller.roll_dice_controller.roll_dice()
         mock_turn.assert_called_once_with(Color.RED)
         self.assertEqual(mock_show.call_count, 1)
