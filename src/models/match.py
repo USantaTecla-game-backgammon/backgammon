@@ -64,3 +64,22 @@ class Match:
     def add_game(self) -> None:
         self.games.append(game_factory(self.turn.current_color, self.first_roll))
         self.first_roll = []
+
+    def roll_dice(self) -> list[dict[Color, Dice]]:
+        dices: dict[Color, Dice] = {}
+        winner_color: Optional[Color] = None
+        list_dices: list[dict[Color, Dice]] = []
+
+        while not winner_color:
+            dices = self.throw_first_dices()
+
+            if dices[Color.BLACK] > dices[Color.RED]:
+                winner_color = Color.BLACK
+            elif dices[Color.BLACK] < dices[Color.RED]:
+                winner_color = Color.RED
+
+            list_dices.append(dices)
+
+        self.change_turn(winner_color)
+        self.first_roll = list(dices.values())
+        return list_dices
