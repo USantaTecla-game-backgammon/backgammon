@@ -1,6 +1,7 @@
 from typing import Optional
 
 from src.controllers.controller import Controller
+from src.controllers.roll_dice_controller import RollDiceController
 from src.models import Dice, Match
 from src.views.view_factory import ViewFactory
 from src.types import Color
@@ -11,6 +12,7 @@ class StartController(Controller):
     def __init__(self, match: Match, view_factory: ViewFactory) -> None:
         super().__init__(match, view_factory)
         self.view = view_factory.create_match_view()
+        self.roll_dice_controller = RollDiceController(match, view_factory)
 
     def __call__(self) -> None:
         self.configure_goal()
