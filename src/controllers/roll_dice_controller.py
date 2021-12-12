@@ -13,9 +13,9 @@ class RollDiceController(Controller):
         self.view = view_factory.create_match_view()
 
     def __call__(self) -> None:
-        self.first_roll()
+        self.roll_dice()
 
-    def first_roll(self) -> None:
+    def roll_dice(self) -> None:
         dices: dict[Color, Dice] = {}
         winner_color: Optional[Color] = None
 
