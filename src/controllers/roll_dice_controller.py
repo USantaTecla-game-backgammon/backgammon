@@ -13,11 +13,13 @@ class RollDiceController(Controller):
         self.view = view_factory.create_match_view()
 
     def __call__(self) -> None:
-        self.roll_dice()
+        list_dices = self.roll_dice()
+        self.show_dices(list_dices)
 
-    def roll_dice(self) -> None:
+    def roll_dice(self) -> list[dict[Color, Dice]]:
         dices: dict[Color, Dice] = {}
         winner_color: Optional[Color] = None
+        list_dices: list[dict[Color, Dice]] = []
 
         while not winner_color:
             dices = self.match.throw_first_dices()
@@ -27,7 +29,12 @@ class RollDiceController(Controller):
             elif dices[Color.BLACK] < dices[Color.RED]:
                 winner_color = Color.RED
 
-            self.view.show_dices(dices)
+            list_dices.append(dices)
 
         self.match.change_turn(winner_color)
         self.match.first_roll = list(dices.values())
+        return list_dices
+
+    def show_dices(self, list_dices):
+        for dices in list_dices:
+            self.view.show_dices(dices)

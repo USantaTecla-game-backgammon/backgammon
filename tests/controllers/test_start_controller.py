@@ -43,7 +43,7 @@ class StartControllerTest(unittest.TestCase):
             {Color.BLACK: Dice(4), Color.RED: Dice(4)},
             {Color.BLACK: Dice(5), Color.RED: Dice(3)},
         ]
-        self.start_controller.roll_dice_controller.roll_dice()
+        self.start_controller.roll_dice_controller()
         mock_turn.assert_called_once_with(Color.BLACK)
         self.assertEqual(mock_show.call_count, 2)
 
@@ -57,6 +57,6 @@ class StartControllerTest(unittest.TestCase):
         mock_turn: MagicMock,
     ) -> None:
         mock_roll.return_value = {Color.BLACK: Dice(1), Color.RED: Dice(6)}
-        self.start_controller.roll_dice_controller.roll_dice()
+        self.start_controller.roll_dice_controller()
         mock_turn.assert_called_once_with(Color.RED)
         self.assertEqual(mock_show.call_count, 1)
