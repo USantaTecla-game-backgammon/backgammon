@@ -13,6 +13,7 @@ class Game:
         self.turn: Turn = Turn()
         self._last_roll: list[Dice] = []
         self.possible_moves: list[int] = []
+        self.list_dices_rolled: list[dict[Color, Dice]] = []
 
     @property
     def current_player(self) -> Player:

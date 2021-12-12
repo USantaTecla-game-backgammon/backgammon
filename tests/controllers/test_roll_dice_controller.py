@@ -12,6 +12,7 @@ class RollDiceControllerTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.match = Match()
+        self.match.add_game()
         self.start_controller = StartController(self.match, ConsoleViewFactory())
 
     @patch.object(Turn, 'change')
