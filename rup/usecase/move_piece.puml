@@ -10,14 +10,18 @@ state is_endgame <<choice>>
 state is_endmatch <<choice>>
 state is_possible_moves <<choice>>
 
-1 -[#green]-> is_possible_moves
+1 -[#green]-> is_endgame
 note on link #white
     <b>System shows</b>
     * player movement
 end note
 
 is_possible_moves -[#green]-> :ShowMenu : [is_possible_moves]
-is_possible_moves -[#red]-> is_endgame
+is_possible_moves -[#red]-> :ShowMenu
+note on link #white
+    <b>System shows</b>
+    * player turn changed
+end note
 
 is_endgame -[#green]-> endgame : [is_endgame]
 endgame -[#green]-> is_endmatch
@@ -25,11 +29,7 @@ note on link #white
     <b>System shows</b>
     * game result
 end note
-is_endgame -[#red]-> :ShowMenu
-note on link #white
-    <b>System shows</b>
-    * player turn changed
-end note
+is_endgame -[#red]-> is_possible_moves
 
 is_endmatch -[#purple]-> :ShowMenu : [is_endmatch]
 note on link #white

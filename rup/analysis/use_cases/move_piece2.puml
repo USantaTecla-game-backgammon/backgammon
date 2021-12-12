@@ -1,0 +1,69 @@
+@startuml
+
+package Views {
+    package Menu as ViewsMenu {
+        object MatchView
+        object GameView
+    }
+}
+
+package Models {
+    package Board3 as "Board" {
+        object Move
+        object Match
+        object Game
+    }
+}
+
+package Controllers {
+    package Menu {
+        object MenuController
+        object MovePieceController
+
+        MovePieceController --> MenuController
+        note on link
+            execute()
+        end note
+
+        MenuController --> MovePieceController
+        note on link
+            execute(MovePieceAction)
+        end note
+    }
+}
+
+MovePieceController -right-> Move
+note on link
+    serialize(MovePieceAction) : MoveSerialized
+end note
+
+MovePieceController -right-> Match
+note on link
+    possible_moves() : list[Move]
+    is_end() : bool
+    serialize() : MatchSerialized
+    'serialize_last_game() : GameSerialized
+    new_game()
+end note
+
+MovePieceController --> MatchView
+note on link
+    'show_game(GameSerialized)
+    show(MatchSerialized)
+end note
+
+MovePieceController -right-> Game
+note on link
+    serialize() : GameSerialized
+    is_end() : bool
+    move(MovePieceAction)
+    change_game_turn()
+end note
+
+MovePieceController --> GameView
+note on link
+    show(GameSerialized)
+    show_move(MoveSerialized)
+end note
+
+@enduml

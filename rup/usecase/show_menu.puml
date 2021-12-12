@@ -48,7 +48,7 @@ note on link #white
 end note
 
 ' MovePiece
-IniMovePiece -[#green]-> is_possible_moves
+IniMovePiece -[#green]-> is_endgame
 note on link #white
     <b>Controller request to</b>
     * ShowMenu
@@ -64,10 +64,10 @@ note on link #white
     * select action
 end note
 
-is_possible_moves -[#red]-> is_endgame
+is_possible_moves -[#red]-> can_bet
 
 is_endgame -[#green]-> is_endmatch : [is_endgame]
-is_endgame -[#red]-> can_bet
+is_endgame -[#red]-> is_possible_moves
 
 is_endmatch -[#purple]-> 4 : [is_endmatch]
 note on link #white

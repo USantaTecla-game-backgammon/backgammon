@@ -160,6 +160,9 @@ Select your choice: 2
 #### Start
 ![Start](/rup/analysis/use_cases/start.png)
 
+### MovePiece
+![MovePiece](/rup/analysis/use_cases/move_piece.png)
+
 ### RequestBet
 ![RequestBet](/rup/analysis/use_cases/request_bet.png)
 

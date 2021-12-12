@@ -9,6 +9,12 @@ package Views {
     }
 }
 
+package Models {
+    package MatchModel as "Match"{
+        object Match
+    }
+}
+
 package Controllers {
     package Menu {
         object MenuController
@@ -33,7 +39,12 @@ end note
 StartController --> MatchView
 note on link
     show_title()
-    interact_goal()
+    interact_goal() : goal
+end note
+
+StartController --> Match
+note on link
+    start(goal)
 end note
 
 Player --> MatchView
