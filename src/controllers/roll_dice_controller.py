@@ -10,7 +10,8 @@ class RollDiceController(Controller):
         self.view = view_factory.create_match_view()
 
     def __call__(self) -> None:
-        list_dices = self.match.roll_dice()
+        self.match.roll_dice()
+        list_dices = self.match.serialize_last_game()
         self.show_dices(list_dices)
 
     def show_dices(self, list_dices):

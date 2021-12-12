@@ -17,6 +17,7 @@ class Match:
         self.goal: int = 0
         self.turn: Turn = Turn()
         self.first_roll: list[Dice] = []
+        self.list_dices_rolled: list[dict[Color, Dice]] = []
 
     @property
     def current_player(self) -> Player:
@@ -65,7 +66,7 @@ class Match:
         self.games.append(game_factory(self.turn.current_color, self.first_roll))
         self.first_roll = []
 
-    def roll_dice(self) -> list[dict[Color, Dice]]:
+    def roll_dice(self) -> None:
         dices: dict[Color, Dice] = {}
         winner_color: Optional[Color] = None
         list_dices: list[dict[Color, Dice]] = []
@@ -82,4 +83,7 @@ class Match:
 
         self.change_turn(winner_color)
         self.first_roll = list(dices.values())
-        return list_dices
+        self.list_dices_rolled = list_dices
+
+    def serialize_last_game(self) -> list[dict[Color, Dice]]:
+        return self.list_dices_rolled
