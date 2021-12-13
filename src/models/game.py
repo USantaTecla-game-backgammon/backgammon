@@ -1,3 +1,5 @@
+from typing import Any
+
 from src.models.board import Board
 from src.models.dice import Dice
 from src.models.turn import Turn
@@ -103,5 +105,14 @@ class Game:
                 color=opponent_color
             )
 
-    def serialize(self) -> list[dict[Color, Dice]]:
-        return self.list_dices_rolled
+    def serialize(self) -> dict[str, Any]:
+        rolls = []
+        for dices in self.list_dices_rolled:
+            roll = {}
+            for color, dice in dices.items():
+                roll.update({str(color): dice.value})
+            rolls.append(roll)
+
+        return {
+            'list_dices_rolled': rolls,
+        }

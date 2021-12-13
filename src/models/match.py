@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from src.factories.game import game_factory
 from src.models.doubling_cube import doubling_cube
@@ -84,5 +84,5 @@ class Match:
         self.first_roll = list(dices.values())
         self.last_game.list_dices_rolled = list_dices
 
-    def serialize_last_game(self) -> list[dict[Color, Dice]]:
+    def serialize_last_game(self) -> dict[str, Any]:
         return self.last_game.serialize()
