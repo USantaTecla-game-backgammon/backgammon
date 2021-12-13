@@ -16,5 +16,4 @@ class RollDiceController(Controller):
         self.show_dices(list_dices)
 
     def show_dices(self, list_dices):
-        for dices in list_dices:
-            self.view.show_dices(dices)
+        self.view.show_dices_refactor(list_dices)
