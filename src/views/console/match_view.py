@@ -1,6 +1,5 @@
-from typing import Final
+from typing import Any, Final
 
-from src.models.dice import Dice
 from src.types.color import Color
 from src.views.console import console
 from src.views import MatchView as MatchViewBase
@@ -22,7 +21,8 @@ class MatchView(MatchViewBase):
             f'{cls.CHOOSE_COLOR}\n'
         )
 
-    def show_dices(self, dices: list[dict[str, int]]) -> None:
+    def show_dices(self, game_serialized: list[dict[str, Any]]) -> None:
+        dices = game_serialized.get('list_dices_rolled')
         console.show(self.FIRST_ROLL)
         for dice in dices:
             for color, value in dice.items():
