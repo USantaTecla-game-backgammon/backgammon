@@ -13,7 +13,4 @@ class RollDiceController(Controller):
         self.match.roll_dice()
         game_serialized = self.match.serialize_last_game()
         list_dices = game_serialized.get('list_dices_rolled')
-        self.show_dices(list_dices)
-
-    def show_dices(self, list_dices):
         self.view.show_dices(list_dices)
