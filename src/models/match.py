@@ -72,17 +72,19 @@ class Match:
 
         while not winner_color:
             dices = self.throw_first_dices()
-
-            if dices[Color.BLACK] > dices[Color.RED]:
-                winner_color = Color.BLACK
-            elif dices[Color.BLACK] < dices[Color.RED]:
-                winner_color = Color.RED
-
+            winner_color = self._winner(dices)
             list_dices.append(dices)
 
         self.change_turn(winner_color)
         self.first_roll = list(dices.values())
         self.last_game.list_dices_rolled = list_dices
+
+    def _winner(self, dices: dict[Color, Dice]) -> Optional[Color]:
+        if dices[Color.BLACK] > dices[Color.RED]:
+            return Color.BLACK
+        elif dices[Color.BLACK] < dices[Color.RED]:
+            return Color.RED
+        return None
 
     def serialize_last_game(self) -> dict[str, Any]:
         return self.last_game.serialize()
