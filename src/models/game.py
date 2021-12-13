@@ -102,3 +102,6 @@ class Game:
                 move=Move(position_from=position_to, position_to=Position.OFF_BOARD),
                 color=opponent_color
             )
+
+    def serialize(self) -> list[dict[Color, Dice]]:
+        return self.list_dices_rolled

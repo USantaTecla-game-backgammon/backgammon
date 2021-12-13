@@ -85,4 +85,4 @@ class Match:
         self.last_game.list_dices_rolled = list_dices
 
     def serialize_last_game(self) -> list[dict[Color, Dice]]:
-        return self.last_game.list_dices_rolled
+        return self.last_game.serialize()
