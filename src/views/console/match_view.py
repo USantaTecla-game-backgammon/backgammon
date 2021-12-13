@@ -22,12 +22,7 @@ class MatchView(MatchViewBase):
             f'{cls.CHOOSE_COLOR}\n'
         )
 
-    def show_dices(self, dices: dict[Color, Dice]) -> None:
-        console.show(self.FIRST_ROLL)
-        for color, dice in dices.items():
-            console.show(f'Player {color}: {dice}')
-
-    def show_dices_refactor(self, dices: list[dict[str, int]]) -> None:
+    def show_dices(self, dices: list[dict[str, int]]) -> None:
         console.show(self.FIRST_ROLL)
         for dice in dices:
             for color, value in dice.items():

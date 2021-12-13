@@ -16,7 +16,7 @@ class RollDiceControllerTest(unittest.TestCase):
         self.start_controller = StartController(self.match, ConsoleViewFactory())
 
     @patch.object(Turn, 'change')
-    @patch.object(MatchView, 'show_dices_refactor')
+    @patch.object(MatchView, 'show_dices')
     @patch.object(Match, 'throw_first_dices')
     def test_match_controller_first_roll_one_tie_and_black_win(
         self,
@@ -33,7 +33,7 @@ class RollDiceControllerTest(unittest.TestCase):
         self.assertEqual(mock_show.call_count, 1)
 
     @patch.object(Turn, 'change')
-    @patch.object(MatchView, 'show_dices_refactor')
+    @patch.object(MatchView, 'show_dices')
     @patch.object(Match, 'throw_first_dices')
     def test_match_controller_first_roll_red_win(
         self,
