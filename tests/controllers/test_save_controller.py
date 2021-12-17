@@ -12,3 +12,9 @@ class SaveControllerTest(unittest.TestCase):
         self.save_controller = SaveController(self.match, 'save.pickle')
         self.save_controller()
         self.assertTrue(Path('saved/save.pickle').is_file())
+
+    def test_save_complete_match_with_different_name(self) -> None:
+        self.match = Match()
+        self.save_controller = SaveController(self.match, 'save2.pickle')
+        self.save_controller()
+        self.assertTrue(Path('saved/save2.pickle').is_file())
