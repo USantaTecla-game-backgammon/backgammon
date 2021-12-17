@@ -49,8 +49,8 @@ class SaveControllerTest(unittest.TestCase):
     def test_save_match_with_name_given_by_player(self) -> None:
         match = Match()
         filename = 'save.pickle'
+        save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename) as mock:
-            save_controller = SaveController(match, ConsoleViewFactory())
             save_controller()
 
         self.assertEqual(mock.call_count, 1)
