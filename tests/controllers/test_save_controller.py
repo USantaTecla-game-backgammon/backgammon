@@ -1,4 +1,6 @@
 import unittest
+import random
+import string
 from unittest.mock import patch
 
 from src.models.match import Match
@@ -9,19 +11,16 @@ from src.views.console.match_view import MatchView
 from src.views.console.console_view_factory import ConsoleViewFactory
 
 
+def random_filename(size=10, endfile='.pickle'):
+    res = ''.join(random.choice(string.ascii_letters) for x in range(size))
+    return res + endfile
+
+
 class SaveControllerTest(unittest.TestCase):
 
     def test_save_complete_match(self) -> None:
         match = Match()
-        filename = 'save.pickle'
-        save_controller = SaveController(match, ConsoleViewFactory())
-        with patch.object(MatchView, 'read_filename', return_value=filename):
-            save_controller()
-        self.assertTrue(save_controller.filepath.is_file())
-
-    def test_save_complete_match_with_different_name(self) -> None:
-        match = Match()
-        filename = 'save2.pickle'
+        filename = random_filename()
         save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename):
             save_controller()
@@ -29,7 +28,7 @@ class SaveControllerTest(unittest.TestCase):
 
     def test_save_with_different_state_are_different(self) -> None:
         match = Match()
-        filename = 'state1.pickle'
+        filename = random_filename(endfile='1.pickle')
         save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename):
             save_controller()
@@ -37,7 +36,7 @@ class SaveControllerTest(unittest.TestCase):
         match = Match()
         match.last_game.possible_moves = [4]
         match.last_game.move_piece(Move(position_from=Position.TWENTY_FOUR, dice_value=4))
-        filename2 = 'state2.pickle'
+        filename2 = random_filename(endfile='2.pickle')
         save_controller2 = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename2):
             save_controller2()
@@ -52,7 +51,7 @@ class SaveControllerTest(unittest.TestCase):
 
     def test_save_match_with_name_given_by_player(self) -> None:
         match = Match()
-        filename = 'save.pickle'
+        filename = random_filename()
         save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename) as mock:
             save_controller()
