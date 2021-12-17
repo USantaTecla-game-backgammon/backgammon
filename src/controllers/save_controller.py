@@ -1,4 +1,3 @@
-import pickle
 from pathlib import Path
 from typing import Final
 
@@ -11,9 +10,15 @@ class SaveController:
     def __init__(self, match: Match, filename: str) -> None:
         self.match = match
         self.filename = filename
+        self._create_saved_folder()
 
-    def __call__(self) -> None:
+    @property
+    def filepath(self) -> Path:
+        return Path(self.FOLDER, self.filename)
+
+    def _create_saved_folder(self) -> None:
         folder = Path(self.FOLDER)
         folder.mkdir(exist_ok=True)
-        with open(f'{self.FOLDER}/{self.filename}', 'wb') as f:
-            f.write(pickle.dumps(self.match.__dict__))
+
+    def __call__(self) -> None:
+        self.match.save(self.filepath)

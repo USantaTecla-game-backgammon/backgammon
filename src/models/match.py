@@ -1,3 +1,5 @@
+import pickle
+from pathlib import Path
 from typing import Any, Optional
 
 from src.factories.game import game_factory
@@ -89,3 +91,7 @@ class Match:
 
     def serialize_last_game(self) -> dict[str, Any]:
         return self.last_game.serialize()
+
+    def save(self, path: Path) -> None:
+        with path.open(mode='wb') as f:
+            f.write(pickle.dumps(self.__dict__))
