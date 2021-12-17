@@ -4,7 +4,7 @@ from unittest.mock import call, patch
 from src.controllers import PlayController
 from src.models import Board, Game, Match, Menu, Move
 from src.models.doubling_cube import doubling_cube
-from src.views.console import GameView
+from src.views.console import GameView, MenuView
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Endgame, Position
 
@@ -173,3 +173,22 @@ class PlayControllerAvailableMoveTest(unittest.TestCase):
         move = Move(position_from=Position(6), dice_value=6)
         available_moves = self.play_controller.calculate_available_moves()
         self.assertFalse(move in available_moves)
+
+    def test_show_save_in_menu(self) -> None:
+        self.match.goal = 1
+        with (
+            patch.object(Match, 'is_goal', side_effect=[False, True]),
+            patch.object(GameView, 'show_start') as mock_show,
+            patch.object(Game, 'is_endgame', side_effect=[False, True]) as mock_game,
+            patch.object(Menu, 'active_commands', return_value=[SaveCommand()]) as mock_menu,
+            patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE) as mock_endgame,
+            patch.object(GameView, 'show_score') as mock_show_score,
+            patch.object(MenuView, 'interact', return_value=0) as mock_interact,
+        ):
+            self.play_controller()
+            mock_show.assert_called_once()
+            self.assertEqual(mock_game.call_count, 2)
+            mock_menu.assert_called_once()
+            mock_endgame.assert_called_once()
+            mock_show_score.assert_called_once()
+            mock_interact.assert_called_once()
