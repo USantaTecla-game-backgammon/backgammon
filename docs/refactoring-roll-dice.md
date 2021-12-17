@@ -1,0 +1,16 @@
+# Refactorig roll dice
+
+1. [Crear RollDiceController para separar la funcionalidad de first_roll. Hemos tenido que modificar los test](https://github.com/USantaTecla-game-backgammon/backgammon/commit/130f410d8032aed6878f7ba1dc2a882c68450477)
+2. [Cambiarle el nombre de la función de first_roll a roll_dice, para que se llame como en la feature y en el nuevo diseño. Hemos cambiado los test](https://github.com/USantaTecla-game-backgammon/backgammon/commit/479dd379f0bf418e089a23c46c5e48e9943dda36)
+3. [Separado la de roll_dice la función de show_dices y hemos guardado temporalmente en un array los valores para a futuro, guardarlos en el game, que será uno de los cambios siguientes](https://github.com/USantaTecla-game-backgammon/backgammon/commit/7a68de3b7bb6f8c5f8772ef3b62f8aed8458abc9)
+4. [Mover roll_dice desde RollDiceController al Match](https://github.com/USantaTecla-game-backgammon/backgammon/commit/a1247db36656160237b5cdc30ca2fee8c2637876)
+5. [Crear función last_game_serialized como tenemos en el diseño, aunque todavía no devuelve lo que dice.](https://github.com/USantaTecla-game-backgammon/backgammon/commit/597ef0301810587e982d518ed49f09643a38a110)
+6. [Mover test de start_controller_test a roll_dice_controller_test](https://github.com/USantaTecla-game-backgammon/backgammon/commit/f0c96c62f75d9ad9d306434781b3da5f378175d0)
+7. [Mover list_dices_rolled de Match a Game y cambiar test](https://github.com/USantaTecla-game-backgammon/backgammon/commit/a17e189657ea8a742d31c256df13af558d08d456)
+8. [Mover el serializador de Match a Game](https://github.com/USantaTecla-game-backgammon/backgammon/commit/f5ef36f73367b1c019c361e0cbb22b87e3355ae9)
+9. [Ahora ya si serializamos el juego, aunque solo la parte de los dados tirados](https://github.com/USantaTecla-game-backgammon/backgammon/commit/32eda1f83d028f23b29d6b5331e64055a7f0d19d)
+10. [Creamos la función show_dices_refactor para especializar a la función show_dices_refactor de que muestre los dados. Cambiamos los test](https://github.com/USantaTecla-game-backgammon/backgammon/commit/8a69ebeb697798fc4f04a53db57a11ab35db641c)
+11. [Cambiar el nombre de la función show_dices_refactor a show_dices y modificar los test de nuevo ^^](https://github.com/USantaTecla-game-backgammon/backgammon/commit/2e790a4d68031ee9fbae2990eed7de1b40a28f52)
+12. [Eliminar función innecesaria show_dices de RollDiceController](https://github.com/USantaTecla-game-backgammon/backgammon/commit/c73fad000416e02dc53f346c6c0758d8f3554f24)
+13. [Pasamos el game_serialized por parámetro en vez de el list_dices a la función show_dices](https://github.com/USantaTecla-game-backgammon/backgammon/commit/780e85e66a9301ce33b7effded936a5a1910eac0)
+14. [La función roll_dice del Match era grande y hemos extraido en un método privado una función _winner para achicar](https://github.com/USantaTecla-game-backgammon/backgammon/commit/6103c67bbf3ab5b5aa5b7381e920ff69e4ffb341)
