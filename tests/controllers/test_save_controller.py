@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 
 from src.models.match import Match
+from src.controllers.save_controller import SaveController
 
 
 class SaveControllerTest(unittest.TestCase):
