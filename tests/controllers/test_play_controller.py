@@ -72,12 +72,12 @@ class PlayControllerTest(unittest.TestCase):
 
     def test_initialize_game(self) -> None:
         self.match.goal = 1
-        self.assertEqual(len(self.match.games), 0)
+        self.assertEqual(len(self.match.games), 1)
 
         self.match.goal = 2
         self.play_controller.add_game()
 
-        self.assertEqual(len(self.match.games), 1)
+        self.assertEqual(len(self.match.games), 2)
 
     def test_move_eat_piece(self) -> None:
         self.match.add_game()

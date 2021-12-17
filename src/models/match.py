@@ -17,6 +17,7 @@ class Match:
         self.goal: int = 0
         self.turn: Turn = Turn()
         self.first_roll: list[Dice] = []
+        self.add_game()
 
     @property
     def current_player(self) -> Player:

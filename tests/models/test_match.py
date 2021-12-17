@@ -12,7 +12,7 @@ class MatchTest(unittest.TestCase):
         self.match = Match()
 
     def test_initial_match(self) -> None:
-        self.assertFalse(self.match.games)
+        self.assertEqual(len(self.match.games), 1)
         self.assertFalse(self.match.goal)
         self.assertEqual(len(self.match.turn.players), 2)
 
