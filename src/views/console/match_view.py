@@ -38,3 +38,7 @@ class MatchView(MatchViewBase):
     @classmethod
     def read_resume(cls) -> bool:
         return console.read_bool(cls.RESUME)
+
+    @classmethod
+    def read_filename(cls) -> str:
+        return console.read_str()
