@@ -13,25 +13,28 @@ from src.views.console.console_view_factory import ConsoleViewFactory
 
 def random_filename(size=10, endfile='.pickle'):
     res = ''.join(random.choice(string.ascii_letters) for x in range(size))
-    return res + endfile
+    return f'test_{res}{endfile}'
 
 
 class SaveControllerTest(unittest.TestCase):
+    def setUp(self):
+        match = Match()
+        self.save_controller = SaveController(match, ConsoleViewFactory())
+
+    def tearDown(self):
+        self.save_controller.filepath.unlink()
+
 
     def test_save_complete_match(self) -> None:
-        match = Match()
         filename = random_filename()
-        save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename):
-            save_controller()
-        self.assertTrue(save_controller.filepath.is_file())
+            self.save_controller()
+        self.assertTrue(self.save_controller.filepath.is_file())
 
     def test_save_with_different_state_are_different(self) -> None:
-        match = Match()
         filename = random_filename(endfile='1.pickle')
-        save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename):
-            save_controller()
+            self.save_controller()
 
         match = Match()
         match.last_game.possible_moves = [4]
@@ -42,19 +45,18 @@ class SaveControllerTest(unittest.TestCase):
             save_controller2()
 
         with (
-            save_controller.filepath.open(mode='rb') as file1,
+            self.save_controller.filepath.open(mode='rb') as file1,
             save_controller2.filepath.open(mode='rb') as file2,
         ):
             text1 = file1.read()
             text2 = file2.read()
         self.assertNotEqual(text1, text2)
+        save_controller2.filepath.unlink()
 
     def test_save_match_with_name_given_by_player(self) -> None:
-        match = Match()
         filename = random_filename()
-        save_controller = SaveController(match, ConsoleViewFactory())
         with patch.object(MatchView, 'read_filename', return_value=filename) as mock:
-            save_controller()
+            self.save_controller()
 
         self.assertEqual(mock.call_count, 1)
-        self.assertEqual(filename, save_controller.filename)
+        self.assertEqual(filename, self.save_controller.filename)
