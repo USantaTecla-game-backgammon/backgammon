@@ -3,8 +3,9 @@ from unittest.mock import call, patch
 
 from src.controllers import PlayController
 from src.models import Board, Game, Match, Menu, Move
+from src.models.commands.save import SaveCommand
 from src.models.doubling_cube import doubling_cube
-from src.views.console import GameView, MenuView
+from src.views.console import BoardView, GameView, MenuView
 from src.views.console.console_view_factory import ConsoleViewFactory
 from src.types import Color, Endgame, Position
 
@@ -184,6 +185,7 @@ class PlayControllerAvailableMoveTest(unittest.TestCase):
             patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE) as mock_endgame,
             patch.object(GameView, 'show_score') as mock_show_score,
             patch.object(MenuView, 'interact', return_value=0) as mock_interact,
+            patch.object(BoardView, 'show') as mock_show_board,
         ):
             self.play_controller()
             mock_show.assert_called_once()
@@ -192,3 +194,4 @@ class PlayControllerAvailableMoveTest(unittest.TestCase):
             mock_endgame.assert_called_once()
             mock_show_score.assert_called_once()
             mock_interact.assert_called_once()
+            mock_show_board.assert_called_once()
