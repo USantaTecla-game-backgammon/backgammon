@@ -181,17 +181,18 @@ class PlayControllerAvailableMoveTest(unittest.TestCase):
             patch.object(Match, 'is_goal', side_effect=[False, True]),
             patch.object(GameView, 'show_start') as mock_show,
             patch.object(Game, 'is_endgame', side_effect=[False, True]) as mock_game,
-            patch.object(Menu, 'active_commands', return_value=[SaveCommand()]) as mock_menu,
             patch.object(Game, 'get_type_endgame', return_value=Endgame.SIMPLE) as mock_endgame,
             patch.object(GameView, 'show_score') as mock_show_score,
-            patch.object(MenuView, 'interact', return_value=0) as mock_interact,
+            patch.object(MenuView, '_read', return_value=2) as mock_read_menu,  # option 2 should be save command
+            patch.object(MenuView, '_show') as mock_show_menu,
             patch.object(BoardView, 'show') as mock_show_board,
         ):
             self.play_controller()
+            commands_arg = mock_show_menu.call_args.args[0]
+            self.assertTrue(type(commands_arg[-1]), SaveCommand)
             mock_show.assert_called_once()
             self.assertEqual(mock_game.call_count, 2)
-            mock_menu.assert_called_once()
+            mock_read_menu.assert_called_once()
             mock_endgame.assert_called_once()
             mock_show_score.assert_called_once()
-            mock_interact.assert_called_once()
             mock_show_board.assert_called_once()

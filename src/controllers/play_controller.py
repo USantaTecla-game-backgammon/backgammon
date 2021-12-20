@@ -8,6 +8,7 @@ from src.models.commands import (
     BetCommand,
     MovePieceCommand,
     RollDiceCommand,
+    SaveCommand,
 )
 from src.types import Position
 from src.views.view_factory import ViewFactory
@@ -52,6 +53,7 @@ class PlayController(Controller):
         menu = Menu(title='', commands=[
             BetCommand(self),
             RollDiceCommand(self),
+            SaveCommand(self),
         ])
         menu.commands += [
             MovePieceCommand(self, move)
